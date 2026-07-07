@@ -18,10 +18,10 @@ export default function VideoScrollBackground() {
     const context = canvas.getContext('2d');
     if (!context) return;
 
-    const frameCount = 251;
+    const frameCount = 230;
     // Helper to pad the index to 3 digits (e.g. 1 -> "001")
     const currentFrame = (index: number) => 
-      `/hero/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
+      `/new-hero/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
 
     const images: HTMLImageElement[] = [];
     const scrollObj = { frame: 0 };
