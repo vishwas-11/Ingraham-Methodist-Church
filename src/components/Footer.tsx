@@ -19,16 +19,38 @@ export default function Footer() {
           
           {/* Brand & Manifesto */}
           <div className="md:col-span-12 lg:col-span-5 flex flex-col gap-6">
-            <Link href="/" className="flex items-start gap-4 group w-fit">
-              <img 
-                alt="Methodist Cross Logo" 
-                className="h-20 w-auto transition-opacity -mt-1" 
-                style={{ filter: "brightness(0) invert(80%) sepia(30%) saturate(400%) hue-rotate(350deg) brightness(90%) drop-shadow(0 -1px 2px rgba(0,0,0,0.8))" }}
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQgaBuEezrne0JqAfJjRWX-saaXRZGm7lV-8oK6reDtcjlRBjaGHsJWv9nFFGlpkCH3TSBEX5KLxmTkrfrzUz4t-Wgz11ieLQ_Qz5G9UfifGIkp6xsPdsvJqT6uhSEGb_8wjr8S_w9Io2j_7cVGSl-nSK3wGvk_qglHM8AcCSajg8I-Xt8y9crZGAreuQAs1hbi_Q4YdKBPJAy8ZtHZJayib3D-QeHJRFWU7T3AgIOr78DgArPa-9LXwUmTRB8jAkItg" 
-              />
-              <div className="flex flex-col pt-1">
+            <Link href="/" className="flex items-start gap-3 sm:gap-4 group w-fit">
+              <div 
+                className="relative h-16 sm:h-20 w-[42px] sm:w-[52px] shrink-0 -mt-1 transition-transform group-hover:scale-[1.02] duration-300"
+                style={{ 
+                  filter: 'drop-shadow(-1px -1px 1px rgba(255,255,255,0.15)) drop-shadow(1px 1px 2px rgba(0,0,0,0.9)) drop-shadow(0 4px 8px rgba(0,0,0,0.6))'
+                }}
+              >
+                {/* Invisible img to establish intrinsic dimensions */}
+                <img 
+                  alt="Methodist Cross Logo" 
+                  className="h-full w-auto opacity-0" 
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQgaBuEezrne0JqAfJjRWX-saaXRZGm7lV-8oK6reDtcjlRBjaGHsJWv9nFFGlpkCH3TSBEX5KLxmTkrfrzUz4t-Wgz11ieLQ_Qz5G9UfifGIkp6xsPdsvJqT6uhSEGb_8wjr8S_w9Io2j_7cVGSl-nSK3wGvk_qglHM8AcCSajg8I-Xt8y9crZGAreuQAs1hbi_Q4YdKBPJAy8ZtHZJayib3D-QeHJRFWU7T3AgIOr78DgArPa-9LXwUmTRB8jAkItg" 
+                />
+                {/* Masked gradient for 3D metallic effect */}
+                <div 
+                  className="absolute inset-0"
+                  style={{
+                    WebkitMaskImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQgaBuEezrne0JqAfJjRWX-saaXRZGm7lV-8oK6reDtcjlRBjaGHsJWv9nFFGlpkCH3TSBEX5KLxmTkrfrzUz4t-Wgz11ieLQ_Qz5G9UfifGIkp6xsPdsvJqT6uhSEGb_8wjr8S_w9Io2j_7cVGSl-nSK3wGvk_qglHM8AcCSajg8I-Xt8y9crZGAreuQAs1hbi_Q4YdKBPJAy8ZtHZJayib3D-QeHJRFWU7T3AgIOr78DgArPa-9LXwUmTRB8jAkItg')",
+                    WebkitMaskSize: "contain",
+                    WebkitMaskRepeat: "no-repeat",
+                    WebkitMaskPosition: "left top",
+                    maskImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQgaBuEezrne0JqAfJjRWX-saaXRZGm7lV-8oK6reDtcjlRBjaGHsJWv9nFFGlpkCH3TSBEX5KLxmTkrfrzUz4t-Wgz11ieLQ_Qz5G9UfifGIkp6xsPdsvJqT6uhSEGb_8wjr8S_w9Io2j_7cVGSl-nSK3wGvk_qglHM8AcCSajg8I-Xt8y9crZGAreuQAs1hbi_Q4YdKBPJAy8ZtHZJayib3D-QeHJRFWU7T3AgIOr78DgArPa-9LXwUmTRB8jAkItg')",
+                    maskSize: "contain",
+                    maskRepeat: "no-repeat",
+                    maskPosition: "left top",
+                    background: "linear-gradient(135deg, #FFF5E1 0%, #D9C7B3 25%, #9A7B46 60%, #4A3612 100%)",
+                  }}
+                />
+              </div>
+              <div className="flex flex-col pt-1 w-full">
                 <span 
-                  className="font-display-lg text-[28px] sm:text-[32px] leading-none text-[#D9C7B3] tracking-wide" 
+                  className="font-display-lg text-[22px] min-[400px]:text-[26px] sm:text-[32px] leading-none text-[#D9C7B3] tracking-wide whitespace-nowrap" 
                   style={{ textShadow: '0 -1px 2px rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.1)' }}
                 >
                   Ingraham Shalom
@@ -36,7 +58,7 @@ export default function Footer() {
                 <div className="flex items-center gap-3 mt-2 w-full opacity-70">
                   <div className="h-px flex-grow bg-black shadow-[0_1px_0_rgba(255,255,255,0.15)]"></div>
                   <span 
-                    className="font-label-md text-[10px] tracking-[0.2em] uppercase text-[#D9C7B3]" 
+                    className="font-label-md text-[9px] sm:text-[10px] tracking-[0.2em] uppercase text-[#D9C7B3] whitespace-nowrap" 
                     style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.15)' }}
                   >
                     Methodist Church
