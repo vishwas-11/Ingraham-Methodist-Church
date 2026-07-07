@@ -32,7 +32,7 @@ export default function VideoScrollBackground() {
 
     const frameCount = 230;
     // Helper to pad the index to 3 digits (e.g. 1 -> "001")
-    const currentFrame = (index: number) => 
+    const currentFrame = (index: number) =>
       `/new-hero/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
 
     const images: HTMLImageElement[] = [];
@@ -50,7 +50,7 @@ export default function VideoScrollBackground() {
       // Round to nearest integer to get correct array index
       const frameIndex = Math.round(scrollObj.frame);
       const img = images[frameIndex];
-      
+
       if (!img || !img.complete) return;
 
       const cw = canvas.width;
@@ -107,15 +107,15 @@ export default function VideoScrollBackground() {
     <>
       {isMobile ? (
         <div className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none bg-black">
-          <img 
-            src="/ingraham_logo_5.png" 
-            alt="Ingraham Logo Background" 
-            className="w-full h-full object-cover" 
+          <img
+            src="/ingraham_logo_5.png"
+            alt="Ingraham Logo Background"
+            className="w-full h-full object-cover"
           />
         </div>
       ) : (
-        <canvas 
-          ref={canvasRef} 
+        <canvas
+          ref={canvasRef}
           className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
         />
       )}

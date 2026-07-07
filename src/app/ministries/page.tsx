@@ -2,16 +2,27 @@ import Image from 'next/image';
 
 export default function Ministries() {
   return (
-    <main className="flex-grow flex flex-col items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg gap-stack-lg animate-fade-in-up">
-      {/* Header Section */}
-      <header className="text-center max-w-2xl mx-auto mb-stack-md">
-        <h1 className="font-display-lg-mobile md:font-display-lg text-primary-container mb-stack-sm">Our Ministries</h1>
-        <p className="font-body-lg text-on-surface-variant">
-          Find your place in our community. We offer a variety of ministries designed to foster spiritual growth, fellowship, and service for all ages.
-        </p>
-      </header>
+    <>
+      {/* Hero Section */}
+      <section className="relative w-full h-[400px] flex items-center justify-center -mt-[72px] bg-[#4A0F1A] overflow-hidden">
+        <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#f3e7d3] to-transparent z-10"></div>
+        
+        <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-16">
+          <div className="flex flex-col items-center mb-6 w-full">
+            <span className="text-[#CDAA63] font-label-md tracking-[0.2em] uppercase text-[12px] md:text-[13px] mb-3" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>Get Involved</span>
+            <div className="h-px w-32 bg-[rgba(205,170,99,0.35)]"></div>
+          </div>
+          <h1 className="font-display-lg text-[48px] md:text-[72px] leading-[1.05] text-[#F4E7D3] mb-6 animate-fade-in-up" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
+            Our Ministries
+          </h1>
+          <p className="font-body-lg text-[#D9C7B3] max-w-2xl mx-auto animate-fade-in-up delay-100" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
+            Find your place in our community. We offer a variety of ministries designed to foster spiritual growth, fellowship, and service for all ages.
+          </p>
+        </div>
+      </section>
 
-      {/* Ministries Grid */}
+      <main className="flex-grow flex flex-col items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-stack-lg animate-fade-in-up mt-stack-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter w-full">
         
         {/* Ministry Card: Youth */}
@@ -102,6 +113,7 @@ export default function Ministries() {
           </button>
         </article>
       </div>
-    </main>
+      </main>
+    </>
   );
 }

@@ -11,25 +11,30 @@ export default function OnlineGiving() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative w-full h-[614px] min-h-[500px] flex items-center justify-center overflow-hidden animate-fade-in-up">
-        <div className="absolute inset-0 z-0">
+      <section className="relative w-full h-[614px] min-h-[500px] flex items-center justify-center -mt-[72px]">
+        <div className="absolute inset-0 z-0 bg-[#4A0F1A]">
           <img 
             alt="Church Sanctuary" 
-            className="w-full h-full object-cover opacity-80" 
+            className="w-full h-full object-cover opacity-40 mix-blend-luminosity" 
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfIQ-Qr2TrfGjHa96wc0euz1PpTih9G8q1e8aB4rmFSXB1mlH3WGV7AyrIavJWMDdmdwN9QzQGfWul-64qv6soman5tRce2izU9Xt0rnjxWPjlBfmCC5ET4a2ZYzScaxPhmkw8qYy67Ez7agpSG8IJKeLu57Q1ILsCNJIVg9fEoHtn4A6C2VaYNd_kDLJ9pIh3K5GiLkQMbpH1hW9CXFFgozCpiMqc_EGl49X1tne2tJ0Wz_ZSEf6-" 
           />
-          <div className="absolute inset-0 bg-background/60"></div>
+          <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f3e7d3] to-transparent z-10"></div>
         </div>
-        <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-3xl mx-auto space-y-stack-md">
-          <h1 className="font-display-lg-mobile md:font-display-lg text-primary-container">
+        <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-24">
+          <div className="flex flex-col items-center mb-6 w-full">
+            <span className="text-[#CDAA63] font-label-md tracking-[0.2em] uppercase text-[12px] md:text-[13px] mb-3" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>Generosity</span>
+            <div className="h-px w-32 bg-[rgba(205,170,99,0.35)]"></div>
+          </div>
+          <h1 className="font-display-lg text-[48px] md:text-[72px] leading-[1.05] text-[#F4E7D3] mb-6 animate-fade-in-up" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
             Support Our Mission
           </h1>
-          <p className="font-body-lg text-on-surface-variant max-w-2xl mx-auto">
+          <p className="font-body-lg text-[#D9C7B3] max-w-2xl mx-auto animate-fade-in-up delay-100" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
             Your generosity enables us to serve our community, maintain our historic sanctuary, and spread love and grace. Join us in making a lasting impact.
           </p>
-          <div className="pt-stack-sm flex items-center justify-center space-x-4 opacity-80">
-            <span className="material-symbols-outlined text-outline">lock</span>
-            <span className="font-caption text-outline">Secure &amp; Encrypted Giving</span>
+          <div className="pt-8 flex items-center justify-center space-x-4 opacity-80 animate-fade-in-up delay-200">
+            <span className="material-symbols-outlined text-[#CDAA63]">lock</span>
+            <span className="font-caption text-[#D9C7B3]">Secure &amp; Encrypted Giving</span>
           </div>
         </div>
       </section>

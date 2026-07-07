@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 export default function TopNavBar() {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
-  
+
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -15,29 +15,28 @@ export default function TopNavBar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const useDarkText = scrolled || !isHomePage;
+  const useDarkText = scrolled;
 
   return (
-    <header 
-      className={`fixed top-0 w-full z-50 transition-colors duration-500 py-4 ${
-        scrolled 
-          ? 'bg-background/95 backdrop-blur-md shadow-sm border-b border-outline-variant/20' 
-          : 'bg-transparent border-b border-transparent'
-      }`} 
+    <header
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled
+          ? 'bg-background/95 backdrop-blur-md shadow-sm border-b border-outline-variant/20 py-4'
+          : 'bg-transparent border-b border-transparent py-4 md:pt-[36px] md:pb-6'
+        }`}
       id="top-nav"
     >
-      <div className="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+      <div className="flex justify-between items-center w-full px-margin-mobile md:px-[110px] max-w-[1600px] mx-auto">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-3">
-          <img 
-            src="/Methodist_logo (2).png" 
-            alt="Methodist Logo" 
-            className={`h-8 w-auto object-contain transition-opacity duration-300 ${scrolled ? 'opacity-90' : 'opacity-100'}`} 
+        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <img
+            src="/Methodist_logo (2).png"
+            alt="Methodist Logo"
+            className={`h-[44px] md:h-[48px] -mt-[6px] md:-mt-[8px] w-auto object-contain transition-opacity duration-300 ${scrolled ? 'opacity-90' : 'opacity-100'}`}
           />
           <div className="flex flex-col justify-center">
             <span className={`font-display-lg-mobile md:text-[26px] font-normal tracking-tight transition-colors duration-300 leading-none ${useDarkText ? 'text-on-surface' : 'text-surface'}`}>
@@ -77,14 +76,12 @@ export default function TopNavBar() {
 
         {/* Trailing Action */}
         <div className="flex items-center gap-4">
-          {isHomePage && (
-            <Link href="/giving" className={`hidden md:inline-flex bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-label-md text-[13px] tracking-wide hover:bg-primary transition-all duration-300 shadow-ambient ${!scrolled && 'border border-surface/20'}`}>
-              Support Our Mission
-            </Link>
-          )}
+          <Link href="/giving" className={`hidden md:inline-flex bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-label-md text-[13px] tracking-wide hover:bg-primary transition-all duration-300 shadow-ambient ${!scrolled && 'border border-surface/20'}`}>
+            Support Our Mission
+          </Link>
           {/* Mobile Menu Button */}
-          <button 
-            aria-label="Menu" 
+          <button
+            aria-label="Menu"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={`md:hidden p-2 hover:opacity-70 transition-opacity z-50 ${isMobileMenuOpen || useDarkText ? 'text-on-surface' : 'text-surface'}`}
           >
@@ -97,17 +94,16 @@ export default function TopNavBar() {
 
       {/* Mobile Sidebar Overlay */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
 
       {/* Mobile Sidebar */}
-      <div 
-        className={`fixed top-0 right-0 h-full w-[250px] bg-background shadow-2xl z-40 transform transition-transform duration-300 ease-in-out md:hidden ${
-          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+      <div
+        className={`fixed top-0 right-0 h-full w-[250px] bg-background shadow-2xl z-40 transform transition-transform duration-300 ease-in-out md:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         <div className="flex flex-col pt-24 px-6 gap-6 h-full overflow-y-auto">
           <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="font-headline-sm text-[20px] text-on-surface-variant hover:text-on-surface">Home</Link>
