@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,8 +11,20 @@ if (typeof window !== "undefined") {
 
 export default function VideoScrollBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(true); // Default to true or a safe state to prevent flash
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile(); // Check on mount
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return; // Skip heavy canvas animation on mobile
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const context = canvas.getContext('2d');
@@ -89,12 +101,24 @@ export default function VideoScrollBackground() {
       }
       tl.kill();
     };
-  }, []);
+  }, [isMobile]);
 
   return (
-    <canvas 
-      ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
-    />
+    <>
+      {isMobile ? (
+        <div className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none bg-black">
+          <img 
+            src="/ingraham_logo_5.png" 
+            alt="Ingraham Logo Background" 
+            className="w-full h-full object-cover" 
+          />
+        </div>
+      ) : (
+        <canvas 
+          ref={canvasRef} 
+          className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
+        />
+      )}
+    </>
   );
 }

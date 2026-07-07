@@ -30,9 +30,8 @@ export default function Home() {
       {/* Demo Component 1: Philosophy / Intro */}
       <section className="relative w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop z-10">
         <div className="max-w-[1200px] mx-auto reveal-on-scroll">
-          {/* Frosted Glass Wrapper */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center bg-surface/10 backdrop-blur-2xl border border-surface/20 shadow-2xl p-8 md:p-16 rounded-[40px]">
-            <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
+            <div className="bg-black/40 p-8 md:p-12 rounded-[32px] border border-white/5 shadow-2xl">
               <h2 className="font-display-lg text-[32px] md:text-[48px] text-surface-bright mb-6 leading-tight drop-shadow-sm">
                 A sanctuary for <br/> <span className="font-playfair italic font-normal text-surface-bright/80">deep thought.</span>
               </h2>
@@ -57,30 +56,29 @@ export default function Home() {
       {/* Demo Component 2: Rhythms & Practices */}
       <section className="relative w-full py-24 px-margin-mobile md:px-margin-desktop z-10">
         <div className="max-w-[1200px] mx-auto reveal-on-scroll">
-          {/* Frosted Glass Wrapper */}
-          <div className="bg-surface/10 backdrop-blur-2xl border border-surface/20 shadow-2xl p-8 md:p-16 rounded-[40px]">
-            <div className="text-center mb-16 max-w-2xl mx-auto">
+          <div className="flex justify-center w-full mb-16">
+            <div className="text-center max-w-2xl bg-black/40 p-8 rounded-[32px] border border-white/5 shadow-2xl">
               <h2 className="font-display-lg text-[32px] md:text-[40px] text-surface-bright mb-4 drop-shadow-sm">Our Practices</h2>
               <p className="font-body-md text-surface-bright/90 drop-shadow-sm">Rhythms designed to ground you in the present and orient you toward the eternal.</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
-              {[
-                { icon: "church", title: "Sunday Liturgy", desc: "A time-honored rhythm of worship, reflection, and communion." },
-                { icon: "self_improvement", title: "Contemplative Prayer", desc: "Guided silence to quiet the mind and listen closely to what matters." },
-                { icon: "menu_book", title: "Theological Study", desc: "Rigorous exploration of sacred texts, history, and traditions." }
-              ].map((item, i) => (
-                <div key={i} className="bg-surface/5 backdrop-blur-lg rounded-[24px] p-8 shadow-lg border border-surface/10 flex flex-col items-start hover:bg-surface/10 transition-colors duration-300">
-                  <div className="w-12 h-12 rounded-full bg-surface-bright/10 flex items-center justify-center mb-6 border border-surface-bright/20">
-                    <span className="material-symbols-outlined text-surface-bright">{item.icon}</span>
-                  </div>
-                  <h3 className="font-display-lg text-[22px] text-surface-bright mb-3 drop-shadow-sm">{item.title}</h3>
-                  <p className="font-body-md text-surface-bright/80 text-[14px] leading-relaxed mb-6 flex-grow drop-shadow-sm">{item.desc}</p>
-                  <div className="mt-auto">
-                    <span className="material-symbols-outlined text-surface-bright/50 group-hover:text-surface-bright transition-colors">arrow_forward</span>
-                  </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+            {[
+              { icon: "church", title: "Sunday Liturgy", desc: "A time-honored rhythm of worship, reflection, and communion." },
+              { icon: "self_improvement", title: "Contemplative Prayer", desc: "Guided silence to quiet the mind and listen closely to what matters." },
+              { icon: "menu_book", title: "Theological Study", desc: "Rigorous exploration of sacred texts, history, and traditions." }
+            ].map((item, i) => (
+              <div key={i} className="bg-black/40 rounded-[24px] p-8 border border-white/5 shadow-2xl flex flex-col items-start hover:bg-black/50 transition-colors duration-300">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6 border border-white/10">
+                  <span className="material-symbols-outlined text-surface-bright">{item.icon}</span>
                 </div>
-              ))}
-            </div>
+                <h3 className="font-display-lg text-[22px] text-surface-bright mb-3 drop-shadow-sm">{item.title}</h3>
+                <p className="font-body-md text-surface-bright/80 text-[14px] leading-relaxed mb-6 flex-grow drop-shadow-sm">{item.desc}</p>
+                <div className="mt-auto">
+                  <span className="material-symbols-outlined text-surface-bright/50 group-hover:text-surface-bright transition-colors">arrow_forward</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
