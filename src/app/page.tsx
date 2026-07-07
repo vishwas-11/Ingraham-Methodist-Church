@@ -21,8 +21,8 @@ export default function Home() {
             Building platforms for brilliant minds, fearless makers, and thoughtful souls. Through the noise, we craft digital havens for deep work and pure flows.
           </p>
           
-          <Link href="/visit" className="bg-primary-container text-on-primary px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-primary transition-all duration-300 shadow-ambient inline-flex items-center justify-center min-w-[160px] drop-shadow-md">
-            Begin Journey
+          <Link href="/about" className="bg-primary-container text-on-primary px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-primary transition-all duration-300 shadow-ambient inline-flex items-center justify-center min-w-[160px] drop-shadow-md">
+            Discover
           </Link>
         </div>
       </section>
