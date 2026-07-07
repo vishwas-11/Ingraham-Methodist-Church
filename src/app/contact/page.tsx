@@ -104,10 +104,10 @@ export default function ContactUs() {
         </div>
 
         {/* Info & Map (Right Span 5) */}
-        <div className="lg:col-span-5 flex flex-col gap-gutter reveal-on-scroll delay-100">
+        <div className="lg:col-span-5 flex flex-col gap-gutter">
           
           {/* Contact Details Card */}
-          <div className="bg-secondary-container rounded-xl p-6 md:p-8 flex-grow shadow-sm">
+          <div className="bg-secondary-container rounded-xl p-6 md:p-8 flex-grow shadow-sm reveal-on-scroll">
             <h3 className="font-headline-sm text-primary-container mb-6">Contact Details</h3>
             <ul className="space-y-6">
               <li className="flex items-start gap-4">
@@ -116,7 +116,11 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <p className="font-label-md text-on-surface mb-1">Visit Us</p>
-                  <p className="font-body-md text-on-surface-variant">123 Wesley Way<br/>Ingraham, IL 62434</p>
+                  <p className="font-body-md text-on-surface-variant">
+                    Ingraham Methodist Church<br/>
+                    MFF2+JVG, Hapur Rd, Sector 11, Raj Kunj,<br/>
+                    Raj Nagar, Ghaziabad, Uttar Pradesh 201002
+                  </p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -158,16 +162,17 @@ export default function ContactUs() {
             </div>
           </div>
 
-          {/* Map Placeholder */}
-          <div className="h-64 bg-surface-container-highest rounded-xl overflow-hidden relative shadow-sm border border-warm-brown flex items-center justify-center group cursor-pointer">
-            <img 
-              className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" 
-              alt="Map illustration" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgfnfOLJV7fT7idagn5zQFPGpbVKmX9khq0j3PVyLGQIbdUghXr7GblPZPkldfjbyBI9MKlR2Txdsub7PjFxg0iFkW5418XNkYb3ikQ3maAmKmYVWlk4Kr3Wke3AvnAqcTa5FcyqLnooPRKkSQHqhRNcN8L5p5LWv05oFYgCz4PCEND-8Tt480sdv3Tqc2KlG4_1_QPwN_LqXOs5ohtPLc8g1ay7UV8UaNHnhKS_njFuNoOimDs34f"
-            />
-            <div className="relative z-10 bg-primary-container text-on-primary p-3 rounded-full shadow-ambient group-hover:bg-primary transition-colors">
-              <span className="material-symbols-outlined">map</span>
-            </div>
+          {/* Map Embed */}
+          <div className="h-64 md:h-80 bg-surface-container-highest rounded-xl overflow-hidden relative shadow-sm border border-warm-brown flex items-center justify-center reveal-on-scroll">
+            <iframe 
+              src="https://maps.google.com/maps?q=Ingraham%20Methodist%20Church,%20Ghaziabad&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
           
         </div>
