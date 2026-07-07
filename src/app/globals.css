@@ -92,6 +92,11 @@
 
   .hide-scrollbar::-webkit-scrollbar { display: none; }
   .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Prevent Flash of Unstyled Content (FOUC) before GSAP kicks in */
+  .animate-fade-in-up { opacity: 0; will-change: transform, opacity; }
+  .reveal-on-scroll { opacity: 0; will-change: transform, opacity; }
+  .animate-smooth-render { opacity: 0; will-change: transform, opacity, filter; }
 }
 
 body {

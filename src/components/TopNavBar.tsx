@@ -22,6 +22,15 @@ export default function TopNavBar() {
 
   const useDarkText = scrolled;
 
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Sermons', href: '/sermons' },
+    { name: 'Ministries', href: '/ministries' },
+    { name: 'Events', href: '/events' },
+    { name: 'Reach Us', href: '/contact' },
+  ];
+
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled
@@ -54,24 +63,26 @@ export default function TopNavBar() {
 
         {/* Nav Links (Desktop) */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link href="/" className={`transition-colors duration-300 font-label-md text-[13px] tracking-wide ${useDarkText ? 'text-on-surface-variant hover:text-on-surface' : 'text-surface/80 hover:text-surface'}`}>
-            Home
-          </Link>
-          <Link href="/about" className={`transition-colors duration-300 font-label-md text-[13px] tracking-wide ${useDarkText ? 'text-on-surface-variant hover:text-on-surface' : 'text-surface/80 hover:text-surface'}`}>
-            About
-          </Link>
-          <Link href="/sermons" className={`transition-colors duration-300 font-label-md text-[13px] tracking-wide ${useDarkText ? 'text-on-surface-variant hover:text-on-surface' : 'text-surface/80 hover:text-surface'}`}>
-            Sermons
-          </Link>
-          <Link href="/ministries" className={`transition-colors duration-300 font-label-md text-[13px] tracking-wide ${useDarkText ? 'text-on-surface-variant hover:text-on-surface' : 'text-surface/80 hover:text-surface'}`}>
-            Ministries
-          </Link>
-          <Link href="/events" className={`transition-colors duration-300 font-label-md text-[13px] tracking-wide ${useDarkText ? 'text-on-surface-variant hover:text-on-surface' : 'text-surface/80 hover:text-surface'}`}>
-            Events
-          </Link>
-          <Link href="/contact" className={`transition-colors duration-300 font-label-md text-[13px] tracking-wide ${useDarkText ? 'text-on-surface-variant hover:text-on-surface' : 'text-surface/80 hover:text-surface'}`}>
-            Reach Us
-          </Link>
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <div key={link.name} className="relative py-1 flex flex-col items-center">
+                <Link 
+                  href={link.href} 
+                  className={`transition-colors duration-300 font-label-md text-[13px] tracking-wide ${
+                    useDarkText 
+                      ? isActive ? 'text-on-surface' : 'text-on-surface-variant hover:text-on-surface' 
+                      : isActive ? 'text-surface' : 'text-surface/80 hover:text-surface'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#CDAA63] to-transparent opacity-80"></span>
+                )}
+              </div>
+            );
+          })}
         </nav>
 
         {/* Trailing Action */}
@@ -106,12 +117,26 @@ export default function TopNavBar() {
           }`}
       >
         <div className="flex flex-col pt-24 px-6 gap-6 h-full overflow-y-auto">
-          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="font-headline-sm text-[20px] text-on-surface-variant hover:text-on-surface">Home</Link>
-          <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="font-headline-sm text-[20px] text-on-surface-variant hover:text-on-surface">About</Link>
-          <Link href="/sermons" onClick={() => setIsMobileMenuOpen(false)} className="font-headline-sm text-[20px] text-on-surface-variant hover:text-on-surface">Sermons</Link>
-          <Link href="/ministries" onClick={() => setIsMobileMenuOpen(false)} className="font-headline-sm text-[20px] text-on-surface-variant hover:text-on-surface">Ministries</Link>
-          <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="font-headline-sm text-[20px] text-on-surface-variant hover:text-on-surface">Events</Link>
-          <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="font-headline-sm text-[20px] text-on-surface-variant hover:text-on-surface">Reach Us</Link>
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link 
+                key={link.name}
+                href={link.href} 
+                onClick={() => setIsMobileMenuOpen(false)} 
+                className={`font-headline-sm text-[20px] transition-colors flex flex-col items-start ${
+                  isActive ? 'text-on-surface' : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                <span className="relative">
+                  {link.name}
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-0 w-8 h-[2px] bg-[#CDAA63] opacity-80 rounded-full"></span>
+                  )}
+                </span>
+              </Link>
+            );
+          })}
           <Link href="/giving" onClick={() => setIsMobileMenuOpen(false)} className="mt-4 bg-primary-container text-on-primary px-6 py-3 rounded-full font-label-md text-center hover:bg-primary transition-all shadow-ambient">
             Support Our Mission
           </Link>
