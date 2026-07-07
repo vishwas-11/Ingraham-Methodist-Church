@@ -43,11 +43,11 @@ export default function TopNavBar() {
               Ingraham Shalom
             </span>
             <div className="flex items-center w-full mt-0">
-              <div className={`flex-grow border-t h-px ${useDarkText ? 'border-on-surface/40' : 'border-surface/40'}`}></div>
-              <span className={`px-2 text-[8px] uppercase tracking-[0.2em] font-label-md transition-colors duration-300 ${useDarkText ? 'text-on-surface/80' : 'text-surface/80'}`}>
+              <div className={`flex-grow border-t h-px min-w-[8px] ${useDarkText ? 'border-on-surface/40' : 'border-surface/40'}`}></div>
+              <span className={`px-1.5 md:px-2 text-[6.5px] md:text-[8px] uppercase tracking-[0.15em] md:tracking-[0.2em] font-label-md transition-colors duration-300 ${useDarkText ? 'text-on-surface/80' : 'text-surface/80'} whitespace-nowrap`}>
                 METHODIST CHURCH
               </span>
-              <div className={`flex-grow border-t h-px ${useDarkText ? 'border-on-surface/40' : 'border-surface/40'}`}></div>
+              <div className={`flex-grow border-t h-px min-w-[8px] ${useDarkText ? 'border-on-surface/40' : 'border-surface/40'}`}></div>
             </div>
           </div>
         </Link>
