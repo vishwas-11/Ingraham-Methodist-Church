@@ -96,36 +96,27 @@ export default function Footer() {
             <Link href="/giving" className="font-body-md text-[#D9C7B3]/80 text-[14px] hover:text-[#D9C7B3] transition-colors w-fit" style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.8)' }}>Give Online</Link>
           </div>
 
-          {/* Newsletter */}
+          {/* Location */}
           <div className="md:col-span-6 lg:col-span-4 flex flex-col gap-4">
             <h3
               className="font-label-md text-[#D9C7B3] uppercase tracking-[0.2em] text-[13px] mb-1"
               style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.15)' }}
             >
-              Stay Connected
+              Visit Us
             </h3>
-            <p className="font-body-md text-[#D9C7B3]/80 text-[14px] leading-relaxed" style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.8)' }}>
-              Join our mailing list for weekly reflections and community updates.
-            </p>
-            <form className="mt-2 flex flex-col sm:flex-row gap-3" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="Email address"
-                className="bg-[#1C0408]/80 border border-black/50 rounded-md px-4 py-3 font-body-md text-[#F4E7D3] text-[14px] placeholder:text-[#D9C7B3]/40 focus:outline-none focus:ring-1 focus:ring-[#C7A566]/50 transition-all w-full"
-                style={{ boxShadow: 'inset 0 3px 6px rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.1)' }}
-              />
-              <button
-                type="submit"
-                className="bg-gradient-to-b from-[#C7A566] to-[#8C6D39] text-[#1C0408] font-label-md text-[14px] px-6 py-3 rounded-md transition-all whitespace-nowrap tracking-wide"
-                style={{
-                  textShadow: '0 1px 1px rgba(255,255,255,0.4)',
-                  boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.4), 0 4px 6px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.8)',
-                  border: '1px solid #4A3612'
-                }}
-              >
-                Subscribe
-              </button>
-            </form>
+            <a 
+              href="https://www.google.com/maps/place/Ingraham+Methodist+Church/@28.6740581,77.4496228,17z/data=!3m1!4b1!4m6!3m5!1s0x390cf1941ca224ed:0x80c0b9fb5f294587!8m2!3d28.6740581!4d77.4521977!16s%2Fg%2F1vr3bk5j?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-start gap-3 hover:opacity-100 opacity-90 transition-opacity"
+            >
+              <span className="material-symbols-outlined text-[#C7A566] text-[20px] mt-0.5 shrink-0" style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.8)' }}>location_on</span>
+              <p className="font-body-md text-[#D9C7B3]/80 text-[14px] leading-relaxed group-hover:text-[#D9C7B3] transition-colors" style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.8)' }}>
+                <strong className="font-label-md text-[#F4E7D3] tracking-wide font-normal">Ingraham Methodist Church</strong><br />
+                MFF2+JVG, Hapur Rd, Sector 11, Raj Kunj,<br />
+                Raj Nagar, Ghaziabad, Uttar Pradesh 201002
+              </p>
+            </a>
           </div>
         </div>
 

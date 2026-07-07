@@ -18,15 +18,15 @@ export default function Home() {
         {/* Left-Aligned Text Content */}
         <div className="relative z-10 max-w-[540px] w-full mx-auto md:mx-0 md:ml-[110px] flex flex-col items-start text-left animate-fade-in-up mt-24 px-4 md:px-0">
           
-          <div className="flex items-center gap-3 md:gap-4 mb-8 opacity-90 max-w-full">
-            <span className="w-[30px] md:w-[60px] shrink-0 h-px bg-gradient-to-l from-[#CDAA63]/60 to-transparent"></span>
+          <div className="flex items-center gap-3 md:gap-4 mb-8 max-w-full opacity-95">
+            <span className="w-[30px] md:w-[60px] shrink-0 h-px bg-gradient-to-l from-[#CDAA63] via-[#CDAA63]/50 to-transparent"></span>
             <span 
-              className="text-[#CDAA63] font-label-md tracking-[0.25em] md:tracking-[0.3em] uppercase text-[12px] md:text-[14px] font-medium whitespace-nowrap" 
-              style={{ textShadow: '0 2px 12px rgba(0,0,0,.4), 0 0 20px rgba(205,170,99,0.2)' }}
+              className="font-label-md tracking-[0.25em] md:tracking-[0.3em] uppercase text-[12px] md:text-[14px] font-medium whitespace-nowrap bg-gradient-to-r from-[#CDAA63] via-[#F4E7D3] to-[#CDAA63] bg-clip-text text-transparent" 
+              style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.6))' }}
             >
               Welcome Home
             </span>
-            <span className="w-[30px] md:w-[60px] shrink-0 h-px bg-gradient-to-r from-[#CDAA63]/60 to-transparent"></span>
+            <span className="w-[30px] md:w-[60px] shrink-0 h-px bg-gradient-to-r from-[#CDAA63] via-[#CDAA63]/50 to-transparent"></span>
           </div>
 
           <h1 className="font-display-lg text-[48px] sm:text-[56px] md:text-[72px] lg:text-[80px] leading-[1.05] text-[#F4E7D3] mb-6 tracking-tight" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>

@@ -2,11 +2,19 @@ export default function ContactUs() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative w-full h-[400px] flex items-center justify-center -mt-[72px] bg-[#4A0F1A] overflow-hidden mb-stack-lg">
-        <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#f3e7d3] to-transparent z-10"></div>
+      <section className="relative w-full h-[614px] min-h-[400px] flex items-center justify-center -mt-[72px] mb-stack-lg">
+        <div className="absolute inset-0 z-0 bg-[#4A0F1A]">
+          <div 
+            className="bg-cover bg-center w-full h-full opacity-40 mix-blend-luminosity" 
+            style={{ backgroundImage: "url('/reach_us.png')" }}
+          ></div>
+          {/* Dark Overlay instead of light gradient */}
+          <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none"></div>
+          {/* Bottom fade to match page background */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f3e7d3] to-transparent"></div>
+        </div>
         
-        <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-16">
+        <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-24">
           <div className="flex flex-col items-center mb-6 w-full">
             <span className="text-[#CDAA63] font-label-md tracking-[0.2em] uppercase text-[12px] md:text-[13px] mb-3" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>Reach Us</span>
             <div className="h-px w-32 bg-[rgba(205,170,99,0.35)]"></div>
