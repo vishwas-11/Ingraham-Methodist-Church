@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import GSAPInitializer from "@/components/GSAPInitializer";
 import TopNavBar from "@/components/TopNavBar";
-import Footer from "@/components/Footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -42,7 +41,6 @@ export default function RootLayout({
         <main className="flex-grow pt-[72px]">
           {children}
         </main>
-        <Footer />
       </body>
     </html>
   );

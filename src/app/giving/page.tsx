@@ -107,7 +107,7 @@ export default function OnlineGiving() {
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-surface-container-low py-stack-lg px-margin-mobile md:px-margin-desktop mt-stack-lg reveal-on-scroll">
+      <section className="bg-surface-container-low pt-stack-lg pb-24 md:pb-32 px-margin-mobile md:px-margin-desktop mt-stack-lg reveal-on-scroll">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-stack-md">
             <h2 className="font-headline-sm text-primary-container">Giving FAQ</h2>

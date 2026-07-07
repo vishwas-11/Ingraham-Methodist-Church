@@ -97,7 +97,7 @@ export default function About() {
       </section>
 
       {/* Core Values - Minimalist List */}
-      <section className="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+      <section className="pt-stack-lg pb-24 md:pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
           <div className="md:col-span-4 reveal-on-scroll">
             <h2 className="font-headline-md text-headline-md text-primary sticky top-[100px]">Core Values</h2>

@@ -22,7 +22,7 @@ export default function Ministries() {
         </div>
       </section>
 
-      <main className="flex-grow flex flex-col items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-stack-lg animate-fade-in-up mt-stack-lg">
+      <main className="flex-grow flex flex-col items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-24 md:pb-32 animate-fade-in-up mt-stack-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter w-full">
         
         {/* Ministry Card: Youth */}

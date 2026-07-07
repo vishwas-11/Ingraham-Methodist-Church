@@ -87,7 +87,7 @@ export default function Sermons() {
         </section>
 
         {/* Sermon Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter mb-stack-lg reveal-on-scroll">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter pb-24 md:pb-32 reveal-on-scroll">
           {/* Card 1 */}
           <article className="bg-secondary-fixed/30 rounded-xl overflow-hidden border border-warm-brown/30 hover:shadow-ambient transition-all duration-300 flex flex-col">
             <div className="relative h-48">

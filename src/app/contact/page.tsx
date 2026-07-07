@@ -21,7 +21,7 @@ export default function ContactUs() {
       </section>
 
       {/* Bento Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full mb-stack-lg">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full pb-24 md:pb-32">
         
         {/* Contact Form (Left Span 7) */}
         <div className="lg:col-span-7 bg-surface-container-lowest rounded-xl p-6 md:p-8 border border-warm-brown shadow-sm relative overflow-hidden reveal-on-scroll">
