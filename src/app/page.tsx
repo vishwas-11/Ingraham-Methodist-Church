@@ -2,8 +2,29 @@ import Image from "next/image";
 import Link from "next/link";
 import VideoScrollBackground from "@/components/VideoScrollBackground";
 import Footer from "@/components/Footer";
+import TextType from "@/components/TextType";
 
-export default function Home() {
+async function getDailyVerse() {
+  try {
+    const res = await fetch("https://labs.bible.org/api/?passage=votd&type=json", {
+      next: { revalidate: 3600 }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data[0];
+  } catch (error) {
+    return null;
+  }
+}
+
+export default async function Home() {
+  const dailyVerse = await getDailyVerse() || {
+    bookname: "John",
+    chapter: "1",
+    verse: "5",
+    text: "The light shines in the darkness, and the darkness has not overcome it."
+  };
+
   return (
     <>
       {/* Background Canvas for GSAP Video Scroll */}
@@ -16,9 +37,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none z-0"></div>
 
         {/* Left-Aligned Text Content */}
-        <div className="relative z-10 max-w-[540px] w-full mx-auto md:mx-0 md:ml-[110px] flex flex-col items-start text-left animate-fade-in-up mt-24 px-4 md:px-0">
+        <div className="relative z-10 max-w-[540px] w-full mx-auto md:mx-0 md:ml-[110px] flex flex-col items-start text-left animate-fade-in-up mt-16 md:mt-20 px-4 md:px-0">
           
-          <div className="flex items-center gap-3 md:gap-4 mb-8 max-w-full opacity-95">
+          <div className="flex items-center gap-3 md:gap-4 mb-5 max-w-full opacity-95">
             <span className="w-[30px] md:w-[60px] shrink-0 h-px bg-gradient-to-l from-[#CDAA63] via-[#CDAA63]/50 to-transparent"></span>
             <span 
               className="font-label-md tracking-[0.25em] md:tracking-[0.3em] uppercase text-[12px] md:text-[14px] font-medium whitespace-nowrap bg-gradient-to-r from-[#CDAA63] via-[#F4E7D3] to-[#CDAA63] bg-clip-text text-transparent" 
@@ -29,16 +50,31 @@ export default function Home() {
             <span className="w-[30px] md:w-[60px] shrink-0 h-px bg-gradient-to-r from-[#CDAA63] via-[#CDAA63]/50 to-transparent"></span>
           </div>
 
-          <h1 className="font-display-lg text-[48px] sm:text-[56px] md:text-[72px] lg:text-[80px] leading-[1.05] text-[#F4E7D3] mb-6 tracking-tight" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
+          <h1 className="font-display-lg text-[48px] sm:text-[56px] md:text-[64px] lg:text-[72px] leading-[1.05] text-[#F4E7D3] mb-4 tracking-tight" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
             Beyond <span className="font-playfair italic font-normal text-[#F4E7D3]/90">silence,</span><br /> we build <br className="hidden md:block" /><span className="font-playfair italic font-normal text-[#F4E7D3]/90">the eternal.</span>
           </h1>
 
-          <div className="h-px w-full max-w-[400px] bg-[rgba(205,170,99,0.35)] mb-8"></div>
+          <div className="h-px w-full max-w-[400px] bg-[rgba(205,170,99,0.35)] mb-5"></div>
 
-          <p className="font-body-md text-[#D9C7B3] mb-10 text-[16px] leading-relaxed sm:text-[18px]" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
-            Building platforms for brilliant minds, fearless makers,<br className="hidden md:block" /> and thoughtful souls.<br />
-            Through the noise, we craft digital havens for<br className="hidden md:block" /> deep work and pure flows.
-          </p>
+          {/* Daily Verse Section */}
+          <div className="mb-6 pl-5 md:pl-6 border-l-2 border-[#CDAA63]/30 bg-[#CDAA63]/[0.02] py-2 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+            <span className="block font-label-md tracking-[0.2em] uppercase text-[11px] text-[#CDAA63] mb-2">Daily Verse</span>
+            <blockquote className="font-playfair italic text-[#F4E7D3]/95 text-[18px] md:text-[20px] leading-relaxed mb-2 drop-shadow-sm min-h-[88px]">
+              <TextType 
+                as="span"
+                text={`"${dailyVerse.text.replace(/<[^>]*>?/gm, '').trim()}"`}
+                typingSpeed={20}
+                initialDelay={800}
+                loop={false}
+                showCursor={true}
+                cursorCharacter="|"
+                cursorClassName="text-[#CDAA63]/50 font-inter font-light"
+              />
+            </blockquote>
+            <cite className="font-label-md text-[13px] text-[#D9C7B3] tracking-wide not-italic uppercase opacity-80">
+              — {dailyVerse.bookname} {dailyVerse.chapter}:{dailyVerse.verse}
+            </cite>
+          </div>
 
           <div className="flex flex-wrap items-center gap-4">
             <Link href="/about" className="bg-[#651A2D] text-[#F4E7D3] px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-[#7A2338] transition-all duration-300 inline-flex items-center justify-center min-w-[160px] border border-transparent">
