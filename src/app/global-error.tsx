@@ -1,6 +1,8 @@
 'use client'; // Error components must be Client Components
 
 import { useEffect } from 'react';
+import Link from 'next/link';
+import GoBackButton from '@/components/GoBackButton';
 
 export default function GlobalError({
   error,
@@ -28,12 +30,18 @@ export default function GlobalError({
             <p className="font-body-md text-[#D9C7B3] text-[16px] md:text-[18px] max-w-md mb-10 drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
               A critical error occurred while rendering the application. We apologize for the inconvenience.
             </p>
-            <button
-              onClick={() => reset()}
-              className="bg-[#651A2D] text-[#F4E7D3] px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-[#7A2338] transition-all duration-300 inline-flex items-center justify-center border border-transparent"
-            >
-              <span className="material-symbols-outlined mr-2 text-[18px]">refresh</span> Try Again
-            </button>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <button
+                onClick={() => reset()}
+                className="bg-[#651A2D] text-[#F4E7D3] px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-[#7A2338] transition-all duration-300 inline-flex items-center justify-center border border-transparent"
+              >
+                <span className="material-symbols-outlined mr-2 text-[18px]">refresh</span> Try Again
+              </button>
+              <Link href="/" className="bg-transparent border border-[rgba(205,170,99,0.35)] text-[#D9C7B3] px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-[rgba(205,170,99,0.05)] transition-all duration-300 inline-flex items-center justify-center">
+                <span className="material-symbols-outlined mr-2 text-[18px]">home</span> Return Home
+              </Link>
+              <GoBackButton />
+            </div>
           </div>
         </main>
       </body>

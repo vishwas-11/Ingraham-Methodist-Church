@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import VideoScrollBackground from '@/components/VideoScrollBackground';
+import GoBackButton from '@/components/GoBackButton';
 
 export default function Error({
   error,
@@ -38,8 +39,9 @@ export default function Error({
               <span className="material-symbols-outlined mr-2 text-[18px]">refresh</span> Try Again
             </button>
             <Link href="/" className="bg-transparent border border-[rgba(205,170,99,0.35)] text-[#D9C7B3] px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-[rgba(205,170,99,0.05)] transition-all duration-300 inline-flex items-center justify-center">
-              Return Home
+              <span className="material-symbols-outlined mr-2 text-[18px]">home</span> Return Home
             </Link>
+            <GoBackButton />
           </div>
         </div>
       </section>

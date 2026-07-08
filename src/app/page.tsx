@@ -3,7 +3,7 @@ import Link from "next/link";
 import VideoScrollBackground from "@/components/VideoScrollBackground";
 import Footer from "@/components/Footer";
 import TextType from "@/components/TextType";
-
+import { getUpcomingEvents } from "@/data/events";
 async function getDailyVerse() {
   try {
     // Generate a date string based on IST (Asia/Kolkata) to force a new fetch at midnight IST
@@ -89,29 +89,51 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Demo Component 1: Philosophy / Intro */}
+      {/* Demo Component 1: Upcoming Events */}
       <section className="relative w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop z-10">
         <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none z-0"></div>
         <div className="max-w-[1200px] mx-auto reveal-on-scroll relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
-            <div className="bg-black/40 p-8 md:p-12 rounded-[32px] border border-white/5 shadow-2xl">
-              <h2 className="font-display-lg text-[32px] md:text-[48px] text-[#F4E7D3] mb-6 leading-tight drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
-                A sanctuary for <br /> <span className="font-playfair italic font-normal text-[#F4E7D3]/80">deep thought.</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+              <h2 className="font-display-lg text-[32px] md:text-[48px] text-[#F4E7D3] leading-tight drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
+                Upcoming <span className="font-playfair italic font-normal text-[#F4E7D3]/80">Events</span>
               </h2>
-              <p className="font-body-md text-[#D9C7B3] text-[16px] leading-relaxed mb-8 drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
-                In a world optimized for speed, we optimize for depth. Our community gathers not to rush through the motions, but to sit with the questions that matter most. We believe that true clarity emerges only when we dare to step away from the noise.
+              <p className="font-body-md text-[#D9C7B3] text-[16px] mt-4 max-w-xl">
+                Join us in our upcoming gatherings. Experience deep fellowship, spiritual growth, and community.
               </p>
-              <Link href="/about" className="inline-flex items-center gap-2 text-[#CDAA63] font-label-md hover:opacity-70 transition-opacity border-b border-[#CDAA63]/30 pb-1">
-                Explore our philosophy <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </Link>
             </div>
-            <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden shadow-ambient">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV-UE0krJrh54dNNb42Z22zFUo4D2GilN7qkEHwsM-Eba9EMtTtkkdiw5W59rBuT3yd_4mOnE5K5rQA8Q25KYtd9vfbaFtBbUoQvuZRhrhceVXQaXpgCV9vPLvaoPS61XjoeeDud1UyxrjOdK10zlfsDZXlYx-KLI42RBVwfN8HMaWmoDg1eoil3Q-r1_zcD-yXC4Xe0IpeJugrtJiZ0harRojlT8LEFkHf30nYXRkLPY0OXvp6hO8"
-                alt="Sanctuary interior"
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <Link href="/events" className="inline-flex items-center gap-2 text-[#CDAA63] font-label-md hover:opacity-70 transition-opacity border-b border-[#CDAA63]/30 pb-1 shrink-0">
+              Browse all events <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            {getUpcomingEvents().slice(0, 2).map((event) => (
+              <div key={event.id} className="bg-black/30 backdrop-blur-md rounded-[24px] border border-white/10 shadow-2xl overflow-hidden hover:bg-black/40 transition-colors duration-300 flex flex-col group">
+                <Link href={`/events/${event.slug}`} className="relative aspect-[16/9] w-full overflow-hidden block">
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                </Link>
+                <div className="p-8 flex flex-col flex-grow">
+                  <div className="text-[#CDAA63] font-label-md text-sm mb-3 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[16px]">calendar_month</span>
+                    {event.date} • {event.time}
+                  </div>
+                  <h3 className="font-display-lg text-[24px] text-[#F4E7D3] mb-4">
+                    <Link href={`/events/${event.slug}`} className="hover:text-[#CDAA63] transition-colors">{event.title}</Link>
+                  </h3>
+                  <p className="font-body-md text-[#D9C7B3] text-[15px] leading-relaxed mb-6 flex-grow">
+                    {event.shortDescription}
+                  </p>
+                  <Link href={`/events/${event.slug}`} className="bg-white/5 border border-white/10 text-[#F4E7D3] px-6 py-2.5 rounded-full font-label-md text-[14px] hover:bg-white/10 transition-colors self-start inline-flex items-center gap-2">
+                    Learn More <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
