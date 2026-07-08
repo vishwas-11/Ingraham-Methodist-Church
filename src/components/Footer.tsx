@@ -15,7 +15,7 @@ export default function Footer() {
     >
       <div className="relative z-10 px-margin-mobile md:px-margin-desktop max-w-[1200px] mx-auto">
         {/* Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
 
           {/* Brand & Manifesto */}
           <div className="md:col-span-12 lg:col-span-5 flex flex-col gap-6">
@@ -117,11 +117,33 @@ export default function Footer() {
                 Raj Nagar, Ghaziabad, Uttar Pradesh 201002
               </p>
             </a>
+
+            <div className="mt-2 flex items-start gap-3 bg-black/10 p-4 rounded-xl border border-black/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_2px_8px_rgba(0,0,0,0.2)] w-fit">
+              <span className="material-symbols-outlined text-[#D5B581] text-[24px] mt-0.5 shrink-0" style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.8)' }}>account_circle</span>
+              <div className="flex flex-col">
+                <span className="font-label-md text-[#D9C7B3]/70 uppercase tracking-[0.2em] text-[11px] mb-1" style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.8)' }}>
+                  Pastor Incharge
+                </span>
+                <span 
+                  className="text-[22px] font-semibold tracking-wide"
+                  style={{
+                    fontFamily: 'var(--font-playfair), serif',
+                    background: 'linear-gradient(135deg, #FFF0C7 0%, #E6C594 40%, #C7A566 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.6))'
+                  }}
+                >
+                  Rev. Masih Lal
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Bottom Line */}
-        <div className="h-px w-full bg-black shadow-[0_1px_0_rgba(255,255,255,0.15)] mb-6"></div>
+        <div className="h-px w-full bg-black shadow-[0_1px_0_rgba(255,255,255,0.15)] mt-4 mb-4"></div>
 
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
