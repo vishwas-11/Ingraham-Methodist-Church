@@ -138,32 +138,57 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Demo Component 2: Rhythms & Practices */}
-      <section className="relative w-full py-24 px-margin-mobile md:px-margin-desktop z-10">
+      {/* Website Navigation Features Section */}
+      <section className="relative w-full py-24 px-margin-mobile md:px-margin-desktop z-10 border-t border-[#CDAA63]/10">
         <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none z-0"></div>
         <div className="max-w-[1200px] mx-auto reveal-on-scroll relative z-10">
-          <div className="flex justify-center w-full mb-16">
-            <div className="text-center max-w-2xl bg-black/40 p-8 rounded-[32px] border border-white/5 shadow-2xl">
-              <h2 className="font-display-lg text-[32px] md:text-[40px] text-[#F4E7D3] mb-4 drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>Our Practices</h2>
-              <p className="font-body-md text-[#D9C7B3] drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>Rhythms designed to ground you in the present and orient you toward the eternal.</p>
+          <div className="mb-16 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <h2 className="font-display-lg text-[32px] md:text-[48px] text-[#F4E7D3] leading-tight drop-shadow-sm mb-4" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
+                Explore <span className="font-playfair italic font-normal text-[#F4E7D3]/80">Ingraham</span>
+              </h2>
+              <p className="font-body-md text-[#D9C7B3] text-[16px] max-w-xl">
+                Navigate through our website to listen to past messages, connect with our community, and learn about our rich history.
+              </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+
+          <div className="flex flex-col border-t border-white/10">
             {[
-              { icon: "church", title: "Sunday Liturgy", desc: "A time-honored rhythm of worship, reflection, and communion." },
-              { icon: "self_improvement", title: "Contemplative Prayer", desc: "Guided silence to quiet the mind and listen closely to what matters." },
-              { icon: "menu_book", title: "Theological Study", desc: "Rigorous exploration of sacred texts, history, and traditions." }
+              { title: "Sermons & Messages", desc: "Listen to past teachings and find spiritual nourishment for your daily walk.", href: "/sermons", number: "01" },
+              { title: "Ministries & Small Groups", desc: "Connect with others, grow in faith, and serve the community together.", href: "/ministries", number: "02" },
+              { title: "About Us & Our History", desc: "Learn about our roots, our beliefs, and the vision that guides us forward.", href: "/about", number: "03" }
             ].map((item, i) => (
-              <div key={i} className="bg-black/40 rounded-[24px] p-8 border border-white/5 shadow-2xl flex flex-col items-start hover:bg-black/50 transition-colors duration-300">
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6 border border-white/10">
-                  <span className="material-symbols-outlined text-[#CDAA63]">{item.icon}</span>
+              <Link 
+                key={i} 
+                href={item.href}
+                className="group relative flex flex-col md:flex-row md:items-center justify-between py-10 md:py-14 border-b border-white/10 hover:bg-white/[0.02] transition-colors duration-500 overflow-hidden"
+              >
+                {/* Subtle hover background sweep */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#CDAA63]/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out -translate-x-full group-hover:translate-x-0 pointer-events-none"></div>
+
+                {/* Number */}
+                <div className="text-[#CDAA63]/30 font-label-md text-xl md:text-2xl mb-4 md:mb-0 md:w-32 group-hover:text-[#CDAA63] transition-colors duration-500 font-light tracking-wider relative z-10">
+                  {item.number}
                 </div>
-                <h3 className="font-display-lg text-[22px] text-[#F4E7D3] mb-3 drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>{item.title}</h3>
-                <p className="font-body-md text-[#D9C7B3] text-[14px] leading-relaxed mb-6 flex-grow drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>{item.desc}</p>
-                <div className="mt-auto">
-                  <span className="material-symbols-outlined text-[#CDAA63]/50 group-hover:text-[#CDAA63] transition-colors">arrow_forward</span>
+                
+                {/* Text Content */}
+                <div className="flex-grow pr-8 relative z-10">
+                  <h3 className="font-display-lg text-[28px] md:text-[40px] text-[#F4E7D3] mb-3 group-hover:translate-x-4 group-hover:text-white transition-all duration-500 ease-out">
+                    {item.title}
+                  </h3>
+                  <p className="font-body-md text-[#D9C7B3] text-[16px] md:text-[18px] max-w-2xl group-hover:translate-x-4 transition-transform duration-500 delay-75 ease-out">
+                    {item.desc}
+                  </p>
                 </div>
-              </div>
+
+                {/* Arrow */}
+                <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out z-10">
+                  <div className="w-14 h-14 rounded-full border border-[#CDAA63]/50 flex items-center justify-center bg-black/40 backdrop-blur-sm group-hover:bg-[#CDAA63] group-hover:border-[#CDAA63]">
+                    <span className="material-symbols-outlined text-[#CDAA63] group-hover:text-black transition-colors text-2xl">arrow_forward</span>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
