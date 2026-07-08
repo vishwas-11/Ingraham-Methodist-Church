@@ -6,7 +6,9 @@ import TextType from "@/components/TextType";
 
 async function getDailyVerse() {
   try {
-    const res = await fetch("https://labs.bible.org/api/?passage=votd&type=json", {
+    // Generate a date string based on IST (Asia/Kolkata) to force a new fetch at midnight IST
+    const istDate = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+    const res = await fetch(`https://labs.bible.org/api/?passage=votd&type=json&_bust=${istDate}`, {
       next: { revalidate: 3600 }
     });
     if (!res.ok) return null;
