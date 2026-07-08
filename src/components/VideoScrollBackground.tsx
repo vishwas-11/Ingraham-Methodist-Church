@@ -110,7 +110,7 @@ export default function VideoScrollBackground() {
           <img
             src="/ingraham_logo_5.png"
             alt="Ingraham Logo Background"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-[70%_center] brightness-[0.65]"
           />
         </div>
       ) : (
