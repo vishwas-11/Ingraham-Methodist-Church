@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import VideoScrollBackground from "@/components/VideoScrollBackground";
 import Footer from "@/components/Footer";
-import TextType from "@/components/TextType";
+import DailyVerseClient from "@/components/DailyVerseClient";
 import { getUpcomingEvents } from "@/data/events";
 async function getDailyVerse() {
   try {
@@ -59,24 +59,7 @@ export default async function Home() {
           <div className="h-px w-full max-w-[400px] bg-[rgba(205,170,99,0.35)] mb-5"></div>
 
           {/* Daily Verse Section */}
-          <div className="mb-6 pl-5 md:pl-6 border-l-2 border-[#CDAA63]/30 bg-[#CDAA63]/[0.02] py-2 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-            <span className="block font-label-md tracking-[0.2em] uppercase text-[11px] text-[#CDAA63] mb-2">Daily Verse</span>
-            <blockquote className="font-playfair italic text-[#F4E7D3]/95 text-[18px] md:text-[20px] leading-relaxed mb-2 drop-shadow-sm min-h-[88px]">
-              <TextType 
-                as="span"
-                text={`"${dailyVerse.text.replace(/<[^>]*>?/gm, '').trim()}"`}
-                typingSpeed={20}
-                initialDelay={800}
-                loop={false}
-                showCursor={true}
-                cursorCharacter="|"
-                cursorClassName="text-[#CDAA63]/50 font-inter font-light"
-              />
-            </blockquote>
-            <cite className="font-label-md text-[13px] text-[#D9C7B3] tracking-wide not-italic uppercase opacity-80">
-              — {dailyVerse.bookname} {dailyVerse.chapter}:{dailyVerse.verse}
-            </cite>
-          </div>
+          <DailyVerseClient initialVerse={dailyVerse} />
 
           <div className="flex flex-wrap items-center gap-4">
             <Link href="/about" className="bg-[#651A2D] text-[#F4E7D3] px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-[#7A2338] transition-all duration-300 inline-flex items-center justify-center min-w-[160px] border border-transparent">
