@@ -87,8 +87,25 @@ export default function TopNavBar() {
 
         {/* Trailing Action */}
         <div className="flex items-center gap-4">
-          <Link href="/giving" className={`hidden md:inline-flex bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-label-md text-[13px] tracking-wide hover:bg-primary transition-all duration-300 shadow-ambient ${!scrolled && 'border border-surface/20'}`}>
-            Support Our Mission
+          <Link 
+            href="/giving" 
+            className="hidden md:inline-flex group relative overflow-hidden bg-[#3B0B14] px-6 py-2.5 rounded-full transition-all duration-300 items-center justify-center border border-[#5C1120]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_4px_14px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_6px_20px_rgba(0,0,0,0.4)] hover:border-[#731528]/80 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+          >
+            {/* Subtle Depth Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/[0.07] to-transparent pointer-events-none rounded-full"></div>
+
+            {/* Realistic Subtle Grain (No heavy contrast) */}
+            <div 
+              className="absolute inset-0 mix-blend-overlay opacity-[0.25] pointer-events-none rounded-full" 
+              style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
+            ></div>
+            
+            {/* Text with Refined Gold Polish */}
+            <div className="relative z-10 flex items-center justify-center">
+              <span className="font-playfair font-bold tracking-[0.06em] text-[14px] bg-gradient-to-r from-[#E8D6C0] via-[#FFF8E6] to-[#E8D6C0] bg-[length:200%_auto] group-hover:bg-[position:100%_center] bg-clip-text text-transparent transition-all duration-700 ease-out drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
+                Support Our Mission
+              </span>
+            </div>
           </Link>
           {/* Mobile Menu Button */}
           <button
@@ -137,8 +154,26 @@ export default function TopNavBar() {
               </Link>
             );
           })}
-          <Link href="/giving" onClick={() => setIsMobileMenuOpen(false)} className="mt-4 bg-primary-container text-on-primary px-6 py-3 rounded-full font-label-md text-center hover:bg-primary transition-all shadow-ambient">
-            Support Our Mission
+          <Link 
+            href="/giving" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className="mt-4 group relative overflow-hidden bg-[#3B0B14] px-6 py-3 rounded-full transition-all duration-300 flex items-center justify-center border border-[#5C1120]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_4px_14px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_6px_20px_rgba(0,0,0,0.4)] hover:border-[#731528]/80 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+          >
+            {/* Subtle Depth Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/[0.07] to-transparent pointer-events-none rounded-full"></div>
+
+            {/* Realistic Subtle Grain (No heavy contrast) */}
+            <div 
+              className="absolute inset-0 mix-blend-overlay opacity-[0.25] pointer-events-none rounded-full" 
+              style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
+            ></div>
+            
+            {/* Text with Refined Gold Polish */}
+            <div className="relative z-10 flex items-center justify-center">
+              <span className="font-playfair font-bold tracking-[0.06em] text-[15px] bg-gradient-to-r from-[#E8D6C0] via-[#FFF8E6] to-[#E8D6C0] bg-[length:200%_auto] group-hover:bg-[position:100%_center] bg-clip-text text-transparent transition-all duration-700 ease-out drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
+                Support Our Mission
+              </span>
+            </div>
           </Link>
         </div>
       </div>
