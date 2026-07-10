@@ -90,7 +90,7 @@ export default async function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 max-w-[900px] mx-auto">
             {getUpcomingEvents().slice(0, 2).map((event) => (
               <div key={event.id} className="bg-black/30 backdrop-blur-md rounded-[24px] border border-white/10 shadow-2xl overflow-hidden hover:bg-black/40 transition-colors duration-300 flex flex-col group">
                 <Link href={`/events/${event.slug}`} className="relative aspect-[16/9] w-full overflow-hidden block">
@@ -100,18 +100,18 @@ export default async function Home() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 </Link>
-                <div className="p-8 flex flex-col flex-grow">
+                <div className="p-6 md:p-8 flex flex-col flex-grow">
                   <div className="text-[#CDAA63] font-label-md text-sm mb-3 flex items-center gap-2">
                     <span className="material-symbols-outlined text-[16px]">calendar_month</span>
                     {event.date} • {event.time}
                   </div>
-                  <h3 className="font-display-lg text-[24px] text-[#F4E7D3] mb-4">
+                  <h3 className="font-display-lg text-[22px] md:text-[24px] text-[#F4E7D3] mb-4">
                     <Link href={`/events/${event.slug}`} className="hover:text-[#CDAA63] transition-colors">{event.title}</Link>
                   </h3>
                   <p className="font-body-md text-[#D9C7B3] text-[15px] leading-relaxed mb-6 flex-grow">
                     {event.shortDescription}
                   </p>
-                  <Link href={`/events/${event.slug}`} className="bg-white/5 border border-white/10 text-[#F4E7D3] px-6 py-2.5 rounded-full font-label-md text-[14px] hover:bg-white/10 transition-colors self-start inline-flex items-center gap-2">
+                  <Link href={`/events/${event.slug}`} className="bg-white/5 border border-white/10 text-[#F4E7D3] px-6 py-2.5 rounded-full font-label-md text-[13px] hover:bg-white/10 transition-colors self-start inline-flex items-center gap-2">
                     Learn More <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                   </Link>
                 </div>
