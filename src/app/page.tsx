@@ -62,8 +62,30 @@ export default async function Home() {
           <DailyVerseClient initialVerse={dailyVerse} />
 
           <div className="flex flex-wrap items-center gap-4">
-            <Link href="/about" className="bg-[#651A2D] text-[#F4E7D3] px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-[#7A2338] transition-all duration-300 inline-flex items-center justify-center min-w-[160px] border border-transparent">
-              Discover <span className="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+            <Link 
+              href="/about" 
+              className="group relative overflow-hidden bg-[#3B0B14] px-8 py-3.5 rounded-full transition-all duration-300 inline-flex items-center justify-center min-w-[160px] border border-[#5C1120]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_4px_14px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_6px_20px_rgba(0,0,0,0.4)] hover:border-[#731528]/80 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+            >
+              {/* Subtle Depth Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-b from-white/[0.07] to-transparent pointer-events-none rounded-full"></div>
+
+              {/* Realistic Subtle Grain (No heavy contrast) */}
+              <div 
+                className="absolute inset-0 mix-blend-overlay opacity-[0.25] pointer-events-none rounded-full" 
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
+              ></div>
+              
+              {/* Text with Refined Gold Polish */}
+              <div className="relative z-10 flex items-center justify-center gap-2.5">
+                <span className="font-playfair font-bold tracking-[0.06em] text-[16px] bg-gradient-to-r from-[#E8D6C0] via-[#FFF8E6] to-[#E8D6C0] bg-[length:200%_auto] group-hover:bg-[position:100%_center] bg-clip-text text-transparent transition-all duration-700 ease-out drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
+                  Discover
+                </span>
+                
+                {/* Elegant Custom Arrow */}
+                <svg className="w-[18px] h-[18px] text-[#F0D58C] drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)] group-hover:translate-x-1 transition-transform duration-500 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
             </Link>
             <Link href="/sermons" className="bg-transparent border border-[rgba(205,170,99,0.35)] text-[#D9C7B3] px-8 py-3.5 rounded-full font-label-md text-[14px] hover:bg-[rgba(205,170,99,0.05)] transition-all duration-300 inline-flex items-center justify-center min-w-[160px]">
               <span className="material-symbols-outlined mr-2 text-[18px]">play_circle</span> Watch Sermons
