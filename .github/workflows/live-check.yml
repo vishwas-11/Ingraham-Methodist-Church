@@ -9,4 +9,4 @@ jobs:
     steps:
       - name: Check Live Status
         run: |
-          curl -s -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" https://ingraham-methodist-church.vercel.app/
+          curl -s -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" https://ingraham-methodist-church.vercel.app/api/cron/check-live

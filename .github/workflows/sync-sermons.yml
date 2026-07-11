@@ -9,4 +9,4 @@ jobs:
     steps:
       - name: Sync Sermons
         run: |
-          curl -s -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" https://YOURDOMAIN.com/api/cron/sync-past-sermons
+          curl -s -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" https://ingraham-methodist-church.vercel.app/api/cron/sync-past-sermons
