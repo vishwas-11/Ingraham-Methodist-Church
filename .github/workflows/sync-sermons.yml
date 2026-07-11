@@ -1,0 +1,12 @@
+name: Sync Past Sermons
+on:
+  schedule:
+    - cron: '0 * * * *'     # sync past sermons hourly
+  workflow_dispatch: {}
+jobs:
+  sync-past-sermons:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync Sermons
+        run: |
+          curl -s -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" https://YOURDOMAIN.com/api/cron/sync-past-sermons

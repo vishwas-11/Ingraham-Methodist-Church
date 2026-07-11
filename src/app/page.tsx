@@ -3,6 +3,7 @@ import Link from "next/link";
 import VideoScrollBackground from "@/components/VideoScrollBackground";
 import Footer from "@/components/Footer";
 import DailyVerseClient from "@/components/DailyVerseClient";
+import LiveBadge from "@/components/LiveBadge";
 import { getUpcomingEvents } from "@/data/events";
 async function getDailyVerse() {
   try {
@@ -41,6 +42,8 @@ export default async function Home() {
         {/* Left-Aligned Text Content */}
         <div className="relative z-10 max-w-[540px] w-full mx-auto md:mx-0 md:ml-[110px] flex flex-col items-start text-left animate-fade-in-up mt-16 md:mt-20 px-4 md:px-0">
           
+          <LiveBadge />
+
           <div className="flex items-center gap-3 md:gap-4 mb-5 max-w-full opacity-95">
             <span className="w-[30px] md:w-[60px] shrink-0 h-px bg-gradient-to-l from-[#CDAA63] via-[#CDAA63]/50 to-transparent"></span>
             <span 
