@@ -147,57 +147,77 @@ export default async function Home() {
       </section>
 
       {/* Website Navigation Features Section */}
-      <section className="relative w-full py-24 px-margin-mobile md:px-margin-desktop z-10 border-t border-[#CDAA63]/10">
-        <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none z-0"></div>
-        <div className="max-w-[1200px] mx-auto reveal-on-scroll relative z-10">
-          <div className="mb-16 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h2 className="font-display-lg text-[32px] md:text-[48px] text-[#F4E7D3] leading-tight drop-shadow-sm mb-4" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
-                Explore <span className="font-playfair italic font-normal text-[#F4E7D3]/80">Ingraham</span>
+      <section className="relative w-full py-24 md:py-40 px-margin-mobile md:px-margin-desktop z-10 border-t border-[#CDAA63]/10 overflow-hidden">
+        <div className="absolute inset-0 bg-[rgba(15,5,5,0.7)] pointer-events-none z-0"></div>
+        <div className="max-w-[1400px] mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-start">
+            
+            {/* Left Column: Sticky Typography */}
+            <div className="lg:col-span-5 lg:sticky top-40 lg:pr-12 reveal-on-scroll">
+              <div className="inline-flex items-center gap-3 mb-8">
+                <span className="w-12 h-px bg-gradient-to-r from-[#CDAA63] to-transparent"></span>
+                <span className="font-label-md tracking-[0.2em] uppercase text-[11px] text-[#CDAA63]">Digital Campus</span>
+              </div>
+              <h2 className="font-display-lg text-[40px] md:text-[56px] lg:text-[72px] text-[#F4E7D3] leading-[1.05] drop-shadow-sm mb-8 tracking-tight" style={{ textShadow: '0 2px 24px rgba(0,0,0,.4)' }}>
+                Explore <br />
+                <span className="font-playfair italic font-normal text-[#CDAA63]">Ingraham</span>
               </h2>
-              <p className="font-body-md text-[#D9C7B3] text-[16px] max-w-xl">
-                Navigate through our website to listen to past messages, connect with our community, and learn about our rich history.
+              <p className="font-body-md text-[#D9C7B3] text-[16px] md:text-[18px] leading-relaxed max-w-md mb-8 lg:mb-0 opacity-90">
+                Navigate through our digital home to listen to past messages, connect deeply with our community, and explore the rich history that grounds us.
               </p>
             </div>
-          </div>
 
-          <div className="flex flex-col border-t border-white/10">
-            {[
-              { title: "Sermons & Messages", desc: "Listen to past teachings and find spiritual nourishment for your daily walk.", href: "/sermons", number: "01" },
-              { title: "Ministries & Small Groups", desc: "Connect with others, grow in faith, and serve the community together.", href: "/ministries", number: "02" },
-              { title: "About Us & Our History", desc: "Learn about our roots, our beliefs, and the vision that guides us forward.", href: "/about", number: "03" }
-            ].map((item, i) => (
-              <Link 
-                key={i} 
-                href={item.href}
-                className="group relative flex flex-col md:flex-row md:items-center justify-between py-10 md:py-14 border-b border-white/10 hover:bg-white/[0.02] transition-colors duration-500 overflow-hidden"
-              >
-                {/* Subtle hover background sweep */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#CDAA63]/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out -translate-x-full group-hover:translate-x-0 pointer-events-none"></div>
+            {/* Right Column: Double-Bezel Cards */}
+            <div className="lg:col-span-7 flex flex-col gap-6 md:gap-8 reveal-stagger-parent">
+              {[
+                { title: "Sermons & Messages", desc: "Listen to past teachings and find spiritual nourishment for your daily walk.", href: "/sermons", number: "01" },
+                { title: "Ministries & Small Groups", desc: "Connect with others, grow in faith, and serve the community together.", href: "/ministries", number: "02" },
+                { title: "About Us & Our History", desc: "Learn about our roots, our beliefs, and the vision that guides us forward.", href: "/about", number: "03" }
+              ].map((item, i) => (
+                <Link 
+                  key={i} 
+                  href={item.href}
+                  className="group block reveal-stagger-child"
+                >
+                  {/* Outer Shell (Double-Bezel) */}
+                  <div className="p-2 md:p-2.5 rounded-[2.5rem] bg-white/[0.02] border border-white/5 ring-1 ring-black/20 hover:bg-white/[0.04] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98]">
+                    
+                    {/* Inner Core */}
+                    <div className="relative rounded-[calc(2.5rem-8px)] md:rounded-[calc(2.5rem-10px)] bg-[rgba(10,3,3,0.6)] backdrop-blur-xl p-8 md:p-12 overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),0_8px_32px_rgba(0,0,0,0.3)] border border-white/[0.03]">
+                      
+                      {/* Inner ambient glow */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#CDAA63]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-out pointer-events-none"></div>
 
-                {/* Number */}
-                <div className="text-[#CDAA63]/30 font-label-md text-xl md:text-2xl mb-4 md:mb-0 md:w-32 group-hover:text-[#CDAA63] transition-colors duration-500 font-light tracking-wider relative z-10">
-                  {item.number}
-                </div>
-                
-                {/* Text Content */}
-                <div className="flex-grow pr-8 relative z-10">
-                  <h3 className="font-display-lg text-[28px] md:text-[40px] text-[#F4E7D3] mb-3 group-hover:translate-x-4 group-hover:text-white transition-all duration-500 ease-out">
-                    {item.title}
-                  </h3>
-                  <p className="font-body-md text-[#D9C7B3] text-[16px] md:text-[18px] max-w-2xl group-hover:translate-x-4 transition-transform duration-500 delay-75 ease-out">
-                    {item.desc}
-                  </p>
-                </div>
+                      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                        
+                        {/* Text Content */}
+                        <div className="flex-grow">
+                          <div className="text-[#CDAA63]/40 font-label-md text-[13px] tracking-[0.2em] mb-4 group-hover:text-[#CDAA63]/80 transition-colors duration-500">
+                            {item.number}
+                          </div>
+                          <h3 className="font-display-lg text-[28px] md:text-[36px] text-[#F4E7D3] mb-4 group-hover:text-white transition-colors duration-500">
+                            {item.title}
+                          </h3>
+                          <p className="font-body-md text-[#D9C7B3] text-[15px] md:text-[16px] leading-relaxed max-w-sm opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                            {item.desc}
+                          </p>
+                        </div>
 
-                {/* Arrow */}
-                <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out z-10">
-                  <div className="w-14 h-14 rounded-full border border-[#CDAA63]/50 flex items-center justify-center bg-black/40 backdrop-blur-sm group-hover:bg-[#CDAA63] group-hover:border-[#CDAA63]">
-                    <span className="material-symbols-outlined text-[#CDAA63] group-hover:text-black transition-colors text-2xl">arrow_forward</span>
+                        {/* Button-in-Button */}
+                        <div className="shrink-0 self-start md:self-center">
+                          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:bg-[#CDAA63] group-hover:border-[#CDAA63] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
+                            <span className="material-symbols-outlined text-[#F4E7D3] group-hover:text-[#190808] group-hover:translate-x-[2px] group-hover:-translate-y-[2px] group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] text-[22px]">
+                              arrow_outward
+                            </span>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>

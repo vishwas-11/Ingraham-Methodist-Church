@@ -96,6 +96,7 @@
   /* Prevent Flash of Unstyled Content (FOUC) before GSAP kicks in */
   .animate-fade-in-up { opacity: 0; will-change: transform, opacity; }
   .reveal-on-scroll { opacity: 0; will-change: transform, opacity; }
+  .reveal-stagger-child { opacity: 0; will-change: transform, opacity; }
   .animate-smooth-render { opacity: 0; will-change: transform, opacity, filter; }
 }
 

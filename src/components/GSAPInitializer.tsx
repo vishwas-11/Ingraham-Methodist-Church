@@ -65,6 +65,28 @@ export default function GSAPInitializer() {
       );
     });
 
+    // Staggered reveal for lists
+    gsap.utils.toArray('.reveal-stagger-parent').forEach((parent: any) => {
+      const children = parent.querySelectorAll('.reveal-stagger-child');
+      if (children.length > 0) {
+        gsap.fromTo(children,
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power2.out",
+            stagger: 0.15,
+            scrollTrigger: {
+              trigger: parent,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      }
+    });
+
     return () => {
       // Clean up triggers on route change to prevent memory leaks and duplication
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
