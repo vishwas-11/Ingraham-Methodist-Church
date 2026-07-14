@@ -110,7 +110,7 @@ export default function About() {
               </div>
               <div>
                 <h4 className="font-headline-sm text-headline-sm text-primary text-[20px] mb-2">Scriptural Integrity</h4>
-                <p className="font-body-md text-body-md text-on-surface-variant">We anchor our lives and teachings in the truth of God's Word, seeking wisdom and understanding through thoughtful study.</p>
+                <p className="font-body-md text-body-md text-on-surface-variant">We anchor our lives and teachings in the truth of God&apos;s Word, seeking wisdom and understanding through thoughtful study.</p>
               </div>
             </div>
             <div className="flex gap-4 p-6 bg-white/40 rounded-xl border border-warm-brown/20 hover:border-primary/40 transition-colors duration-300 reveal-on-scroll delay-200">
@@ -128,7 +128,7 @@ export default function About() {
               </div>
               <div>
                 <h4 className="font-headline-sm text-headline-sm text-primary text-[20px] mb-2">Compassionate Service</h4>
-                <p className="font-body-md text-body-md text-on-surface-variant">Following Christ's example, we actively serve our neighbors, locally and globally, advocating for justice and peace.</p>
+                <p className="font-body-md text-body-md text-on-surface-variant">Following Christ&apos;s example, we actively serve our neighbors, locally and globally, advocating for justice and peace.</p>
               </div>
             </div>
           </div>

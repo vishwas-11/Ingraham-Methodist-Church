@@ -1,71 +1,64 @@
 import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/utils/supabase/admin';
+import { createClient } from '@supabase/supabase-js';
 
-export const dynamic = 'force-dynamic';
+// Initialize Supabase admin client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
 export async function GET(request: Request) {
-  const authHeader = request.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
-
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  const apiKey = process.env.YOUTUBE_API_KEY;
-  const channelId = process.env.YOUTUBE_CHANNEL_ID;
-
-  if (!apiKey || !channelId) {
-    return NextResponse.json({ error: 'Missing YouTube credentials' }, { status: 500 });
-  }
-
-  // The uploads playlist ID is typically the channel ID with 'UC' replaced by 'UU'
-  const uploadsPlaylistId = process.env.YOUTUBE_UPLOADS_PLAYLIST_ID || channelId.replace(/^UC/, 'UU');
-
   try {
-    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=12&playlistId=${uploadsPlaylistId}&key=${apiKey}`;
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (!res.ok) {
-      console.error('YouTube API error:', data);
-      return NextResponse.json({ error: 'Failed to fetch from YouTube' }, { status: res.status });
+    // Verify cron secret
+    const url = new URL(request.url);
+    const secret = url.searchParams.get('secret') || request.headers.get('Authorization')?.split('Bearer ')[1];
+    const cronSecret = process.env.CRON_SECRET;
+    
+    if (cronSecret && secret !== cronSecret && process.env.NODE_ENV === 'production') {
+      return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    if (!data.items || data.items.length === 0) {
-      return NextResponse.json({ success: true, message: 'No videos found' });
+    const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+    const YOUTUBE_CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID;
+
+    if (!YOUTUBE_API_KEY || !YOUTUBE_CHANNEL_ID) {
+      return NextResponse.json({ error: 'Missing YouTube API credentials' }, { status: 500 });
     }
 
-    const sermonsToInsert = data.items.map((item: any) => {
-      const snippet = item.snippet;
-      return {
-        video_id: snippet.resourceId.videoId,
-        title: snippet.title,
-        // use maxres if available, fallback to high
-        thumbnail_url: snippet.thumbnails?.maxres?.url || snippet.thumbnails?.high?.url || snippet.thumbnails?.default?.url,
-        published_at: snippet.publishedAt,
-        video_url: `https://www.youtube.com/watch?v=${snippet.resourceId.videoId}`,
-      };
-    });
+    // Fetch past sermons from YouTube
+    const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YOUTUBE_CHANNEL_ID}&maxResults=10&order=date&type=video&key=${YOUTUBE_API_KEY}`;
+    const ytRes = await fetch(ytUrl, { next: { revalidate: 0 } });
+    const ytData = await ytRes.json();
 
-    // Upsert into Supabase
-    const { error } = await supabaseAdmin
-      .from('past_sermons')
-      .upsert(sermonsToInsert, { onConflict: 'video_id' });
+    const pastSermons: Record<string, unknown>[] = [];
 
-    if (error) {
-      console.error('Supabase upsert error:', error);
-      return NextResponse.json({ error: 'Failed to save sermons to database' }, { status: 500 });
+    if (ytRes.ok && ytData.items && ytData.items.length > 0) {
+      ytData.items.forEach((item: Record<string, unknown>) => {
+        const snippet = (item as any).snippet;
+        pastSermons.push({
+          video_id: snippet.resourceId?.videoId || (item as any).id?.videoId,
+          title: snippet.title,
+          thumbnail_url: snippet.thumbnails?.high?.url || snippet.thumbnails?.default?.url,
+          published_at: snippet.publishedAt,
+          video_url: `https://www.youtube.com/watch?v=${snippet.resourceId?.videoId || (item as any).id?.videoId}`,
+        });
+      });
     }
 
-    // Optionally: delete old sermons to keep the table small, but upsert limits it inherently if we don't care about old rows.
-    // If we want exactly the latest 12, we could delete where not in this list. But keeping historical is fine.
+    console.log(`Fetched ${pastSermons.length} past sermons from YouTube`);
 
-    return NextResponse.json({
-      success: true,
-      count: sermonsToInsert.length,
-    });
-  } catch (error: any) {
-    console.error('Sync sermons error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    if (pastSermons.length > 0) {
+      const { error: pastError } = await supabaseAdmin
+        .from('past_sermons')
+        .upsert(pastSermons, { onConflict: 'video_id' });
+
+      if (pastError) {
+        throw new Error(`Supabase upsert error: ${pastError.message}`);
+      }
+    }
+
+    return NextResponse.json({ success: true, count: pastSermons.length });
+  } catch (error: unknown) {
+    console.error('Sync sermons trigger error:', error);
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }

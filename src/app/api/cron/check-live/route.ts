@@ -1,121 +1,55 @@
 import { NextResponse } from 'next/server';
-import * as cheerio from 'cheerio';
-import { supabaseAdmin } from '@/utils/supabase/admin';
-import fetchNode from 'node-fetch';
-import { HttpsProxyAgent } from 'https-proxy-agent';
+import { createClient } from '@supabase/supabase-js';
 
-// Force dynamic so it doesn't get cached at build time
-export const dynamic = 'force-dynamic';
+// Initialize Supabase admin client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
 export async function GET(request: Request) {
-  const authHeader = request.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
-
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
+    // 1. Verify cron secret
+    const url = new URL(request.url);
+    const secret = url.searchParams.get('secret') || request.headers.get('Authorization')?.split('Bearer ')[1];
+    const cronSecret = process.env.CRON_SECRET;
+    
+    if (cronSecret && secret !== cronSecret && process.env.NODE_ENV === 'production') {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+    const YOUTUBE_CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID;
+
+    if (!YOUTUBE_API_KEY || !YOUTUBE_CHANNEL_ID) {
+      return NextResponse.json({ error: 'Missing YouTube API credentials' }, { status: 500 });
+    }
+
+    // Check YouTube for live streams
+    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YOUTUBE_CHANNEL_ID}&eventType=live&type=video&key=${YOUTUBE_API_KEY}`;
+    const ytRes = await fetch(searchUrl, { next: { revalidate: 0 } });
+    const ytData = await ytRes.json();
+
     let isLive = false;
-    let platform: string | null = null;
-    let videoId: string | null = null;
-    let embedUrl: string | null = null;
-    let title: string | null = null;
-    let thumbnailUrl: string | null = null;
+    let platform = null;
+    let videoId = null;
+    let embedUrl = null;
+    let title = null;
+    let thumbnailUrl = null;
 
-    // 1. Check Facebook
-    // FACEBOOK_PAGE_USERNAME might be a full URL or just the username
-    let fbBaseUrl = process.env.FACEBOOK_PAGE_USERNAME || '';
-    if (!fbBaseUrl.startsWith('http')) {
-      fbBaseUrl = `https://www.facebook.com/${fbBaseUrl}`;
-    }
-    // ensure no trailing slash
-    fbBaseUrl = fbBaseUrl.replace(/\/$/, '');
-    
-    const fbLiveUrl = `${fbBaseUrl}/live`;
-    
-    try {
-      const proxyPassword = process.env.APIFY_PROXY_PASSWORD;
-      // Using 'auto' group which selects a proxy dynamically from Apify datacenter or residential proxies
-      const agent = proxyPassword ? new HttpsProxyAgent(`http://auto:${proxyPassword}@proxy.apify.com:8000`) : undefined;
-
-      const fbRes = await fetchNode(fbLiveUrl, {
-        agent,
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-          'Accept-Language': 'en-US,en;q=0.9',
-        },
-      });
-      const fbHtml = await fbRes.text();
-      const $ = cheerio.load(fbHtml);
-
-      // Facebook often redirects to the video permalink when live.
-      // E.g. https://www.facebook.com/username/videos/123456789
-      const ogUrl = $('meta[property="og:url"]').attr('content') || fbRes.url;
-      const isFbVideo = ogUrl.includes('/videos/');
-      
-      // Some other indicators in case of no redirect:
-      const ogTitle = $('meta[property="og:title"]').attr('content') || '';
-      
-      // If the resulting page is a specific video, we assume they are live (or it's the latest video, 
-      // but /live specifically redirects to the currently live video if active).
-      // Note: Facebook scraping is notoriously unreliable without auth. We make a best-effort check.
-      if (isFbVideo && !ogTitle.toLowerCase().includes('not found')) {
-        isLive = true;
-        platform = 'facebook';
-        title = ogTitle;
-        thumbnailUrl = $('meta[property="og:image"]').attr('content') || null;
-        embedUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(ogUrl)}&show_text=false`;
-      }
-    } catch (fbError) {
-      console.error('Facebook check failed:', fbError);
+    if (ytRes.ok && ytData.items && ytData.items.length > 0) {
+      const activeStream = ytData.items[0];
+      isLive = true;
+      platform = 'youtube';
+      videoId = activeStream.id.videoId;
+      embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      title = activeStream.snippet.title;
+      thumbnailUrl = activeStream.snippet.thumbnails?.high?.url || activeStream.snippet.thumbnails?.default?.url;
     }
 
-    // 2. Check YouTube if Facebook is not live
-    if (!isLive) {
-      const ytChannelId = process.env.YOUTUBE_CHANNEL_ID;
-      if (ytChannelId) {
-        const ytLiveUrl = `https://www.youtube.com/channel/${ytChannelId}/live`;
-        try {
-          const ytRes = await fetch(ytLiveUrl, {
-            headers: {
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-              'Accept-Language': 'en-US,en;q=0.9',
-            },
-          });
-          const ytHtml = await ytRes.text();
-          
-          if (ytHtml.includes('"isLiveNow":true') || ytHtml.includes('"isLive":true')) {
-            isLive = true;
-            platform = 'youtube';
-            
-            const $ = cheerio.load(ytHtml);
-            const canonicalUrl = $('link[rel="canonical"]').attr('href') || '';
-            const vIdMatch = canonicalUrl.match(/v=([^&]+)/);
-            if (vIdMatch) {
-              videoId = vIdMatch[1];
-            } else {
-              // fallback videoId extraction
-              const fallbackMatch = ytHtml.match(/"videoId":"([^"]+)"/);
-              if (fallbackMatch) videoId = fallbackMatch[1];
-            }
-            
-            title = $('meta[name="title"]').attr('content') || $('title').text().replace(' - YouTube', '');
-            
-            if (videoId) {
-              thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
-              embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            }
-          }
-        } catch (ytError) {
-          console.error('YouTube check failed:', ytError);
-        }
-      }
-    }
+    console.log('YouTube Live Status:', isLive ? `Live: ${title}` : 'Offline');
 
-    // 3. Update Supabase
-    // We only have one row with id = 1
-    const { error } = await supabaseAdmin
+    // Update Supabase
+    const { error: dbError } = await supabaseAdmin
       .from('live_status')
       .update({
         is_live: isLive,
@@ -128,19 +62,13 @@ export async function GET(request: Request) {
       })
       .eq('id', 1);
 
-    if (error) {
-      console.error('Failed to update live_status:', error);
-      return NextResponse.json({ error: 'Failed to update database' }, { status: 500 });
+    if (dbError) {
+      throw new Error(`Supabase update error: ${dbError.message}`);
     }
 
-    return NextResponse.json({
-      success: true,
-      isLive,
-      platform,
-      title,
-    });
-  } catch (error: any) {
-    console.error('Live check error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true, isLive, platform });
+  } catch (error: unknown) {
+    console.error('Check live error:', error);
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }

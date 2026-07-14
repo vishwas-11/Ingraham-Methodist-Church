@@ -108,36 +108,75 @@ export default function SermonsClient({
           </section>
         )}
 
-        {!liveStatus?.is_live && pastSermons.length > 0 && (
-          <section className="mb-stack-lg bg-surface-container-low rounded-xl overflow-hidden shadow-ambient border border-warm-brown/30 relative">
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="relative h-64 md:h-auto">
-                <img 
-                  className="absolute inset-0 w-full h-full object-cover" 
-                  alt={pastSermons[0].title}
-                  src={pastSermons[0].thumbnail_url}
-                />
-                <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/60 to-transparent flex items-center justify-center group">
-                  <button className="bg-white/20 group-hover:bg-white/30 backdrop-blur-sm text-white rounded-full p-4 transition-all duration-300 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-4xl">play_arrow</span>
-                  </button>
-                </a>
-              </div>
-              <div className="p-stack-md md:p-stack-lg flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-stack-sm">
-                  <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-md text-xs uppercase tracking-wider">Latest Sermon</span>
-                  <span className="text-on-surface-variant font-caption">{formatDate(pastSermons[0].published_at)}</span>
-                </div>
-                <h2 className="font-headline-md text-primary-container mb-unit">{pastSermons[0].title}</h2>
-                <div className="flex gap-4 items-center mt-stack-md">
-                  <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="bg-primary-container text-on-primary px-6 py-2 rounded-lg font-label-md hover:opacity-90 transition-opacity">
-                    Watch on YouTube
+        {!liveStatus?.is_live && (
+          <div className="mb-stack-lg bg-surface-container-low border border-warm-brown/20 rounded-xl p-6 text-center shadow-ambient">
+            <span className="material-symbols-outlined text-4xl text-[#CDAA63] mb-3 opacity-80">event</span>
+            <h3 className="font-headline-sm text-primary-container mb-2">We are currently not live.</h3>
+            <p className="font-body-md text-on-surface-variant">
+              Stay tuned for next Sunday in order to get the next live stream! In the meantime, catch up on our latest sermons below.
+            </p>
+          </div>
+        )}
+
+        <div className="flex flex-col lg:flex-row gap-gutter mb-stack-lg animate-fade-in-up">
+          {/* Facebook Feed Plugin */}
+          <div className="w-full lg:w-[340px] shrink-0 mx-auto lg:mx-0 flex justify-center">
+            <div className="bg-white rounded-xl overflow-hidden shadow-ambient border border-warm-brown/30 w-[340px] h-[500px]">
+              <iframe
+                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fingraham.methodist&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                width="340"
+                height="500"
+                style={{ border: 'none', overflow: 'hidden' }}
+                scrolling="no"
+                frameBorder="0"
+                allowFullScreen={true}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              ></iframe>
+            </div>
+          </div>
+
+          {/* Latest YouTube Sermon */}
+          {!liveStatus?.is_live && pastSermons.length > 0 ? (
+            <section className="flex-1 bg-surface-container-low rounded-xl overflow-hidden shadow-ambient border border-warm-brown/30 relative flex flex-col">
+              <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+                <div className="relative h-64 md:h-full">
+                  <img 
+                    className="absolute inset-0 w-full h-full object-cover" 
+                    alt={pastSermons[0].title}
+                    src={pastSermons[0].thumbnail_url}
+                  />
+                  <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/60 to-transparent flex items-center justify-center group">
+                    <button className="bg-white/20 group-hover:bg-white/30 backdrop-blur-sm text-white rounded-full p-4 transition-all duration-300 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-4xl">play_arrow</span>
+                    </button>
                   </a>
                 </div>
+                <div className="p-stack-md md:p-stack-lg flex flex-col justify-center h-full">
+                  <div className="flex items-center gap-2 mb-stack-sm">
+                    <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-md text-xs uppercase tracking-wider">Latest Sermon</span>
+                    <span className="text-on-surface-variant font-caption">{formatDate(pastSermons[0].published_at)}</span>
+                  </div>
+                  <h2 className="font-headline-md text-primary-container mb-unit">{pastSermons[0].title}</h2>
+                  <div className="flex gap-4 items-center mt-stack-md">
+                    <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="bg-primary-container text-on-primary px-6 py-2 rounded-lg font-label-md hover:opacity-90 transition-opacity">
+                      Watch Video
+                    </a>
+                  </div>
+                </div>
               </div>
+            </section>
+          ) : (
+            <div className="flex-1 flex items-center justify-center bg-surface-container-low border border-warm-brown/20 rounded-xl p-8 text-center shadow-ambient">
+               <div>
+                 <span className="material-symbols-outlined text-4xl text-[#CDAA63] mb-3 opacity-80">history_edu</span>
+                 <h3 className="font-headline-sm text-primary-container mb-2">No YouTube Sermons Yet</h3>
+                 <p className="font-body-md text-on-surface-variant">
+                   Our latest sermons will appear here once they are uploaded.
+                 </p>
+               </div>
             </div>
-          </section>
-        )}
+          )}
+        </div>
 
         {/* Sermon Grid */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter pb-24 md:pb-32 reveal-on-scroll">
@@ -169,7 +208,7 @@ export default function SermonsClient({
                <span className="material-symbols-outlined text-4xl text-[#CDAA63] mb-4 opacity-70">history_edu</span>
                <h3 className="font-headline-md text-primary-container mb-2">No Past Sermons Available</h3>
                <p className="font-body-md text-on-surface-variant max-w-md">
-                 Stay tuned for soul-fulfilling sermons every Sunday. We can't wait to share our next message with you!
+                 Stay tuned for soul-fulfilling sermons every Sunday. We can&apos;t wait to share our next message with you!
                </p>
              </div>
           )}
