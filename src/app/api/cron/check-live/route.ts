@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import * as cheerio from 'cheerio';
 import { supabaseAdmin } from '@/utils/supabase/admin';
+import fetchNode from 'node-fetch';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Force dynamic so it doesn't get cached at build time
 export const dynamic = 'force-dynamic';
@@ -33,7 +35,12 @@ export async function GET(request: Request) {
     const fbLiveUrl = `${fbBaseUrl}/live`;
     
     try {
-      const fbRes = await fetch(fbLiveUrl, {
+      const proxyPassword = process.env.APIFY_PROXY_PASSWORD;
+      // Using 'auto' group which selects a proxy dynamically from Apify datacenter or residential proxies
+      const agent = proxyPassword ? new HttpsProxyAgent(`http://auto:${proxyPassword}@proxy.apify.com:8000`) : undefined;
+
+      const fbRes = await fetchNode(fbLiveUrl, {
+        agent,
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
           'Accept-Language': 'en-US,en;q=0.9',
