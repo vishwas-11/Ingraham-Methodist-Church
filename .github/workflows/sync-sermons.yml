@@ -1,7 +1,7 @@
 name: Sync Past Sermons
 on:
   schedule:
-    - cron: '0 * * * *'     # sync past sermons hourly
+    - cron: '0 0 * * *'     # sync past sermons daily as a backup
   workflow_dispatch: {}
 jobs:
   sync-past-sermons:

@@ -29,18 +29,21 @@ export async function GET(request: Request) {
     const ytRes = await fetch(ytUrl, { next: { revalidate: 0 } });
     const ytData = await ytRes.json();
 
-    const pastSermons: Record<string, unknown>[] = [];
+    let pastSermons: Record<string, unknown>[] = [];
 
-    if (ytRes.ok && ytData.items && ytData.items.length > 0) {
-      ytData.items.forEach((item: Record<string, unknown>) => {
-        const snippet = (item as any).snippet;
-        pastSermons.push({
-          video_id: snippet.resourceId?.videoId || (item as any).id?.videoId,
+    if (ytRes.ok && ytData.items && Array.isArray(ytData.items)) {
+      pastSermons = ytData.items.map((item: Record<string, unknown>) => {
+        const idObj = item.id as Record<string, string>;
+        const snippet = item.snippet as Record<string, unknown>;
+        const thumbnails = snippet.thumbnails as Record<string, Record<string, string>>;
+        
+        return {
+          video_id: idObj.videoId,
           title: snippet.title,
-          thumbnail_url: snippet.thumbnails?.high?.url || snippet.thumbnails?.default?.url,
+          thumbnail_url: thumbnails.high?.url || thumbnails.default?.url,
           published_at: snippet.publishedAt,
-          video_url: `https://www.youtube.com/watch?v=${snippet.resourceId?.videoId || (item as any).id?.videoId}`,
-        });
+          video_url: `https://www.youtube.com/watch?v=${idObj.videoId}`,
+        };
       });
     }
 
