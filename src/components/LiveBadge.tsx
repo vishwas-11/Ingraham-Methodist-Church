@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
+import Link from 'next/link';
 
 export default function LiveBadge() {
   const [isLive, setIsLive] = useState(false);
@@ -34,7 +35,8 @@ export default function LiveBadge() {
           filter: 'id=eq.1',
         },
         (payload) => {
-          setIsLive((payload.new as any).is_live);
+          const newData = payload.new as Record<string, unknown>;
+          setIsLive(Boolean(newData.is_live));
         }
       )
       .subscribe();
@@ -47,12 +49,12 @@ export default function LiveBadge() {
   if (!isLive) return null;
 
   return (
-    <a href="/sermons" className="inline-flex items-center gap-2 bg-red-600/90 text-white px-4 py-1.5 rounded-full font-label-md hover:bg-red-500 transition-colors shadow-lg animate-pulse-glow cursor-pointer mb-6 border border-red-400">
+    <Link href="/sermons" className="inline-flex items-center gap-2 bg-red-600/90 text-white px-4 py-1.5 rounded-full font-label-md hover:bg-red-500 transition-colors shadow-lg animate-pulse-glow cursor-pointer mb-6 border border-red-400">
       <span className="relative flex h-2.5 w-2.5">
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
       </span>
-      <span>WE'RE LIVE</span>
-    </a>
+      <span>WE&apos;RE LIVE</span>
+    </Link>
   );
 }
