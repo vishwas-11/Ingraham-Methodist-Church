@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/check-live",
+      "schedule": "30 4 * * 0"
+    },
+    {
+      "path": "/api/cron/sync-past-sermons",
+      "schedule": "30 8 * * 0"
+    }
+  ]
+}

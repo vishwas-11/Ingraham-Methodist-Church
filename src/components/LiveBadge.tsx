@@ -13,12 +13,17 @@ export default function LiveBadge() {
     const fetchStatus = async () => {
       const { data } = await supabase
         .from('live_status')
-        .select('is_live')
+        .select('is_live, last_checked')
         .eq('id', 1)
         .single();
         
       if (data) {
-        setIsLive(data.is_live);
+        if (data.is_live && data.last_checked) {
+          const hoursSinceCheck = (Date.now() - new Date(data.last_checked).getTime()) / (1000 * 60 * 60);
+          setIsLive(hoursSinceCheck < 4);
+        } else {
+          setIsLive(Boolean(data.is_live));
+        }
       }
     };
     fetchStatus();
@@ -36,7 +41,12 @@ export default function LiveBadge() {
         },
         (payload) => {
           const newData = payload.new as Record<string, unknown>;
-          setIsLive(Boolean(newData.is_live));
+          if (newData.is_live && newData.last_checked) {
+            const hoursSinceCheck = (Date.now() - new Date(newData.last_checked as string).getTime()) / (1000 * 60 * 60);
+            setIsLive(hoursSinceCheck < 4);
+          } else {
+            setIsLive(Boolean(newData.is_live));
+          }
         }
       )
       .subscribe();
