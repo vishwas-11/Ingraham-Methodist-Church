@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/check-live",
-      "schedule": "0 4 * * 0"
+      "schedule": "30 3 * * 0"
     },
     {
       "path": "/api/cron/sync-past-sermons",

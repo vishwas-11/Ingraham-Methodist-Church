@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { autoRenewYouTubeSubscription } from '@/utils/youtube-sync';
 
 // Initialize Supabase admin client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -44,6 +45,31 @@ export async function GET(request: Request) {
       embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
       title = activeStream.snippet.title;
       thumbnailUrl = activeStream.snippet.thumbnails?.high?.url || activeStream.snippet.thumbnails?.default?.url;
+
+      // Fetch video details for accurate stream start date
+      try {
+        const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,liveStreamingDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`;
+        const detailsRes = await fetch(detailsUrl, { next: { revalidate: 0 } });
+        const detailsData = await detailsRes.json();
+        let publishedAt = activeStream.snippet.publishedAt;
+
+        if (detailsRes.ok && detailsData.items && detailsData.items.length > 0) {
+          const liveDetails = detailsData.items[0].liveStreamingDetails;
+          publishedAt = liveDetails?.actualStartTime || liveDetails?.scheduledStartTime || publishedAt;
+        }
+
+        await supabaseAdmin
+          .from('past_sermons')
+          .upsert({
+            video_id: videoId,
+            title,
+            thumbnail_url: thumbnailUrl,
+            published_at: publishedAt,
+            video_url: `https://www.youtube.com/watch?v=${videoId}`,
+          }, { onConflict: 'video_id' });
+      } catch (err) {
+        console.error('Failed to sync live stream into past_sermons:', err);
+      }
     }
 
     console.log('YouTube Live Status:', isLive ? `Live: ${title}` : 'Offline');
@@ -65,6 +91,9 @@ export async function GET(request: Request) {
     if (dbError) {
       throw new Error(`Supabase update error: ${dbError.message}`);
     }
+
+    // Auto-renew YouTube Webhook subscription
+    await autoRenewYouTubeSubscription();
 
     return NextResponse.json({ success: true, isLive, platform });
   } catch (error: unknown) {

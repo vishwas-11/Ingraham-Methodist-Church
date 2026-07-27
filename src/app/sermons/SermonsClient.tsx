@@ -57,7 +57,9 @@ export default function SermonsClient({
   }, [supabase]);
 
   const formatDate = (isoString: string) => {
+    if (!isoString) return '';
     return new Date(isoString).toLocaleDateString('en-US', {
+      timeZone: 'Asia/Kolkata',
       month: 'long',
       day: 'numeric',
       year: 'numeric',

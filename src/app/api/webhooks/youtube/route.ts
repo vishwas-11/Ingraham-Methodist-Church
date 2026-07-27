@@ -93,16 +93,21 @@ export async function POST(request: Request) {
 
       // 2. Add to Past Sermons if it's NOT upcoming (i.e. it's live or completed)
       if (!isUpcoming) {
+        const liveStreamingDetails = video.liveStreamingDetails;
+        const actualPublishedAt = liveStreamingDetails?.actualStartTime 
+          || liveStreamingDetails?.scheduledStartTime 
+          || snippet.publishedAt;
+
         await supabaseAdmin
           .from('past_sermons')
           .upsert({
             video_id: videoId,
             title: snippet.title,
             thumbnail_url: thumbnailUrl,
-            published_at: snippet.publishedAt,
+            published_at: actualPublishedAt,
             video_url: videoUrl,
           }, { onConflict: 'video_id' });
-        console.log(`Upserted ${videoId} to past_sermons.`);
+        console.log(`Upserted ${videoId} to past_sermons with date ${actualPublishedAt}.`);
       }
     }
 
