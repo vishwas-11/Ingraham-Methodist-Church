@@ -67,32 +67,32 @@ export default function SermonsClient({
   };
 
   const isCurrentlyLive = () => {
-    if (!liveStatus?.is_live) return false;
-    if (liveStatus.last_checked) {
-      const hoursSinceCheck = (Date.now() - new Date(liveStatus.last_checked).getTime()) / (1000 * 60 * 60);
-      return hoursSinceCheck < 4;
-    }
-    return true;
+    return Boolean(liveStatus?.is_live && liveStatus?.embed_url);
   };
 
   return (
     <>
       {/* Hero Section */}
-      <section className="relative w-full h-[400px] flex items-center justify-center -mt-[72px] bg-[#4A0F1A] overflow-hidden">
-        {/* Subtle Spatial Glows on top of Maroon */}
-        <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none"></div>
-        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-[#CDAA63]/10 blur-[120px] rounded-full mix-blend-screen pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#f3e7d3] to-transparent z-10 pointer-events-none"></div>
-        
-        <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-16">
+      <section className="relative w-full h-[614px] min-h-[400px] flex items-center justify-center -mt-[72px]">
+        <div className="absolute inset-0 z-0 bg-[#4A0F1A]">
+          <div 
+            className="bg-cover bg-center w-full h-full opacity-40 mix-blend-luminosity" 
+            style={{ backgroundImage: "url('/sermons_demo.jpeg')" }}
+          ></div>
+          {/* Dark Overlay instead of light gradient */}
+          <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none"></div>
+          {/* Bottom fade to match page background */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f3e7d3] to-transparent"></div>
+        </div>
+        <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-24">
           <div className="flex flex-col items-center mb-6 w-full">
             <span className="text-[#CDAA63] font-label-md tracking-[0.2em] uppercase text-[12px] md:text-[13px] mb-3" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>Teachings & Series</span>
             <div className="h-px w-32 bg-[rgba(205,170,99,0.35)]"></div>
           </div>
-          <h1 className="font-display-lg text-[48px] md:text-[72px] leading-[1.05] text-[#F4E7D3] mb-6 animate-fade-in-up" style={{ textShadow: '0 4px 16px rgba(0,0,0,.3)' }}>
+          <h1 className="font-display-lg text-[48px] md:text-[72px] leading-[1.05] text-[#F4E7D3] mb-6 animate-fade-in-up" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
             Sermon Archive
           </h1>
-          <p className="font-body-lg text-[#D9C7B3] max-w-2xl mx-auto animate-smooth-render" style={{ textShadow: '0 2px 8px rgba(0,0,0,.3)' }}>
+          <p className="font-body-lg text-[#D9C7B3] max-w-2xl mx-auto animate-smooth-render" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
             Explore past teachings and find spiritual nourishment. Watch, listen, or read our weekly messages.
           </p>
         </div>

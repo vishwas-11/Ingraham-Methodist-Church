@@ -5,6 +5,53 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
 /**
+ * Pinned special event videos that must NEVER be pruned or deleted.
+ */
+export const PINNED_VIDEO_IDS = [
+  'rpkZTkKgxIY', // Christmas Nativity Play - Ingraham Methodist Church
+  'Y0PkEdIJ4rs', // Ingraham methodist church (Cantata Service) 2025
+  'xTB8dUJVu-I', // मां की अहमियत - Worship Team
+  '5sgD1SsmAEw', // Easter Play 2025 by Worship Team
+];
+
+/**
+ * Prunes unpinned sermons so that total count in past_sermons table never exceeds 10.
+ * The 4 special event pinned videos are NEVER deleted.
+ */
+export async function prunePastSermons() {
+  try {
+    const { data: allSermons, error } = await supabaseAdmin
+      .from('past_sermons')
+      .select('id, video_id, published_at')
+      .order('published_at', { ascending: false });
+
+    if (error || !allSermons) return;
+
+    if (allSermons.length > 10) {
+      const unpinned = allSermons.filter(s => !PINNED_VIDEO_IDS.includes(s.video_id));
+      const pinned = allSermons.filter(s => PINNED_VIDEO_IDS.includes(s.video_id));
+
+      const maxUnpinnedAllowed = Math.max(0, 10 - pinned.length);
+
+      if (unpinned.length > maxUnpinnedAllowed) {
+        const toDelete = unpinned.slice(maxUnpinnedAllowed);
+        const idsToDelete = toDelete.map(s => s.id);
+
+        if (idsToDelete.length > 0) {
+          await supabaseAdmin
+            .from('past_sermons')
+            .delete()
+            .in('id', idsToDelete);
+          console.log(`[Auto-Prune] Pruned ${idsToDelete.length} old unpinned sermons from database.`);
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Error pruning old sermons:', err);
+  }
+}
+
+/**
  * Auto-renews the YouTube PubSubHubbub subscription so webhooks never expire.
  */
 export async function autoRenewYouTubeSubscription() {
@@ -38,7 +85,73 @@ export async function autoRenewYouTubeSubscription() {
 }
 
 /**
- * Syncs the latest 10 past sermons from YouTube API into Supabase with accurate live start dates.
+ * Verifies live broadcast status directly with YouTube API.
+ * If an active live broadcast is found, sets is_live = true.
+ * Otherwise, sets is_live = false in Supabase.
+ */
+export async function checkLiveStatusFromYouTube() {
+  const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+  const YOUTUBE_CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID;
+
+  if (!YOUTUBE_API_KEY || !YOUTUBE_CHANNEL_ID) return { isLive: false };
+
+  try {
+    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YOUTUBE_CHANNEL_ID}&eventType=live&type=video&key=${YOUTUBE_API_KEY}`;
+    const ytRes = await fetch(searchUrl, { next: { revalidate: 0 } });
+    const ytData = await ytRes.json();
+
+    let isLive = false;
+    let videoId: string | null = null;
+    let title: string | null = null;
+    let embedUrl: string | null = null;
+    let thumbnailUrl: string | null = null;
+
+    if (ytRes.ok && ytData.items && Array.isArray(ytData.items) && ytData.items.length > 0) {
+      const activeStream = ytData.items[0];
+      const foundId = activeStream.id?.videoId;
+
+      if (foundId) {
+        const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,liveStreamingDetails&id=${foundId}&key=${YOUTUBE_API_KEY}`;
+        const detailsRes = await fetch(detailsUrl, { next: { revalidate: 0 } });
+        const detailsData = await detailsRes.json();
+
+        if (detailsRes.ok && detailsData.items && detailsData.items.length > 0) {
+          const video = detailsData.items[0];
+          if (video.snippet?.liveBroadcastContent === 'live') {
+            isLive = true;
+            videoId = foundId;
+            title = video.snippet.title;
+            embedUrl = `https://www.youtube.com/embed/${foundId}?autoplay=1`;
+            thumbnailUrl = video.snippet.thumbnails?.high?.url || video.snippet.thumbnails?.default?.url;
+          }
+        }
+      }
+    }
+
+    // Update Supabase
+    await supabaseAdmin
+      .from('live_status')
+      .update({
+        is_live: isLive,
+        platform: isLive ? 'youtube' : null,
+        video_id: isLive ? videoId : null,
+        embed_url: isLive ? embedUrl : null,
+        title: isLive ? title : null,
+        thumbnail_url: isLive ? thumbnailUrl : null,
+        last_checked: new Date().toISOString(),
+      })
+      .eq('id', 1);
+
+    return { isLive, videoId, title };
+  } catch (err) {
+    console.error('Error verifying live status from YouTube:', err);
+    return { isLive: false };
+  }
+}
+
+/**
+ * Syncs the latest past sermons from YouTube API into Supabase with accurate live start dates,
+ * and automatically prunes unpinned sermons to maintain a strict max capacity of 10 sermons.
  */
 export async function syncPastSermonsFromYouTube() {
   const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
@@ -97,6 +210,9 @@ export async function syncPastSermonsFromYouTube() {
     await supabaseAdmin
       .from('past_sermons')
       .upsert(pastSermons, { onConflict: 'video_id' });
+
+    // Auto-prune old unpinned sermons to keep total DB records capped at 10
+    await prunePastSermons();
   }
 
   return { count: pastSermons.length, sermons: pastSermons };
