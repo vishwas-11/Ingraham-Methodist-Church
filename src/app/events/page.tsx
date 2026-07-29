@@ -44,9 +44,21 @@ export default function EventsPage() {
         {/* Upcoming Events */}
         {upcomingEvents.length > 0 && (
           <section className="mb-12">
-            <div className="flex items-center gap-4 mb-8">
-              <h2 className="font-headline-lg text-[32px] text-primary">Upcoming Events</h2>
-              <div className="h-px flex-grow bg-primary/20"></div>
+            {/* Header: UPCOMING EVENTS Title in Classic Old-Styled Serif & Clean Decorative Flourish Divider */}
+            <div className="text-center mb-14 flex flex-col items-center">
+              <h2 className="font-serif text-[38px] md:text-[56px] font-bold tracking-[0.18em] text-[#3B0B14] uppercase leading-none drop-shadow-sm">
+                UPCOMING EVENTS
+              </h2>
+              {/* Centered Decorative Horizontal Divider Line with Central Diamond Flourish */}
+              <div className="flex items-center justify-center gap-3 mt-4">
+                <div className="h-[1.5px] w-20 md:w-32 bg-gradient-to-r from-transparent via-[#3B0B14]/40 to-[#3B0B14]/80"></div>
+                <div className="flex items-center gap-1.5 text-[#3B0B14]">
+                  <span className="w-1 h-1 rounded-full bg-[#3B0B14]"></span>
+                  <span className="w-2.5 h-2.5 rotate-45 bg-[#3B0B14]"></span>
+                  <span className="w-1 h-1 rounded-full bg-[#3B0B14]"></span>
+                </div>
+                <div className="h-[1.5px] w-20 md:w-32 bg-gradient-to-l from-transparent via-[#3B0B14]/40 to-[#3B0B14]/80"></div>
+              </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
@@ -155,7 +167,7 @@ export default function EventsPage() {
             {/* 3 Bento Event Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-[1240px] mx-auto">
               {pastEvents.map((event) => (
-                <EventCard key={event.id} event={event} buttonText="Watch & Details" />
+                <EventCard key={event.id} event={event} buttonText="Discover More" />
               ))}
             </div>
           </div>

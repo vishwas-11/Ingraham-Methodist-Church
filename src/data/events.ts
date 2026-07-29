@@ -66,7 +66,7 @@ export const eventsData: ChurchEvent[] = [
     id: '4',
     slug: 'cantata-service-2025',
     title: 'Ingraham methodist church ( Cantata Service) 2025',
-    date: 'December 2025',
+    date: 'December 17, 2025',
     time: 'Cantata Service',
     location: 'Ingraham Methodist Church Sanctuary, Ghaziabad',
     shortDescription: 'Annual Cantata Service 2025 filled with musical worship, choir performances, and praises at Ingraham Methodist Church.',
