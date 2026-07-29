@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getUpcomingEvents, getPastEvents } from '@/data/events';
+import EventCard from '@/components/EventCard';
 
 export const metadata = {
   title: 'Events | Ingraham Methodist Church',
@@ -50,31 +51,7 @@ export default function EventsPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               {upcomingEvents.map((event) => (
-                <div key={event.id} className="bg-primary text-white rounded-[24px] border border-primary/10 shadow-ambient overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col group relative">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 pointer-events-none z-10"></div>
-                  <div className="relative aspect-[16/9] w-full overflow-hidden z-0">
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                  </div>
-                  <div className="p-8 flex flex-col flex-grow relative z-20 -mt-32">
-                    <div className="text-[#CDAA63] font-label-md text-sm mb-3 flex items-center gap-2 drop-shadow-md">
-                      <span className="material-symbols-outlined text-[16px]">calendar_month</span>
-                      {event.date} • {event.time}
-                    </div>
-                    <h3 className="font-display-lg text-[28px] text-[#F4E7D3] mb-4 drop-shadow-md">
-                      <Link href={`/events/${event.slug}`} className="hover:text-[#CDAA63] transition-colors">{event.title}</Link>
-                    </h3>
-                    <p className="font-body-md text-[#D9C7B3] text-[15px] leading-relaxed mb-6 flex-grow drop-shadow-md">
-                      {event.shortDescription}
-                    </p>
-                    <Link href={`/events/${event.slug}`} className="bg-[#CDAA63] text-[#190808] px-6 py-2.5 rounded-full font-label-md text-[14px] hover:bg-white transition-colors self-start inline-flex items-center gap-2 shadow-lg">
-                      View Details <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                    </Link>
-                  </div>
-                </div>
+                <EventCard key={event.id} event={event} buttonText="View Details" />
               ))}
             </div>
           </section>
@@ -83,32 +60,14 @@ export default function EventsPage() {
         {/* Past Events */}
         {pastEvents.length > 0 && (
           <section className="mb-16">
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-10">
               <h2 className="font-display-md text-[28px] text-[#4A0F1A]">Past Events</h2>
               <div className="h-px flex-grow bg-[#4A0F1A]/20"></div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {pastEvents.map((event) => (
-                <Link key={event.id} href={`/events/${event.slug}`} className="bg-[#190808] rounded-[20px] border border-warm-brown/20 hover:border-[#CDAA63]/50 shadow-lg overflow-hidden hover:bg-[#2a0e0e] transition-all duration-300 group flex flex-col relative">
-                  <div className="aspect-[3/2] w-full overflow-hidden relative z-0">
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#190808] via-transparent to-transparent opacity-90 pointer-events-none z-10"></div>
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 sepia-[30%] group-hover:sepia-0"
-                    />
-                    <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-md border border-white/10 text-[#F4E7D3] text-xs px-3 py-1.5 rounded-full font-label-sm z-20 shadow-lg">
-                      {event.date}
-                    </div>
-                  </div>
-                  <div className="p-6 flex flex-col flex-grow relative z-20">
-                    <h3 className="font-display-md text-[20px] text-[#F4E7D3] mb-3 group-hover:text-[#CDAA63] transition-colors">{event.title}</h3>
-                    <p className="font-body-sm text-[#D9C7B3] leading-relaxed line-clamp-3">
-                      {event.shortDescription}
-                    </p>
-                  </div>
-                </Link>
+                <EventCard key={event.id} event={event} buttonText="Watch & Details" />
               ))}
             </div>
           </section>

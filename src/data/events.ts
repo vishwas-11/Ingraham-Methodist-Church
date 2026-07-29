@@ -12,6 +12,8 @@ export interface ChurchEvent {
   image: string;
   status: EventStatus;
   gallery?: string[];
+  youtubeUrl?: string;
+  isInfoPending?: boolean;
 }
 
 export const eventsData: ChurchEvent[] = [
@@ -48,33 +50,45 @@ export const eventsData: ChurchEvent[] = [
   },
   {
     id: '3',
-    slug: 'easter-sunrise-service-2025',
-    title: 'Easter Sunrise Service 2025',
-    date: 'April 20, 2025',
-    time: '6:00 AM',
-    location: 'Church Grounds / Garden',
-    shortDescription: 'A beautiful morning celebrating the resurrection with our community as the sun rose over the church grounds.',
-    longDescription: 'This past Easter, we gathered in the early hours of the morning to celebrate the resurrection of Christ. The sunrise service was a deeply moving experience, beginning in the quiet dark and culminating in joyous worship as the sun illuminated the grounds. We shared a wonderful breakfast together afterward, marking a memorable start to a season of hope and renewal.',
-    image: '/images/events/easter_sunrise.png',
+    slug: 'christmas-nativity-play-2025',
+    title: 'Christmas Nativity Play - Ingraham Methodist Church, Ghaziabad',
+    date: 'December 28, 2025',
+    time: 'Special Service',
+    location: 'Ingraham Methodist Church Sanctuary, Ghaziabad',
+    shortDescription: 'A special Christmas Nativity Play presentation by Ingraham Methodist Church, Ghaziabad celebrating the birth of Jesus Christ.',
+    longDescription: 'Full information regarding this event will be published soon.',
+    image: 'https://img.youtube.com/vi/rpkZTkKgxIY/hqdefault.jpg',
     status: 'past',
-    gallery: [
-      '/images/events/easter_sunrise.png'
-    ]
+    youtubeUrl: 'https://www.youtube.com/watch?v=rpkZTkKgxIY',
+    isInfoPending: true
   },
   {
     id: '4',
-    slug: 'community-food-drive',
-    title: 'Annual Community Food Drive',
-    date: 'November 15, 2024',
-    time: '9:00 AM - 2:00 PM',
-    location: 'City Square Center',
-    shortDescription: 'Our congregation partnered with local shelters to provide over 500 meals to families in need during the holiday season.',
-    longDescription: 'In November, Ingraham Methodist Church organized its largest food drive to date. Dozens of volunteers from our congregation spent the weekend sorting, packing, and delivering essential food items to partner shelters across the city. The generosity of our community allowed us to provide meals for over 500 families, putting our faith into action and serving as the hands and feet of Christ in our neighborhood.',
-    image: '/images/events/community_food_drive.png',
+    slug: 'cantata-service-2025',
+    title: 'Ingraham methodist church ( Cantata Service) 2025',
+    date: 'December 2025',
+    time: 'Cantata Service',
+    location: 'Ingraham Methodist Church Sanctuary, Ghaziabad',
+    shortDescription: 'Annual Cantata Service 2025 filled with musical worship, choir performances, and praises at Ingraham Methodist Church.',
+    longDescription: 'Full information regarding this event will be published soon.',
+    image: 'https://img.youtube.com/vi/Y0PkEdIJ4rs/hqdefault.jpg',
     status: 'past',
-    gallery: [
-      '/images/events/community_food_drive.png'
-    ]
+    youtubeUrl: 'https://www.youtube.com/watch?v=Y0PkEdIJ4rs',
+    isInfoPending: true
+  },
+  {
+    id: '5',
+    slug: 'easter-play-2025',
+    title: 'Easter Play 2025 by Worship Team | IMC Ghaziabad | Jesus resurrection',
+    date: 'April 20, 2025',
+    time: 'Easter Service',
+    location: 'Ingraham Methodist Church, Ghaziabad',
+    shortDescription: 'Easter Play 2025 presented by the Worship Team at IMC Ghaziabad celebrating Jesus Christ’s resurrection.',
+    longDescription: 'Full information regarding this event will be published soon.',
+    image: 'https://img.youtube.com/vi/5sgD1SsmAEw/hqdefault.jpg',
+    status: 'past',
+    youtubeUrl: 'https://www.youtube.com/watch?v=5sgD1SsmAEw',
+    isInfoPending: true
   }
 ];
 
@@ -89,3 +103,4 @@ export function getUpcomingEvents(): ChurchEvent[] {
 export function getPastEvents(): ChurchEvent[] {
   return eventsData.filter(event => event.status === 'past');
 }
+
