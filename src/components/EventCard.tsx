@@ -6,13 +6,13 @@ interface EventCardProps {
   buttonText?: string;
 }
 
-export default function EventCard({ event, buttonText = 'View Details' }: EventCardProps) {
+export default function EventCard({ event, buttonText = 'Watch & Details' }: EventCardProps) {
   const isYoutube = Boolean(event.youtubeUrl || event.image.includes('youtube.com'));
 
   return (
-    <div className="bg-[#190808] rounded-[24px] border border-white/10 shadow-xl overflow-hidden hover:border-[#CDAA63]/40 transition-all duration-300 flex flex-col group relative">
-      {/* Top Image Section with Overlaid Date & Title */}
-      <Link href={`/events/${event.slug}`} className="relative aspect-[16/10] w-full overflow-hidden block bg-[#190808]">
+    <div className="bg-gradient-to-b from-[#3B0B14] via-[#2A050B] to-[#1A0307] rounded-[28px] border-2 border-[#CDAA63] shadow-[0_0_20px_rgba(205,170,99,0.25),0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden hover:border-[#F4E7D3] hover:shadow-[0_0_30px_rgba(205,170,99,0.4)] transition-all duration-300 flex flex-col group relative p-4">
+      {/* Top Media Section with Overlaid Central Golden Circular Play Button */}
+      <Link href={`/events/${event.slug}`} className="relative aspect-[4/3] w-full rounded-[20px] overflow-hidden block bg-[#1A0307]">
         <img
           src={event.image}
           alt={event.title}
@@ -20,40 +20,41 @@ export default function EventCard({ event, buttonText = 'View Details' }: EventC
             isYoutube ? 'scale-[1.34] group-hover:scale-[1.41]' : 'scale-100 group-hover:scale-105'
           }`}
         />
-        {/* Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#190808] via-[#190808]/70 to-transparent pointer-events-none"></div>
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors pointer-events-none"></div>
 
-        {/* Play Icon Badge for Video Events */}
-        {event.youtubeUrl && (
-          <div className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[#CDAA63] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-            <span className="material-symbols-outlined text-xl">play_arrow</span>
+        {/* Large Golden Circular Play Button */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          <div className="w-14 h-14 rounded-full bg-[#CDAA63] text-[#1A0307] flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+            <span className="material-symbols-outlined text-3xl ml-1 font-bold">play_arrow</span>
           </div>
-        )}
+        </div>
 
-        {/* Overlaid Metadata & Title */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
-          <div className="text-[#CDAA63] font-label-md text-[13px] md:text-[14px] mb-2 flex items-center gap-2 drop-shadow-md">
-            <span className="material-symbols-outlined text-[18px]">calendar_month</span>
+        {/* Stylized Gold Ribbon Date Badge Overlapping Boundary */}
+        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+          <div className="px-4 py-1 bg-gradient-to-r from-[#E5BF74] via-[#CDAA63] to-[#E5BF74] border border-[#8C6D46] text-[#2A050B] rounded-full font-mono text-[12px] font-bold flex items-center gap-1.5 shadow-[0_4px_14px_rgba(0,0,0,0.35)]">
+            <span className="material-symbols-outlined text-[15px] text-[#2A050B]">calendar_month</span>
             <span>{event.date}</span>
-            {event.time && event.time !== 'Special Service' && event.time !== 'Cantata Service' && event.time !== 'Easter Service' && (
-              <span>• {event.time}</span>
-            )}
           </div>
-          <h3 className="font-display-lg text-[22px] md:text-[26px] text-[#F4E7D3] leading-tight drop-shadow-md line-clamp-2">
-            {event.title}
-          </h3>
         </div>
       </Link>
 
-      {/* Bottom Content Area */}
-      <div className="p-6 pt-2 flex flex-col flex-grow bg-[#190808]">
-        <p className="font-body-md text-[#D9C7B3] text-[15px] leading-relaxed mb-6 flex-grow line-clamp-3">
+      {/* Bottom Content Section with Solid Deep Maroon Gradient Background */}
+      <div className="pt-8 px-2 pb-2 flex flex-col flex-grow">
+        {/* Event Title in Large White Elegant Serif Font */}
+        <h3 className="font-playfair text-[20px] font-bold text-[#F4E7D3] leading-[1.3] mb-3 group-hover:text-[#CDAA63] transition-colors line-clamp-2">
+          <Link href={`/events/${event.slug}`}>{event.title}</Link>
+        </h3>
+
+        {/* Description in Clean White/Warm Sans-Serif Font */}
+        <p className="font-sans text-[#E0D5C1] text-[14px] leading-relaxed mb-6 flex-grow line-clamp-3">
           {event.shortDescription}
         </p>
 
+        {/* Large Rounded Pill-Shaped Gold Button */}
         <Link
           href={`/events/${event.slug}`}
-          className="bg-[#CDAA63] text-[#190808] px-6 py-2.5 rounded-full font-label-md text-[14px] font-medium hover:bg-[#E5BF74] transition-colors self-start inline-flex items-center gap-2 shadow-md"
+          className="bg-[#CDAA63] text-[#1A0307] px-6 py-2.5 rounded-full font-label-md text-[14px] font-bold hover:bg-[#E5BF74] transition-all self-start inline-flex items-center gap-2 shadow-lg"
         >
           {buttonText} <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
         </Link>
