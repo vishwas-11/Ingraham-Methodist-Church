@@ -73,11 +73,29 @@ export default function Footer() {
             </p>
 
             <div className="flex gap-4 mt-2">
-              <a aria-label="Facebook" href="#" className="w-10 h-10 rounded-full bg-black/40 flex items-center justify-center text-[#D9C7B3]/60 hover:text-[#D9C7B3] transition-colors" style={{ boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.15)' }}>
-                <span className="material-symbols-outlined text-[18px]" style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.8)' }}>public</span>
+              <a
+                aria-label="Facebook"
+                href="https://www.facebook.com/ingraham.methodist"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-black/40 flex items-center justify-center text-[#D9C7B3]/60 hover:text-[#D9C7B3] transition-colors"
+                style={{ boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.15)' }}
+              >
+                <svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" style={{ filter: 'drop-shadow(0 -1px 1px rgba(0,0,0,0.8))' }}>
+                  <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                </svg>
               </a>
-              <a aria-label="YouTube" href="#" className="w-10 h-10 rounded-full bg-black/40 flex items-center justify-center text-[#D9C7B3]/60 hover:text-[#D9C7B3] transition-colors" style={{ boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.15)' }}>
-                <span className="material-symbols-outlined text-[18px]" style={{ textShadow: '0 -1px 1px rgba(0,0,0,0.8)' }}>play_circle</span>
+              <a
+                aria-label="YouTube"
+                href="https://www.youtube.com/@ingrahammethodistchurch"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-black/40 flex items-center justify-center text-[#D9C7B3]/60 hover:text-[#D9C7B3] transition-colors"
+                style={{ boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.15)' }}
+              >
+                <svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" style={{ filter: 'drop-shadow(0 -1px 1px rgba(0,0,0,0.8))' }}>
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
               </a>
             </div>
           </div>
