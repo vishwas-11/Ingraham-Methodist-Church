@@ -198,10 +198,59 @@ export default function SermonsClient({
           </div>
         )}
 
+        {/* Luminous Motion Design Styles */}
+        <style>{`
+          .luminous-sermon-card {
+            position: relative;
+            background: linear-gradient(185deg, #FFFDF9 0%, #FAF6F0 60%, #F5ECDD 100%);
+            border-radius: 1.25rem;
+            box-shadow: 
+              0 0 0 1px rgba(229, 216, 199, 0.9),
+              0 8px 24px -4px rgba(59, 11, 20, 0.09);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+
+          .luminous-sermon-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 
+              0 0 0 1px rgba(205, 170, 99, 0.6),
+              0 22px 48px -6px rgba(59, 11, 20, 0.22);
+          }
+
+          .luminous-slit-bar {
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(205, 170, 99, 0.2) 20%, rgba(205, 170, 99, 0.85) 50%, rgba(205, 170, 99, 0.2) 80%, transparent 100%);
+            opacity: 0.4;
+            transition: opacity 0.4s ease, filter 0.4s ease;
+          }
+
+          .luminous-sermon-card:hover .luminous-slit-bar {
+            opacity: 1;
+            filter: drop-shadow(0 0 8px rgba(205, 170, 99, 0.9));
+          }
+
+          .luminous-capsule-btn {
+            background: linear-gradient(135deg, #3B0B14 0%, #2A050B 100%);
+            border: 1px solid rgba(205, 170, 99, 0.4);
+            box-shadow: 
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
+              0 4px 14px rgba(59, 11, 20, 0.25);
+            transition: all 0.35s ease;
+          }
+
+          .luminous-sermon-card:hover .luminous-capsule-btn {
+            background: linear-gradient(135deg, #4A0F1A 0%, #3B0B14 100%);
+            border-color: rgba(205, 170, 99, 0.85);
+            box-shadow: 
+              inset 0 1px 2px 0 rgba(255, 255, 255, 0.45),
+              0 0 16px rgba(205, 170, 99, 0.4);
+          }
+        `}</style>
+
         <div className="flex flex-col lg:flex-row gap-gutter mb-stack-lg animate-fade-in-up">
           {/* Facebook Feed Plugin Container */}
           <div className="w-full lg:w-[340px] shrink-0 mx-auto lg:mx-0 flex justify-center">
-            <div className="bg-[#FFFDF9] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(59,11,20,0.12)] border border-[#E5D8C7] w-[340px] h-[500px]">
+            <div className="luminous-sermon-card overflow-hidden w-[340px] h-[500px]">
               <iframe
                 src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fingraham.methodist&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
                 width="340"
@@ -215,9 +264,9 @@ export default function SermonsClient({
             </div>
           </div>
 
-          {/* Featured / Latest YouTube Sermon Card */}
+          {/* Featured / Latest YouTube Sermon Card with Luminous Motion */}
           {!isCurrentlyLive() && pastSermons.length > 0 ? (
-            <section className="flex-1 bg-[#FFFDF9] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(59,11,20,0.12)] border border-[#E5D8C7] relative flex flex-col group hover:shadow-[0_18px_48px_rgba(59,11,20,0.2)] hover:-translate-y-1 transition-all duration-500">
+            <section className="flex-1 luminous-sermon-card overflow-hidden relative flex flex-col group">
               <div className="grid grid-cols-1 md:grid-cols-2 h-full">
                 <div className="relative h-64 md:h-full overflow-hidden bg-[#1A0307]">
                   <img 
@@ -225,31 +274,31 @@ export default function SermonsClient({
                     alt={pastSermons[0].title}
                     src={pastSermons[0].thumbnail_url}
                   />
-                  <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                    <button className="w-16 h-16 rounded-full bg-[#3B0B14]/85 backdrop-blur-md border border-[#CDAA63]/50 text-[#F4E7D3] flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform duration-500">
+                  <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 bg-black/25 group-hover:bg-black/35 transition-colors flex items-center justify-center">
+                    <button className="w-16 h-16 rounded-full bg-[#3B0B14]/90 backdrop-blur-md border border-[#CDAA63]/70 text-[#F4E7D3] flex items-center justify-center shadow-[0_0_24px_rgba(205,170,99,0.4),0_8px_32px_rgba(0,0,0,0.5)] group-hover:scale-110 group-hover:shadow-[0_0_36px_rgba(205,170,99,0.7)] transition-all duration-500">
                       <span className="material-symbols-outlined text-4xl translate-x-[2px]">play_arrow</span>
                     </button>
                   </a>
                 </div>
-                <div className="p-6 md:p-8 flex flex-col justify-center h-full bg-[#FFFDF9] relative z-10">
+                <div className="p-6 md:p-8 flex flex-col justify-center h-full relative z-10">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="bg-[#3B0B14] text-[#F4E7D3] px-3.5 py-1 rounded-full font-mono text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                    <span className="bg-[#3B0B14] text-[#F4E7D3] px-3.5 py-1 rounded-full font-mono text-[11px] font-bold uppercase tracking-wider shadow-sm border border-[#CDAA63]/30">
                       Latest Sermon
                     </span>
                     <span className="text-[#8C6D38] font-mono text-xs font-semibold">{formatDate(pastSermons[0].published_at)}</span>
                   </div>
                   <h2 className="font-serif text-[22px] md:text-[26px] font-bold text-[#3B0B14] mb-4 leading-snug group-hover:text-[#8C2434] transition-colors">{pastSermons[0].title}</h2>
                   <div className="flex gap-4 items-center mt-auto pt-4">
-                    <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2.5 bg-[#3B0B14] text-[#F4E7D3] px-6 py-3 rounded-xl font-label-md text-sm font-bold hover:bg-[#5A1220] transition-colors shadow-md">
+                    <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="luminous-capsule-btn inline-flex items-center justify-center gap-2.5 text-[#F4E7D3] px-6 py-3 rounded-xl font-label-md text-sm font-bold">
                       Watch Video
-                      <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                      <span className="material-symbols-outlined text-lg text-[#CDAA63]">arrow_forward</span>
                     </a>
                   </div>
                 </div>
               </div>
             </section>
           ) : (
-            <div className="flex-1 flex items-center justify-center bg-[#FFFDF9] border border-[#E5D8C7] rounded-2xl p-8 text-center shadow-[0_8px_30px_rgba(59,11,20,0.08)] relative overflow-hidden">
+            <div className="flex-1 flex items-center justify-center luminous-sermon-card p-8 text-center relative overflow-hidden">
                <div className="flex flex-col items-center relative z-10">
                  <div className="w-16 h-16 rounded-full bg-[#3B0B14]/10 flex items-center justify-center mb-4">
                    <span className="material-symbols-outlined text-3xl text-[#CDAA63]">history_edu</span>
@@ -263,36 +312,42 @@ export default function SermonsClient({
           )}
         </div>
 
-        {/* Sermon Grid Cards - Solid Kokonut UI Experience Card Style */}
+        {/* Sermon Grid Cards - Luminous Motion & Light Layer Design */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pb-12 reveal-on-scroll">
           {(!isCurrentlyLive() ? pastSermons.slice(1) : pastSermons).map((sermon) => (
-            <article key={sermon.id} className="group relative flex flex-col overflow-hidden rounded-2xl bg-[#FFFDF9] border border-[#E5D8C7] shadow-[0_6px_24px_rgba(59,11,20,0.08)] hover:shadow-[0_16px_44px_rgba(59,11,20,0.2)] hover:-translate-y-1.5 transition-all duration-500 z-10">
-              {/* Media Thumbnail with Rounded Top & Zoom Effect */}
+            <article key={sermon.id} className="group luminous-sermon-card flex flex-col overflow-hidden z-10">
+              {/* Media Thumbnail with Glassmorphism Play Badge & Light Slit */}
               <div 
-                className="relative aspect-[16/9] w-full group cursor-pointer overflow-hidden rounded-t-2xl z-10 bg-[#1A0307]" 
+                className="relative aspect-[16/9] w-full group cursor-pointer overflow-hidden rounded-t-[1.25rem] z-10 bg-[#1A0307]" 
                 onClick={() => window.open(sermon.video_url, '_blank')}
               >
                 <img 
-                  className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" 
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
                   alt={sermon.title}
                   src={sermon.thumbnail_url}
                 />
-                <div className="absolute inset-0 bg-black/15 group-hover:bg-black/25 transition-colors duration-300"></div>
-                <div className="absolute inset-0 z-20 flex items-center justify-center opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-full bg-[#3B0B14]/85 backdrop-blur-md border border-[#CDAA63]/50 flex items-center justify-center text-[#F4E7D3] shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                
+                {/* Luminous Play Icon Badge with Radiant Lumen Aura */}
+                <div className="absolute inset-0 z-20 flex items-center justify-center opacity-90 group-hover:opacity-100 transition-all duration-500">
+                  <div className="w-12 h-12 rounded-full bg-[#3B0B14]/90 backdrop-blur-md border border-[#CDAA63]/60 flex items-center justify-center text-[#F4E7D3] shadow-[0_0_20px_rgba(205,170,99,0.4),0_4px_16px_rgba(0,0,0,0.5)] group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(205,170,99,0.75)] transition-all duration-500">
                     <span className="material-symbols-outlined text-2xl translate-x-[1px]">play_arrow</span>
                   </div>
                 </div>
-                {/* Date Badge Pill on Image Top Left */}
+                
+                {/* Dark Luxury Gold Date Badge Pill on Image Top Left */}
                 <div className="absolute top-3 left-3 z-30">
-                  <span className="px-3 py-1 bg-[#FFFDF9]/95 backdrop-blur-sm border border-[#E5D8C7] text-[#3B0B14] rounded-md font-mono text-[11px] font-bold shadow-sm">
+                  <span className="px-3 py-1 bg-[#1A0307]/85 backdrop-blur-md border border-[#CDAA63]/40 text-[#F4E7D3] rounded-full font-mono text-[11px] font-bold shadow-md">
                     {formatDate(sermon.published_at)}
                   </span>
                 </div>
               </div>
 
-              {/* Solid Content Body */}
-              <div className="p-6 flex flex-col flex-grow bg-[#FFFDF9] rounded-b-2xl relative z-10">
+              {/* Luminous Slit Light Line under Thumbnail */}
+              <div className="luminous-slit-bar w-full z-20"></div>
+
+              {/* Content Body */}
+              <div className="p-6 flex flex-col flex-grow relative z-10">
                 <h3 className="font-serif text-[18px] md:text-[20px] font-bold text-[#3B0B14] mb-4 line-clamp-2 leading-snug group-hover:text-[#8C2434] transition-colors" title={sermon.title}>
                   {sermon.title}
                 </h3>
@@ -301,9 +356,9 @@ export default function SermonsClient({
                     href={sermon.video_url} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="inline-flex items-center gap-2 text-[#3B0B14] hover:text-[#8C2434] font-label-md text-xs uppercase tracking-wider font-bold transition-colors"
+                    className="luminous-capsule-btn px-4 py-2 rounded-lg inline-flex items-center gap-2 text-[#F4E7D3] font-label-md text-xs uppercase tracking-wider font-bold transition-all"
                   >
-                    <span className="material-symbols-outlined text-lg text-[#CDAA63]">play_circle</span>
+                    <span className="material-symbols-outlined text-base text-[#CDAA63]">play_circle</span>
                     Watch Sermon
                   </a>
                   <span className="text-[#8C6D38] font-mono text-[11px] font-semibold">YouTube</span>
@@ -313,7 +368,7 @@ export default function SermonsClient({
           ))}
           
           {pastSermons.length === 0 && (
-             <div className="col-span-full py-20 text-center flex flex-col items-center bg-[#FFFDF9] border border-[#E5D8C7] border-dashed rounded-3xl">
+             <div className="col-span-full py-20 text-center flex flex-col items-center luminous-sermon-card border-dashed">
                <div className="w-16 h-16 rounded-full bg-[#3B0B14]/10 flex items-center justify-center mb-4">
                  <span className="material-symbols-outlined text-3xl text-[#CDAA63]">history_edu</span>
                </div>
