@@ -81,8 +81,8 @@ export default function SermonsClient({
           ></div>
           {/* Dark Overlay instead of light gradient */}
           <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none"></div>
-          {/* Bottom fade to match page background */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f3e7d3] to-transparent"></div>
+          {/* Bottom Fade Gradient restricted to bottom 96px (h-24) */}
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#F6EEDA] via-[#F6EEDA]/50 to-transparent pointer-events-none"></div>
         </div>
         <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-24">
           <div className="flex flex-col items-center mb-6 w-full">
@@ -98,12 +98,76 @@ export default function SermonsClient({
         </div>
       </section>
 
-      <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop animate-fade-in-up mt-stack-lg pb-32">
-        
-        {/* Live Status Banner / Embed */}
+      {/* Unified Main Page Body with Single Parchment Background & Bottom Burgundy Wave Overlay */}
+      <section className="relative w-full pt-12 pb-28 bg-[#F6EEDA] overflow-hidden">
+        {/* Background Layer: Single Antique Parchment Texture + Soft Diffused Light + Bottom Burgundy Wave + Metallic Gold Border */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          {/* Diffused Soft Light & Antique Vignette spanning full page */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/60 via-[#F6EEDA]/80 to-[#E9DAC6]"></div>
+
+          {/* Continuous Antique Parchment Paper Texture Accent */}
+          <div
+            className="absolute inset-0 opacity-25 mix-blend-multiply"
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E")` }}
+          ></div>
+
+          {/* Sweeping Deep Burgundy Wave + Glowing Metallic Gold Strip at Bottom */}
+          <svg
+            className="absolute bottom-0 left-0 w-full h-[520px] md:h-[580px] lg:h-[640px]"
+            viewBox="0 0 1440 600"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              {/* Metallic Gold Gradient */}
+              <linearGradient id="goldMetallicStripSermons" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#B38728" />
+                <stop offset="20%" stopColor="#FBF5B7" />
+                <stop offset="50%" stopColor="#DAA520" />
+                <stop offset="80%" stopColor="#FBF5B7" />
+                <stop offset="100%" stopColor="#AA771C" />
+              </linearGradient>
+
+              {/* Soft Gold Glow Filter */}
+              <filter id="goldGlowEffectSermons" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="8" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+
+            {/* Deep Burgundy Wave Fill */}
+            <path
+              d="M 0 280 C 350 480, 850 200, 1440 340 L 1440 600 L 0 600 Z"
+              fill="#3B0B14"
+            />
+
+            {/* Glowing Ambient Outer Gold Aura */}
+            <path
+              d="M 0 280 C 350 480, 850 200, 1440 340"
+              fill="none"
+              stroke="#FBF5B7"
+              strokeWidth="14"
+              opacity="0.45"
+              filter="url(#goldGlowEffectSermons)"
+            />
+
+            {/* Prominent Glowing Golden Metallic Strip following exact top curve */}
+            <path
+              d="M 0 280 C 350 480, 850 200, 1440 340"
+              fill="none"
+              stroke="url(#goldMetallicStripSermons)"
+              strokeWidth="6"
+              strokeLinecap="round"
+            />
+          </svg>
+        </div>
+
+        {/* Content Elements Layer */}
+        <div className="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop animate-fade-in-up">
+          
+          {/* Live Status Banner / Embed */}
         {isCurrentlyLive() && liveStatus?.embed_url && (
-          <section className="mb-stack-lg border border-red-500/30 rounded-2xl overflow-hidden shadow-[0_16px_40px_rgba(220,38,38,0.15)] relative animate-pulse-glow group bg-[#3B0B14]">
-            <div className="bg-gradient-to-r from-red-900/60 via-red-600/80 to-red-900/60 backdrop-blur-md border-b border-white/10 text-white text-center py-2.5 font-headline-sm flex items-center justify-center gap-3 uppercase tracking-wider text-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
+          <section className="mb-stack-lg border-2 border-[#CDAA63] rounded-2xl overflow-hidden shadow-[0_16px_40px_rgba(59,11,20,0.3)] relative animate-pulse-glow group bg-[#3B0B14]">
+            <div className="bg-gradient-to-r from-[#4A0F1A] via-[#6B1426] to-[#4A0F1A] border-b border-white/10 text-[#F4E7D3] text-center py-3 font-headline-sm flex items-center justify-center gap-3 uppercase tracking-wider text-sm shadow-md">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"></span>
@@ -113,7 +177,7 @@ export default function SermonsClient({
             <div className="w-full aspect-video bg-black relative">
               <iframe
                 src={liveStatus.embed_url}
-                className="w-full h-full absolute inset-0 mix-blend-screen opacity-90 group-hover:opacity-100 transition-opacity duration-700"
+                className="w-full h-full absolute inset-0 mix-blend-screen opacity-95 group-hover:opacity-100 transition-opacity duration-700"
                 frameBorder="0"
                 allowFullScreen
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
@@ -123,22 +187,21 @@ export default function SermonsClient({
         )}
 
         {!isCurrentlyLive() && (
-          <div className="mb-stack-lg bg-surface-container-low/80 backdrop-blur-xl border border-warm-brown/20 rounded-2xl p-8 text-center shadow-ambient relative overflow-hidden flex flex-col items-center">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-10 pointer-events-none"></div>
-            <div className="w-16 h-16 rounded-full bg-warm-brown/10 flex items-center justify-center mb-4">
+          <div className="mb-stack-lg bg-[#FFFDF9] border border-[#E5D8C7] rounded-2xl p-8 text-center shadow-[0_8px_30px_rgba(59,11,20,0.08)] relative overflow-hidden flex flex-col items-center">
+            <div className="w-16 h-16 rounded-full bg-[#3B0B14]/10 flex items-center justify-center mb-4">
               <span className="material-symbols-outlined text-3xl text-[#CDAA63]">event</span>
             </div>
-            <h3 className="font-headline-sm text-primary-container mb-2">We are currently not live.</h3>
-            <p className="font-body-md text-on-surface-variant max-w-md mx-auto">
+            <h3 className="font-serif text-[22px] font-bold text-[#3B0B14] mb-2">We are currently not live.</h3>
+            <p className="font-sans text-[#5C4A38] text-[15px] max-w-md mx-auto leading-relaxed">
               Stay tuned for next Sunday in order to get the next live stream! In the meantime, catch up on our latest sermons below.
             </p>
           </div>
         )}
 
         <div className="flex flex-col lg:flex-row gap-gutter mb-stack-lg animate-fade-in-up">
-          {/* Facebook Feed Plugin */}
+          {/* Facebook Feed Plugin Container */}
           <div className="w-full lg:w-[340px] shrink-0 mx-auto lg:mx-0 flex justify-center">
-            <div className="bg-surface-container-low/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-ambient border border-warm-brown/30 w-[340px] h-[500px]">
+            <div className="bg-[#FFFDF9] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(59,11,20,0.12)] border border-[#E5D8C7] w-[340px] h-[500px]">
               <iframe
                 src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fingraham.methodist&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
                 width="340"
@@ -152,31 +215,32 @@ export default function SermonsClient({
             </div>
           </div>
 
-          {/* Latest YouTube Sermon */}
+          {/* Featured / Latest YouTube Sermon Card */}
           {!isCurrentlyLive() && pastSermons.length > 0 ? (
-            <section className="flex-1 bg-surface-container-low/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-ambient border border-warm-brown/30 relative flex flex-col group hover:shadow-[0_16px_48px_rgba(74,15,26,0.1)] transition-shadow duration-500">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-10 pointer-events-none"></div>
+            <section className="flex-1 bg-[#FFFDF9] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(59,11,20,0.12)] border border-[#E5D8C7] relative flex flex-col group hover:shadow-[0_18px_48px_rgba(59,11,20,0.2)] hover:-translate-y-1 transition-all duration-500">
               <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-                <div className="relative h-64 md:h-full overflow-hidden">
+                <div className="relative h-64 md:h-full overflow-hidden bg-[#1A0307]">
                   <img 
-                    className="absolute inset-0 w-full h-full object-cover scale-[1.02] group-hover:scale-100 transition-transform duration-700 ease-out" 
+                    className="absolute inset-0 w-full h-full object-cover scale-[1.02] group-hover:scale-105 transition-transform duration-700 ease-out" 
                     alt={pastSermons[0].title}
                     src={pastSermons[0].thumbnail_url}
                   />
-                  <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/50 to-transparent flex items-center justify-center">
-                    <button className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.3)] group-hover:scale-110 transition-transform duration-500">
+                  <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                    <button className="w-16 h-16 rounded-full bg-[#3B0B14]/85 backdrop-blur-md border border-[#CDAA63]/50 text-[#F4E7D3] flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform duration-500">
                       <span className="material-symbols-outlined text-4xl translate-x-[2px]">play_arrow</span>
                     </button>
                   </a>
                 </div>
-                <div className="p-stack-md md:p-stack-lg flex flex-col justify-center h-full relative z-10">
+                <div className="p-6 md:p-8 flex flex-col justify-center h-full bg-[#FFFDF9] relative z-10">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="bg-[#4A0F1A]/10 border border-[#4A0F1A]/20 text-[#4A0F1A] px-3 py-1 rounded-full font-label-md text-[10px] md:text-xs uppercase tracking-[0.15em] shadow-[inset_0_1px_1px_rgba(255,255,255,0.5)]">Latest Sermon</span>
-                    <span className="text-on-surface-variant font-mono text-[11px] md:text-xs tracking-wider">{formatDate(pastSermons[0].published_at)}</span>
+                    <span className="bg-[#3B0B14] text-[#F4E7D3] px-3.5 py-1 rounded-full font-mono text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                      Latest Sermon
+                    </span>
+                    <span className="text-[#8C6D38] font-mono text-xs font-semibold">{formatDate(pastSermons[0].published_at)}</span>
                   </div>
-                  <h2 className="font-headline-md text-primary-container mb-6 group-hover:text-[#4A0F1A] transition-colors">{pastSermons[0].title}</h2>
-                  <div className="flex gap-4 items-center mt-auto">
-                    <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#4A0F1A] text-[#F4E7D3] px-6 py-3 rounded-xl font-label-md hover:bg-[#3B0B14] transition-colors shadow-[0_4px_16px_rgba(74,15,26,0.3)] hover:shadow-[0_8px_24px_rgba(74,15,26,0.4)]">
+                  <h2 className="font-serif text-[22px] md:text-[26px] font-bold text-[#3B0B14] mb-4 leading-snug group-hover:text-[#8C2434] transition-colors">{pastSermons[0].title}</h2>
+                  <div className="flex gap-4 items-center mt-auto pt-4">
+                    <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2.5 bg-[#3B0B14] text-[#F4E7D3] px-6 py-3 rounded-xl font-label-md text-sm font-bold hover:bg-[#5A1220] transition-colors shadow-md">
                       Watch Video
                       <span className="material-symbols-outlined text-lg">arrow_forward</span>
                     </a>
@@ -185,14 +249,13 @@ export default function SermonsClient({
               </div>
             </section>
           ) : (
-            <div className="flex-1 flex items-center justify-center bg-surface-container-low/80 backdrop-blur-xl border border-warm-brown/20 rounded-2xl p-8 text-center shadow-ambient relative overflow-hidden">
-               <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-10 pointer-events-none"></div>
+            <div className="flex-1 flex items-center justify-center bg-[#FFFDF9] border border-[#E5D8C7] rounded-2xl p-8 text-center shadow-[0_8px_30px_rgba(59,11,20,0.08)] relative overflow-hidden">
                <div className="flex flex-col items-center relative z-10">
-                 <div className="w-16 h-16 rounded-full bg-warm-brown/10 flex items-center justify-center mb-4">
+                 <div className="w-16 h-16 rounded-full bg-[#3B0B14]/10 flex items-center justify-center mb-4">
                    <span className="material-symbols-outlined text-3xl text-[#CDAA63]">history_edu</span>
                  </div>
-                 <h3 className="font-headline-sm text-primary-container mb-2">No YouTube Sermons Yet</h3>
-                 <p className="font-body-md text-on-surface-variant max-w-md mx-auto">
+                 <h3 className="font-serif text-[22px] font-bold text-[#3B0B14] mb-2">No YouTube Sermons Yet</h3>
+                 <p className="font-sans text-[#5C4A38] text-[15px] max-w-md mx-auto">
                    Our latest sermons will appear here once they are uploaded.
                  </p>
                </div>
@@ -200,50 +263,69 @@ export default function SermonsClient({
           )}
         </div>
 
-        {/* Sermon Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter pb-12 reveal-on-scroll">
+        {/* Sermon Grid Cards - Solid Kokonut UI Experience Card Style */}
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pb-12 reveal-on-scroll">
           {(!isCurrentlyLive() ? pastSermons.slice(1) : pastSermons).map((sermon) => (
-            <article key={sermon.id} className="bg-surface-container-low/60 backdrop-blur-lg rounded-2xl overflow-hidden border border-warm-brown/20 hover:border-warm-brown/40 hover:shadow-[0_12px_40px_rgba(74,15,26,0.12)] transition-all duration-500 flex flex-col group hover:-translate-y-1 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-[0.05] pointer-events-none z-0"></div>
-              <div className="relative aspect-[16/9] w-full group cursor-pointer overflow-hidden z-10" onClick={() => window.open(sermon.video_url, '_blank')}>
+            <article key={sermon.id} className="group relative flex flex-col overflow-hidden rounded-2xl bg-[#FFFDF9] border border-[#E5D8C7] shadow-[0_6px_24px_rgba(59,11,20,0.08)] hover:shadow-[0_16px_44px_rgba(59,11,20,0.2)] hover:-translate-y-1.5 transition-all duration-500 z-10">
+              {/* Media Thumbnail with Rounded Top & Zoom Effect */}
+              <div 
+                className="relative aspect-[16/9] w-full group cursor-pointer overflow-hidden rounded-t-2xl z-10 bg-[#1A0307]" 
+                onClick={() => window.open(sermon.video_url, '_blank')}
+              >
                 <img 
-                  className="w-full h-full object-cover scale-[1.02] group-hover:scale-100 transition-transform duration-700 ease-out" 
+                  className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" 
                   alt={sermon.title}
                   src={sermon.thumbnail_url}
                 />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-500"></div>
-                <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
+                <div className="absolute inset-0 bg-black/15 group-hover:bg-black/25 transition-colors duration-300"></div>
+                <div className="absolute inset-0 z-20 flex items-center justify-center opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full bg-[#3B0B14]/85 backdrop-blur-md border border-[#CDAA63]/50 flex items-center justify-center text-[#F4E7D3] shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
                     <span className="material-symbols-outlined text-2xl translate-x-[1px]">play_arrow</span>
                   </div>
                 </div>
+                {/* Date Badge Pill on Image Top Left */}
+                <div className="absolute top-3 left-3 z-30">
+                  <span className="px-3 py-1 bg-[#FFFDF9]/95 backdrop-blur-sm border border-[#E5D8C7] text-[#3B0B14] rounded-md font-mono text-[11px] font-bold shadow-sm">
+                    {formatDate(sermon.published_at)}
+                  </span>
+                </div>
               </div>
-              <div className="p-6 flex flex-col flex-grow relative z-10">
-                <p className="font-mono text-[10px] text-on-surface-variant/70 uppercase tracking-widest mb-2">{formatDate(sermon.published_at)}</p>
-                <h3 className="font-headline-sm text-primary-container mb-4 line-clamp-2 leading-tight group-hover:text-[#4A0F1A] transition-colors" title={sermon.title}>{sermon.title}</h3>
-                <div className="flex justify-between items-center pt-4 border-t border-warm-brown/20 mt-auto">
-                  <a href={sermon.video_url} target="_blank" rel="noopener noreferrer" className="text-primary-container hover:text-[#4A0F1A] transition-colors flex items-center gap-1.5 font-label-md text-sm uppercase tracking-wide">
-                    <span className="material-symbols-outlined text-lg">play_circle</span>
-                    Watch
+
+              {/* Solid Content Body */}
+              <div className="p-6 flex flex-col flex-grow bg-[#FFFDF9] rounded-b-2xl relative z-10">
+                <h3 className="font-serif text-[18px] md:text-[20px] font-bold text-[#3B0B14] mb-4 line-clamp-2 leading-snug group-hover:text-[#8C2434] transition-colors" title={sermon.title}>
+                  {sermon.title}
+                </h3>
+                <div className="flex justify-between items-center pt-4 border-t border-[#E5D8C7]/80 mt-auto">
+                  <a 
+                    href={sermon.video_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-flex items-center gap-2 text-[#3B0B14] hover:text-[#8C2434] font-label-md text-xs uppercase tracking-wider font-bold transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-lg text-[#CDAA63]">play_circle</span>
+                    Watch Sermon
                   </a>
+                  <span className="text-[#8C6D38] font-mono text-[11px] font-semibold">YouTube</span>
                 </div>
               </div>
             </article>
           ))}
           
           {pastSermons.length === 0 && (
-             <div className="col-span-full py-20 text-center flex flex-col items-center bg-surface-container-low/40 border border-warm-brown/20 border-dashed rounded-3xl">
-               <div className="w-16 h-16 rounded-full bg-warm-brown/10 flex items-center justify-center mb-4">
-                 <span className="material-symbols-outlined text-3xl text-[#CDAA63]/70">history_edu</span>
+             <div className="col-span-full py-20 text-center flex flex-col items-center bg-[#FFFDF9] border border-[#E5D8C7] border-dashed rounded-3xl">
+               <div className="w-16 h-16 rounded-full bg-[#3B0B14]/10 flex items-center justify-center mb-4">
+                 <span className="material-symbols-outlined text-3xl text-[#CDAA63]">history_edu</span>
                </div>
-               <h3 className="font-headline-md text-primary-container mb-2">No Past Sermons Available</h3>
-               <p className="font-body-md text-on-surface-variant max-w-md">
+               <h3 className="font-serif text-[22px] font-bold text-[#3B0B14] mb-2">No Past Sermons Available</h3>
+               <p className="font-sans text-[#5C4A38] text-[15px] max-w-md">
                  Stay tuned for soul-fulfilling sermons every Sunday. We can't wait to share our next message with you!
                </p>
              </div>
           )}
         </section>
       </div>
+      </section>
     </>
   );
 }
