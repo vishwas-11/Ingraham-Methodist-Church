@@ -105,15 +105,24 @@ export default async function Home() {
         <div className="max-w-[1200px] mx-auto reveal-on-scroll relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <h2 className="font-display-lg text-[32px] md:text-[48px] text-[#F4E7D3] leading-tight drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
-                Church <span className="font-playfair italic font-normal text-[#F4E7D3]/80">Events</span>
+              <h2 className="font-display-lg text-[32px] md:text-[48px] font-bold text-[#F4E7D3] leading-tight" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.8)' }}>
+                Church <span className="font-playfair italic font-semibold text-[#F4E7D3]">Events</span>
               </h2>
-              <p className="font-body-md text-[#D9C7B3] text-[16px] mt-4 max-w-xl">
+              <p className="font-body-md text-[#F4E7D3] font-medium text-[16px] mt-4 max-w-xl animate-smooth-render" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.85)' }}>
                 Join us in our current and upcoming gatherings. Experience deep fellowship, spiritual growth, and vibrant community.
               </p>
             </div>
-            <Link href="/events" className="inline-flex items-center gap-2 text-[#CDAA63] font-label-md hover:opacity-70 transition-opacity border-b border-[#CDAA63]/30 pb-1 shrink-0">
-              Browse all events <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            <Link 
+              href="/events" 
+              className="group inline-flex items-center gap-2.5 font-label-md text-[16px] md:text-[18px] font-bold text-[#CDAA63] border-b border-[#CDAA63]/40 hover:border-[#FBF5B7] pb-1 shrink-0 transition-all duration-300"
+              style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.75))' }}
+            >
+              <span className="group-hover:bg-gradient-to-r group-hover:from-[#E5BF74] group-hover:via-[#FFF8E6] group-hover:to-[#CDAA63] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-500">
+                Browse all events
+              </span>
+              <span className="material-symbols-outlined text-[18px] text-[#CDAA63] group-hover:text-[#FFF8E6] group-hover:translate-x-1 transition-all duration-300">
+                arrow_forward
+              </span>
             </Link>
           </div>
 
