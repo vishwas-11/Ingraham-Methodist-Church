@@ -10,13 +10,13 @@ export default function Ministries() {
         
         <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-16">
           <div className="flex flex-col items-center mb-6 w-full">
-            <span className="text-[#CDAA63] font-label-md tracking-[0.2em] uppercase text-[12px] md:text-[13px] mb-3" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>Get Involved</span>
+            <span className="text-[#CDAA63] font-label-md tracking-[0.2em] uppercase text-[12px] md:text-[13px] mb-3" style={{ textShadow: '0 2px 14px rgba(0,0,0,0.7)' }}>Get Involved</span>
             <div className="h-px w-32 bg-[rgba(205,170,99,0.35)]"></div>
           </div>
-          <h1 className="font-display-lg text-[48px] md:text-[72px] leading-[1.05] text-[#F4E7D3] mb-6 animate-fade-in-up" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
+          <h1 className="font-display-lg text-[48px] md:text-[72px] leading-[1.05] font-bold text-[#F4E7D3] mb-6 animate-fade-in-up" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.8)' }}>
             Our Ministries
           </h1>
-          <p className="font-body-lg text-[#D9C7B3] max-w-2xl mx-auto animate-smooth-render" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
+          <p className="font-body-lg text-[#F4E7D3] font-medium max-w-2xl mx-auto animate-smooth-render" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.85)' }}>
             Find your place in our community. We offer a variety of ministries designed to foster spiritual growth, fellowship, and service for all ages.
           </p>
         </div>

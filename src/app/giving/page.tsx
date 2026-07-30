@@ -23,13 +23,13 @@ export default function OnlineGiving() {
         </div>
         <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-24">
           <div className="flex flex-col items-center mb-6 w-full">
-            <span className="text-[#CDAA63] font-label-md tracking-[0.2em] uppercase text-[12px] md:text-[13px] mb-3" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>Generosity</span>
+            <span className="text-[#CDAA63] font-label-md tracking-[0.2em] uppercase text-[12px] md:text-[13px] mb-3" style={{ textShadow: '0 2px 14px rgba(0,0,0,0.7)' }}>Generosity</span>
             <div className="h-px w-32 bg-[rgba(205,170,99,0.35)]"></div>
           </div>
-          <h1 className="font-display-lg text-[48px] md:text-[72px] leading-[1.05] text-[#F4E7D3] mb-6 animate-fade-in-up" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
+          <h1 className="font-display-lg text-[48px] md:text-[72px] leading-[1.05] font-bold text-[#F4E7D3] mb-6 animate-fade-in-up" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.8)' }}>
             Support Our Mission
           </h1>
-          <p className="font-body-lg text-[#D9C7B3] max-w-2xl mx-auto animate-fade-in-up delay-100" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
+          <p className="font-body-lg text-[#F4E7D3] font-medium max-w-2xl mx-auto animate-fade-in-up delay-100" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.85)' }}>
             Your generosity enables us to serve our community, maintain our historic sanctuary, and spread love and grace. Join us in making a lasting impact.
           </p>
           <div className="pt-8 flex items-center justify-center space-x-4 opacity-80 animate-fade-in-up delay-200">
