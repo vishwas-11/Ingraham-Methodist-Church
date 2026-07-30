@@ -5,7 +5,8 @@ import Footer from "@/components/Footer";
 import DailyVerseClient from "@/components/DailyVerseClient";
 import LiveBadge from "@/components/LiveBadge";
 import EventCard from "@/components/EventCard";
-import { getUpcomingEvents } from "@/data/events";
+import { eventsData } from "@/data/events";
+import UpcomingEventsCarousel from "@/components/UpcomingEventsCarousel";
 async function getDailyVerse() {
   try {
     // Generate a date string based on IST (Asia/Kolkata) to force a new fetch at midnight IST
@@ -105,10 +106,10 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
               <h2 className="font-display-lg text-[32px] md:text-[48px] text-[#F4E7D3] leading-tight drop-shadow-sm" style={{ textShadow: '0 2px 12px rgba(0,0,0,.22)' }}>
-                Upcoming <span className="font-playfair italic font-normal text-[#F4E7D3]/80">Events</span>
+                Church <span className="font-playfair italic font-normal text-[#F4E7D3]/80">Events</span>
               </h2>
               <p className="font-body-md text-[#D9C7B3] text-[16px] mt-4 max-w-xl">
-                Join us in our upcoming gatherings. Experience deep fellowship, spiritual growth, and community.
+                Join us in our current and upcoming gatherings. Experience deep fellowship, spiritual growth, and vibrant community.
               </p>
             </div>
             <Link href="/events" className="inline-flex items-center gap-2 text-[#CDAA63] font-label-md hover:opacity-70 transition-opacity border-b border-[#CDAA63]/30 pb-1 shrink-0">
@@ -116,11 +117,7 @@ export default async function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 max-w-[900px] mx-auto">
-            {getUpcomingEvents().slice(0, 2).map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
-          </div>
+          <UpcomingEventsCarousel events={eventsData} />
         </div>
       </section>
 
