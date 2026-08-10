@@ -71,18 +71,35 @@ export default function SermonsClient({
   };
 
   return (
-    <>
+    <div
+      className="relative w-full min-h-screen"
+      style={{
+        backgroundImage: "url('/paper_background.png')",
+        backgroundRepeat: "repeat-y",
+        backgroundSize: "100% auto",
+        backgroundPosition: "top center",
+      }}
+    >
       {/* Hero Section */}
       <section className="relative w-full h-[614px] min-h-[400px] flex items-center justify-center -mt-[72px]">
-        <div className="absolute inset-0 z-0 bg-[#4A0F1A]">
+        {/* 
+          Hero Background Photo & Burgundy Container:
+          Extends 200px below hero bounds (-bottom-36 to -bottom-48)
+          and uses a linear mask-image gradient to dissolve smoothly into transparent.
+          Reveals the root paper_background.png seamlessly with zero horizontal seam.
+        */}
+        <div
+          className="absolute inset-x-0 top-0 -bottom-36 md:-bottom-48 z-0 bg-[#4A0F1A] pointer-events-none"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 45%, rgba(0,0,0,0.8) 60%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.1) 90%, transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, black 0%, black 45%, rgba(0,0,0,0.8) 60%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.1) 90%, transparent 100%)',
+          }}
+        >
           <div 
             className="bg-cover bg-center w-full h-full opacity-40 mix-blend-luminosity" 
             style={{ backgroundImage: "url('/sermons_demo.jpeg')" }}
           ></div>
-          {/* Dark Overlay instead of light gradient */}
-          <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none"></div>
-          {/* Bottom Fade Gradient restricted to bottom 96px (h-24) */}
-          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#F6EEDA] via-[#F6EEDA]/50 to-transparent pointer-events-none"></div>
+          <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)]"></div>
         </div>
         <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto mt-24">
           <div className="flex flex-col items-center mb-6 w-full">
@@ -98,18 +115,12 @@ export default function SermonsClient({
         </div>
       </section>
 
-      {/* Unified Main Page Body with Single Parchment Background & Bottom Burgundy Wave Overlay */}
-      <section className="relative w-full pt-12 pb-28 bg-[#F6EEDA] overflow-hidden">
-        {/* Background Layer: Single Antique Parchment Texture + Soft Diffused Light + Bottom Burgundy Wave + Metallic Gold Border */}
+      {/* Main Page Body Section on Parchment Background */}
+      <section className="relative w-full pt-12 pb-28 overflow-hidden z-10">
+        {/* Background Layer: Soft Light Vignette + Bottom Burgundy Wave + Metallic Gold Border */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           {/* Diffused Soft Light & Antique Vignette spanning full page */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/60 via-[#F6EEDA]/80 to-[#E9DAC6]"></div>
-
-          {/* Continuous Antique Parchment Paper Texture Accent */}
-          <div
-            className="absolute inset-0 opacity-25 mix-blend-multiply"
-            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E")` }}
-          ></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/40 via-transparent to-[#E9DAC6]/30"></div>
 
           {/* Sweeping Deep Burgundy Wave + Glowing Metallic Gold Strip at Bottom */}
           <svg
@@ -381,6 +392,6 @@ export default function SermonsClient({
         </section>
       </div>
       </section>
-    </>
+    </div>
   );
 }
