@@ -100,9 +100,9 @@ export default function TopNavBar() {
               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
             ></div>
             
-            {/* Text with Refined Gold Polish */}
+            {/* Textured Embossed Text (Matching Ingraham Shalom Typography) */}
             <div className="relative z-10 flex items-center justify-center">
-              <span className="font-playfair font-bold tracking-[0.06em] text-[14px] bg-gradient-to-r from-[#E8D6C0] via-[#FFF8E6] to-[#E8D6C0] bg-[length:200%_auto] group-hover:bg-[position:100%_center] bg-clip-text text-transparent transition-all duration-700 ease-out drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
+              <span className="text-embossed-letterpress text-[14px] md:text-[15px] transition-all duration-300">
                 Support Our Mission
               </span>
             </div>
@@ -168,9 +168,9 @@ export default function TopNavBar() {
               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
             ></div>
             
-            {/* Text with Refined Gold Polish */}
+            {/* Textured Embossed Text (Matching Ingraham Shalom Typography) */}
             <div className="relative z-10 flex items-center justify-center">
-              <span className="font-playfair font-bold tracking-[0.06em] text-[15px] bg-gradient-to-r from-[#E8D6C0] via-[#FFF8E6] to-[#E8D6C0] bg-[length:200%_auto] group-hover:bg-[position:100%_center] bg-clip-text text-transparent transition-all duration-700 ease-out drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
+              <span className="text-embossed-letterpress text-[15px] transition-all duration-300">
                 Support Our Mission
               </span>
             </div>
