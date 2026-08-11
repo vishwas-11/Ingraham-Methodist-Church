@@ -7,14 +7,13 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "600"],
+  display: "swap",
 });
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  weight: ["600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
