@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
+import YouTubePlayer from '@/components/YouTubePlayer';
+import SermonCard from '@/components/SermonCard';
 
 type LiveStatus = {
   is_live: boolean;
@@ -124,7 +126,7 @@ export default function SermonsClient({
 
           {/* Sweeping Deep Burgundy Wave + Glowing Metallic Gold Strip at Bottom */}
           <svg
-            className="absolute bottom-0 left-0 w-full h-[520px] md:h-[580px] lg:h-[640px]"
+            className="absolute bottom-0 left-0 w-full h-[400px] md:h-[460px] lg:h-[500px]"
             viewBox="0 0 1440 600"
             preserveAspectRatio="none"
           >
@@ -147,13 +149,13 @@ export default function SermonsClient({
 
             {/* Deep Burgundy Wave Fill */}
             <path
-              d="M 0 280 C 350 480, 850 200, 1440 340 L 1440 600 L 0 600 Z"
+              d="M 0 350 C 350 480, 850 260, 1440 380 L 1440 600 L 0 600 Z"
               fill="#3B0B14"
             />
 
             {/* Glowing Ambient Outer Gold Aura */}
             <path
-              d="M 0 280 C 350 480, 850 200, 1440 340"
+              d="M 0 350 C 350 480, 850 260, 1440 380"
               fill="none"
               stroke="#FBF5B7"
               strokeWidth="14"
@@ -163,7 +165,7 @@ export default function SermonsClient({
 
             {/* Prominent Glowing Golden Metallic Strip following exact top curve */}
             <path
-              d="M 0 280 C 350 480, 850 200, 1440 340"
+              d="M 0 350 C 350 480, 850 260, 1440 380"
               fill="none"
               stroke="url(#goldMetallicStripSermons)"
               strokeWidth="6"
@@ -197,15 +199,29 @@ export default function SermonsClient({
           </section>
         )}
 
-        {!isCurrentlyLive() && (
-          <div className="mb-stack-lg bg-[#FFFDF9] border border-[#E5D8C7] rounded-2xl p-8 text-center shadow-[0_8px_30px_rgba(59,11,20,0.08)] relative overflow-hidden flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-[#3B0B14]/10 flex items-center justify-center mb-4">
-              <span className="material-symbols-outlined text-3xl text-[#CDAA63]">event</span>
+        {!isCurrentlyLive() && pastSermons.length > 0 && (
+          <section className="mb-stack-lg animate-fade-in-up">
+            <YouTubePlayer
+              videoId={pastSermons[0].video_id || pastSermons[0].video_url}
+              title={pastSermons[0].title}
+              publishedAt={pastSermons[0].published_at}
+              customThumbnail={pastSermons[0].thumbnail_url}
+              offlineStatusText="OFFLINE • CATCH UP ON OUR LATEST SERVICE"
+            />
+          </section>
+        )}
+
+        {!isCurrentlyLive() && pastSermons.length === 0 && (
+          <div className="mb-stack-lg flex items-center justify-center luminous-sermon-card p-10 text-center relative overflow-hidden">
+            <div className="flex flex-col items-center relative z-10">
+              <div className="w-16 h-16 rounded-full bg-[#3B0B14]/10 flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-3xl text-[#CDAA63]">history_edu</span>
+              </div>
+              <h3 className="font-serif text-[22px] font-bold text-[#3B0B14] mb-2">No YouTube Sermons Available Yet</h3>
+              <p className="font-sans text-[#5C4A38] text-[15px] max-w-md mx-auto">
+                Our latest sermons will appear here once they are uploaded to YouTube.
+              </p>
             </div>
-            <h3 className="font-serif text-[22px] font-bold text-[#3B0B14] mb-2">We are currently not live.</h3>
-            <p className="font-sans text-[#5C4A38] text-[15px] max-w-md mx-auto leading-relaxed">
-              Stay tuned for next Sunday in order to get the next live stream! In the meantime, catch up on our latest sermons below.
-            </p>
           </div>
         )}
 
@@ -258,124 +274,18 @@ export default function SermonsClient({
           }
         `}</style>
 
-        <div className="flex flex-col lg:flex-row gap-gutter mb-stack-lg animate-fade-in-up">
-          {/* Facebook Feed Plugin Container */}
-          <div className="w-full lg:w-[340px] shrink-0 mx-auto lg:mx-0 flex justify-center">
-            <div className="luminous-sermon-card overflow-hidden w-[340px] h-[500px]">
-              <iframe
-                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fingraham.methodist&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                width="340"
-                height="500"
-                style={{ border: 'none', overflow: 'hidden' }}
-                scrolling="no"
-                frameBorder="0"
-                allowFullScreen={true}
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-              ></iframe>
-            </div>
-          </div>
-
-          {/* Featured / Latest YouTube Sermon Card with Luminous Motion */}
-          {!isCurrentlyLive() && pastSermons.length > 0 ? (
-            <section className="flex-1 luminous-sermon-card overflow-hidden relative flex flex-col group">
-              <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-                <div className="relative h-64 md:h-full overflow-hidden bg-[#1A0307]">
-                  <img 
-                    className="absolute inset-0 w-full h-full object-cover scale-[1.02] group-hover:scale-105 transition-transform duration-700 ease-out" 
-                    alt={pastSermons[0].title}
-                    src={pastSermons[0].thumbnail_url}
-                  />
-                  <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 bg-black/25 group-hover:bg-black/35 transition-colors flex items-center justify-center">
-                    <button className="w-16 h-16 rounded-full bg-[#3B0B14]/90 backdrop-blur-md border border-[#CDAA63]/70 text-[#F4E7D3] flex items-center justify-center shadow-[0_0_24px_rgba(205,170,99,0.4),0_8px_32px_rgba(0,0,0,0.5)] group-hover:scale-110 group-hover:shadow-[0_0_36px_rgba(205,170,99,0.7)] transition-all duration-500">
-                      <span className="material-symbols-outlined text-4xl translate-x-[2px]">play_arrow</span>
-                    </button>
-                  </a>
-                </div>
-                <div className="p-6 md:p-8 flex flex-col justify-center h-full relative z-10">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="bg-[#3B0B14] text-[#F4E7D3] px-3.5 py-1 rounded-full font-mono text-[11px] font-bold uppercase tracking-wider shadow-sm border border-[#CDAA63]/30">
-                      Latest Sermon
-                    </span>
-                    <span className="text-[#8C6D38] font-mono text-xs font-semibold">{formatDate(pastSermons[0].published_at)}</span>
-                  </div>
-                  <h2 className="font-serif text-[22px] md:text-[26px] font-bold text-[#3B0B14] mb-4 leading-snug group-hover:text-[#8C2434] transition-colors">{pastSermons[0].title}</h2>
-                  <div className="flex gap-4 items-center mt-auto pt-4">
-                    <a href={pastSermons[0].video_url} target="_blank" rel="noopener noreferrer" className="luminous-capsule-btn inline-flex items-center justify-center gap-2.5 text-[#F4E7D3] px-6 py-3 rounded-xl font-label-md text-sm font-bold">
-                      Watch Video
-                      <span className="material-symbols-outlined text-lg text-[#CDAA63]">arrow_forward</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </section>
-          ) : (
-            <div className="flex-1 flex items-center justify-center luminous-sermon-card p-8 text-center relative overflow-hidden">
-               <div className="flex flex-col items-center relative z-10">
-                 <div className="w-16 h-16 rounded-full bg-[#3B0B14]/10 flex items-center justify-center mb-4">
-                   <span className="material-symbols-outlined text-3xl text-[#CDAA63]">history_edu</span>
-                 </div>
-                 <h3 className="font-serif text-[22px] font-bold text-[#3B0B14] mb-2">No YouTube Sermons Yet</h3>
-                 <p className="font-sans text-[#5C4A38] text-[15px] max-w-md mx-auto">
-                   Our latest sermons will appear here once they are uploaded.
-                 </p>
-               </div>
-            </div>
-          )}
-        </div>
-
-        {/* Sermon Grid Cards - Luminous Motion & Light Layer Design */}
+        {/* Sermon Grid Cards - Deep Burgundy Glassmorphic Design */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pb-12 reveal-on-scroll">
           {(!isCurrentlyLive() ? pastSermons.slice(1) : pastSermons).map((sermon) => (
-            <article key={sermon.id} className="group luminous-sermon-card flex flex-col overflow-hidden z-10">
-              {/* Media Thumbnail with Glassmorphism Play Badge & Light Slit */}
-              <div 
-                className="relative aspect-[16/9] w-full group cursor-pointer overflow-hidden rounded-t-[1.25rem] z-10 bg-[#1A0307]" 
-                onClick={() => window.open(sermon.video_url, '_blank')}
-              >
-                <img 
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
-                  alt={sermon.title}
-                  src={sermon.thumbnail_url}
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
-                
-                {/* Luminous Play Icon Badge with Radiant Lumen Aura */}
-                <div className="absolute inset-0 z-20 flex items-center justify-center opacity-90 group-hover:opacity-100 transition-all duration-500">
-                  <div className="w-12 h-12 rounded-full bg-[#3B0B14]/90 backdrop-blur-md border border-[#CDAA63]/60 flex items-center justify-center text-[#F4E7D3] shadow-[0_0_20px_rgba(205,170,99,0.4),0_4px_16px_rgba(0,0,0,0.5)] group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(205,170,99,0.75)] transition-all duration-500">
-                    <span className="material-symbols-outlined text-2xl translate-x-[1px]">play_arrow</span>
-                  </div>
-                </div>
-                
-                {/* Dark Luxury Gold Date Badge Pill on Image Top Left */}
-                <div className="absolute top-3 left-3 z-30">
-                  <span className="px-3 py-1 bg-[#1A0307]/85 backdrop-blur-md border border-[#CDAA63]/40 text-[#F4E7D3] rounded-full font-mono text-[11px] font-bold shadow-md">
-                    {formatDate(sermon.published_at)}
-                  </span>
-                </div>
-              </div>
-
-              {/* Luminous Slit Light Line under Thumbnail */}
-              <div className="luminous-slit-bar w-full z-20"></div>
-
-              {/* Content Body */}
-              <div className="p-6 flex flex-col flex-grow relative z-10">
-                <h3 className="font-serif text-[18px] md:text-[20px] font-bold text-[#3B0B14] mb-4 line-clamp-2 leading-snug group-hover:text-[#8C2434] transition-colors" title={sermon.title}>
-                  {sermon.title}
-                </h3>
-                <div className="flex justify-between items-center pt-4 border-t border-[#E5D8C7]/80 mt-auto">
-                  <a 
-                    href={sermon.video_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="luminous-capsule-btn px-4 py-2 rounded-lg inline-flex items-center gap-2 text-[#F4E7D3] font-label-md text-xs uppercase tracking-wider font-bold transition-all"
-                  >
-                    <span className="material-symbols-outlined text-base text-[#CDAA63]">play_circle</span>
-                    Watch Sermon
-                  </a>
-                  <span className="text-[#8C6D38] font-mono text-[11px] font-semibold">YouTube</span>
-                </div>
-              </div>
-            </article>
+            <SermonCard
+              key={sermon.id}
+              id={sermon.id}
+              videoId={sermon.video_id}
+              title={sermon.title}
+              thumbnailUrl={sermon.thumbnail_url}
+              publishedAt={sermon.published_at}
+              videoUrl={sermon.video_url}
+            />
           ))}
           
           {pastSermons.length === 0 && (
