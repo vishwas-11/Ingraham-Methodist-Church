@@ -13,7 +13,7 @@ export default function TopNavBar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 380);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -34,8 +34,8 @@ export default function TopNavBar() {
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled
-          ? 'bg-background/95 backdrop-blur-md shadow-sm border-b border-outline-variant/20 py-4'
-          : 'bg-transparent border-b border-transparent py-4 md:pt-[36px] md:pb-6'
+        ? 'bg-background/95 backdrop-blur-md shadow-sm border-b border-outline-variant/20 py-4'
+        : 'bg-transparent border-b border-transparent py-4 md:pt-[36px] md:pb-6'
         }`}
       id="top-nav"
     >
@@ -67,13 +67,12 @@ export default function TopNavBar() {
             const isActive = pathname === link.href;
             return (
               <div key={link.name} className="relative py-1 flex flex-col items-center">
-                <Link 
-                  href={link.href} 
-                  className={`transition-colors duration-300 font-label-md text-[13px] tracking-wide ${
-                    useDarkText 
-                      ? isActive ? 'text-on-surface' : 'text-on-surface-variant hover:text-on-surface' 
+                <Link
+                  href={link.href}
+                  className={`transition-colors duration-300 font-label-md text-[13px] tracking-wide ${useDarkText
+                      ? isActive ? 'text-on-surface' : 'text-on-surface-variant hover:text-on-surface'
                       : isActive ? 'text-surface' : 'text-surface/80 hover:text-surface'
-                  }`}
+                    }`}
                 >
                   {link.name}
                 </Link>
@@ -87,19 +86,19 @@ export default function TopNavBar() {
 
         {/* Trailing Action */}
         <div className="flex items-center gap-4">
-          <Link 
-            href="/giving" 
+          <Link
+            href="/giving"
             className="hidden md:inline-flex group relative overflow-hidden bg-[#3B0B14] px-6 py-2.5 rounded-full transition-all duration-300 items-center justify-center border border-[#5C1120]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_4px_14px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_6px_20px_rgba(0,0,0,0.4)] hover:border-[#731528]/80 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
           >
             {/* Subtle Depth Gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/[0.07] to-transparent pointer-events-none rounded-full"></div>
 
             {/* Realistic Subtle Grain (No heavy contrast) */}
-            <div 
-              className="absolute inset-0 mix-blend-overlay opacity-[0.25] pointer-events-none rounded-full" 
+            <div
+              className="absolute inset-0 mix-blend-overlay opacity-[0.25] pointer-events-none rounded-full"
               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
             ></div>
-            
+
             {/* Textured Embossed Text (Matching Ingraham Shalom Typography) */}
             <div className="relative z-10 flex items-center justify-center">
               <span className="text-embossed-letterpress text-[14px] md:text-[15px] transition-all duration-300">
@@ -137,13 +136,12 @@ export default function TopNavBar() {
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
-              <Link 
+              <Link
                 key={link.name}
-                href={link.href} 
-                onClick={() => setIsMobileMenuOpen(false)} 
-                className={`font-headline-sm text-[20px] transition-colors flex flex-col items-start ${
-                  isActive ? 'text-on-surface' : 'text-on-surface-variant hover:text-on-surface'
-                }`}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`font-headline-sm text-[20px] transition-colors flex flex-col items-start ${isActive ? 'text-on-surface' : 'text-on-surface-variant hover:text-on-surface'
+                  }`}
               >
                 <span className="relative">
                   {link.name}
@@ -154,20 +152,20 @@ export default function TopNavBar() {
               </Link>
             );
           })}
-          <Link 
-            href="/giving" 
-            onClick={() => setIsMobileMenuOpen(false)} 
+          <Link
+            href="/giving"
+            onClick={() => setIsMobileMenuOpen(false)}
             className="mt-4 group relative overflow-hidden bg-[#3B0B14] px-6 py-3 rounded-full transition-all duration-300 flex items-center justify-center border border-[#5C1120]/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_4px_14px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_6px_20px_rgba(0,0,0,0.4)] hover:border-[#731528]/80 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
           >
             {/* Subtle Depth Gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/[0.07] to-transparent pointer-events-none rounded-full"></div>
 
             {/* Realistic Subtle Grain (No heavy contrast) */}
-            <div 
-              className="absolute inset-0 mix-blend-overlay opacity-[0.25] pointer-events-none rounded-full" 
+            <div
+              className="absolute inset-0 mix-blend-overlay opacity-[0.25] pointer-events-none rounded-full"
               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
             ></div>
-            
+
             {/* Textured Embossed Text (Matching Ingraham Shalom Typography) */}
             <div className="relative z-10 flex items-center justify-center">
               <span className="text-embossed-letterpress text-[15px] transition-all duration-300">
