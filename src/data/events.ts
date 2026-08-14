@@ -11,6 +11,7 @@ export interface ChurchEvent {
   longDescription: string;
   image: string;
   status: EventStatus;
+  eventDate?: string;
   gallery?: string[];
   youtubeUrl?: string;
   isInfoPending?: boolean;
@@ -18,34 +19,19 @@ export interface ChurchEvent {
 
 export const eventsData: ChurchEvent[] = [
   {
-    id: '1',
-    slug: 'sunday-church-service',
-    title: 'Sunday Church Service',
-    date: 'Every Sunday',
-    time: '10:00 AM',
-    location: 'Main Sanctuary',
-    shortDescription: 'A time-honored rhythm of worship, reflection, and communion. Join us this Sunday to connect, reflect, and find peace in our sanctuary.',
-    longDescription: 'Our Sunday Liturgy is the heart of our community life. It is a time when we gather together to lift our voices in worship, hear the reading and preaching of the Word, and partake in communion. Whether you are a lifelong Methodist or exploring faith for the first time, you are welcome here. Expect a blend of traditional hymns and contemporary worship, a thoughtful message, and a warm community ready to receive you.',
-    image: '/images/events/sunday_worship.png',
+    id: 'celebrating-80th-independence-day-2026',
+    slug: 'celebrating-80th-independence-day',
+    title: 'Celebrating 80th Independence Day',
+    date: 'Sunday, August 16, 2026',
+    eventDate: '2026-08-16',
+    time: '9:00 AM',
+    location: 'Ingraham Methodist Church, MFF2+JVG, Hapur Rd, Sector 11, Raj Kunj, Raj Nagar, Ghaziabad, Uttar Pradesh 201002',
+    shortDescription: 'Join us as we celebrate India’s 80th Independence Day with heartfelt thanksgiving, honoring national freedom and the ultimate spiritual liberty we inherit in Christ.',
+    longDescription: 'As our nation marks 80 years of independence, Ingraham Methodist Church invites our congregation and community to gather in gratitude and joy. Scripture reminds us in Galatians 5:1, "It is for freedom that Christ has set us free," and in 2 Corinthians 3:17, "Where the Spirit of the Lord is, there is freedom." True independence is a precious gift—one that calls us to love our neighbors, serve our nation with righteousness, and walk in unity. Join us this Sunday, 16th August, for an uplifting service of worship, patriotic praise, heartfelt prayer for our nation, and warm fellowship as one family in Christ.',
+    image: '/independence_day_2026.jpeg',
     status: 'upcoming',
     gallery: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCV-UE0krJrh54dNNb42Z22zFUo4D2GilN7qkEHwsM-Eba9EMtTtkkdiw5W59rBuT3yd_4mOnE5K5rQA8Q25KYtd9vfbaFtBbUoQvuZRhrhceVXQaXpgCV9vPLvaoPS61XjoeeDud1UyxrjOdK10zlfsDZXlYx-KLI42RBVwfN8HMaWmoDg1eoil3Q-r1_zcD-yXC4Xe0IpeJugrtJiZ0harRojlT8LEFkHf30nYXRkLPY0OXvp6hO8',
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCbRrxkljqN2Gb4EXBKNh14i-ZEsx6QyN09OceFJXcw6iBmITbhIUAgP1xZxTJfBDd82FW-vVysV-Bd70gZFrMy4NTg9t2Q_mpZMTkm0dBoZMe_J2ipv3ZctBj0TYAm_5znM5fz-ZUyZnBEH4E78QWCb_fxEpVMhJrlSHnUveHhRBTQt05XmFICXi0HSLCwhbHYCnaSFM4Zzwy2E0T8COexE46qnl5o2PKtEqID1ETeAaeCV-BgKUy9'
-    ]
-  },
-  {
-    id: '2',
-    slug: 'youth-fellowship-seminar',
-    title: 'Youth Fellowship Seminar',
-    date: 'Next Friday',
-    time: '6:30 PM',
-    location: 'Fellowship Hall',
-    shortDescription: 'Engaging discussions, meaningful connections, and an environment optimized for growth. Come ready to ask questions and build community.',
-    longDescription: 'Our Youth Fellowship Seminar is a monthly gathering designed to empower and equip the next generation. We delve into relevant topics facing young adults today, providing a safe space for questions, doubts, and discovery. The evening includes a shared meal, a guest speaker or panel discussion, and plenty of time for small group interaction. Connect with peers who are also navigating faith, career, and relationships in a modern world.',
-    image: '/images/events/youth_seminar.png',
-    status: 'upcoming',
-    gallery: [
-      '/images/events/youth_seminar.png'
+      '/independence_day_2026.jpeg'
     ]
   },
   {
@@ -92,15 +78,28 @@ export const eventsData: ChurchEvent[] = [
   }
 ];
 
+export function getResolvedEventStatus(event: ChurchEvent): EventStatus {
+  if (event.eventDate) {
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+    if (today > event.eventDate) {
+      return 'past';
+    } else {
+      return 'upcoming';
+    }
+  }
+  return event.status;
+}
+
 export function getEventBySlug(slug: string): ChurchEvent | undefined {
   return eventsData.find(event => event.slug === slug);
 }
 
 export function getUpcomingEvents(): ChurchEvent[] {
-  return eventsData.filter(event => event.status === 'upcoming');
+  return eventsData.filter(event => getResolvedEventStatus(event) === 'upcoming');
 }
 
 export function getPastEvents(): ChurchEvent[] {
-  return eventsData.filter(event => event.status === 'past');
+  return eventsData.filter(event => getResolvedEventStatus(event) === 'past');
 }
+
 

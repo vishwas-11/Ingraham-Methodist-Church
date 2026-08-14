@@ -63,12 +63,12 @@ export default function UpcomingEventsCarousel({ events }: UpcomingEventsCarouse
         grabCursor={true}
         centeredSlides={true}
         slidesPerView="auto"
-        loop={true}
-        autoplay={{
+        loop={events.length > 1}
+        autoplay={events.length > 1 ? {
           delay: 3500,
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
-        }}
+        } : false}
         coverflowEffect={{
           rotate: 35,
           stretch: 0,
@@ -93,14 +93,16 @@ export default function UpcomingEventsCarousel({ events }: UpcomingEventsCarouse
         ))}
 
         {/* Custom Navigation Controls */}
-        <div className="hidden md:flex items-center justify-between absolute top-1/2 -translate-y-1/2 -left-2 -right-2 z-30 pointer-events-none">
-          <button aria-label="Previous Slide" className="swiper-button-prev-custom pointer-events-auto w-11 h-11 rounded-full bg-[#3B0B14]/90 backdrop-blur-md border border-[#CDAA63]/40 text-[#F4E7D3] flex items-center justify-center shadow-lg hover:bg-[#5A1220] transition-colors">
-            <span className="material-symbols-outlined text-2xl">chevron_left</span>
-          </button>
-          <button aria-label="Next Slide" className="swiper-button-next-custom pointer-events-auto w-11 h-11 rounded-full bg-[#3B0B14]/90 backdrop-blur-md border border-[#CDAA63]/40 text-[#F4E7D3] flex items-center justify-center shadow-lg hover:bg-[#5A1220] transition-colors">
-            <span className="material-symbols-outlined text-2xl">chevron_right</span>
-          </button>
-        </div>
+        {events.length > 1 && (
+          <div className="hidden md:flex items-center justify-between absolute top-1/2 -translate-y-1/2 -left-2 -right-2 z-30 pointer-events-none">
+            <button aria-label="Previous Slide" className="swiper-button-prev-custom pointer-events-auto w-11 h-11 rounded-full bg-[#3B0B14]/90 backdrop-blur-md border border-[#CDAA63]/40 text-[#F4E7D3] flex items-center justify-center shadow-lg hover:bg-[#5A1220] transition-colors">
+              <span className="material-symbols-outlined text-2xl">chevron_left</span>
+            </button>
+            <button aria-label="Next Slide" className="swiper-button-next-custom pointer-events-auto w-11 h-11 rounded-full bg-[#3B0B14]/90 backdrop-blur-md border border-[#CDAA63]/40 text-[#F4E7D3] flex items-center justify-center shadow-lg hover:bg-[#5A1220] transition-colors">
+              <span className="material-symbols-outlined text-2xl">chevron_right</span>
+            </button>
+          </div>
+        )}
       </Swiper>
     </motion.div>
   );
