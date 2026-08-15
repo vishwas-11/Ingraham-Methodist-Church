@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ChurchEvent } from '@/data/events';
+import { ChurchEvent, getResolvedEventStatus } from '@/data/events';
 
 interface EventCardProps {
   event: ChurchEvent;
@@ -8,6 +8,7 @@ interface EventCardProps {
 
 export default function EventCard({ event, buttonText = 'Discover More' }: EventCardProps) {
   const isYoutube = Boolean(event.youtubeUrl || event.image.includes('youtube.com'));
+  const status = getResolvedEventStatus(event);
 
   return (
     <div className="bg-gradient-to-b from-[#3B0B14] via-[#2A050B] to-[#1A0307] rounded-[28px] border-2 border-[#CDAA63]/70 hover:border-[#CDAA63] shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_14px_40px_rgba(74,15,26,0.45)] transition-all duration-300 flex flex-col group relative p-4 overflow-hidden">
@@ -22,6 +23,21 @@ export default function EventCard({ event, buttonText = 'Discover More' }: Event
         />
         {/* Soft Dark Overlay */}
         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors pointer-events-none"></div>
+
+        {/* Status Badge */}
+        <div className="absolute top-3 right-3 z-20 pointer-events-none">
+          {status === 'upcoming' ? (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider bg-[#CDAA63] text-[#1A0307] shadow-lg border border-[#FBF5B7]">
+              <span className="w-2 h-2 rounded-full bg-[#1A0307] animate-pulse"></span>
+              Upcoming
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider bg-[#3B0B14]/90 text-[#F4E7D3] backdrop-blur-md shadow-lg border border-[#CDAA63]/40">
+              <span className="w-2 h-2 rounded-full bg-[#CDAA63]"></span>
+              Past Event
+            </span>
+          )}
+        </div>
       </Link>
 
       {/* Bottom Content Section */}

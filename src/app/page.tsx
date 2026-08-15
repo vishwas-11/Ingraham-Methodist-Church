@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import DailyVerseClient from "@/components/DailyVerseClient";
 import LiveBadge from "@/components/LiveBadge";
 import EventCard from "@/components/EventCard";
-import { getUpcomingEvents } from "@/data/events";
+import { getHomepageEvents } from "@/data/events";
 import UpcomingEventsCarousel from "@/components/UpcomingEventsCarousel";
 async function getDailyVerse() {
   try {
@@ -126,7 +126,7 @@ export default async function Home() {
             </Link>
           </div>
 
-          <UpcomingEventsCarousel events={getUpcomingEvents()} />
+          <UpcomingEventsCarousel events={getHomepageEvents()} />
         </div>
       </section>
 

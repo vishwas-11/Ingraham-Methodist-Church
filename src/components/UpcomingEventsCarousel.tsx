@@ -62,6 +62,7 @@ export default function UpcomingEventsCarousel({ events }: UpcomingEventsCarouse
         effect="coverflow"
         grabCursor={true}
         centeredSlides={true}
+        initialSlide={0}
         slidesPerView="auto"
         loop={events.length > 1}
         autoplay={events.length > 1 ? {

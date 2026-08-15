@@ -12,6 +12,7 @@ export interface ChurchEvent {
   image: string;
   status: EventStatus;
   eventDate?: string;
+  isRecurring?: boolean;
   gallery?: string[];
   youtubeUrl?: string;
   isInfoPending?: boolean;
@@ -33,6 +34,32 @@ export const eventsData: ChurchEvent[] = [
     gallery: [
       '/independence_day_2026.jpeg'
     ]
+  },
+  {
+    id: 'sunday-divine-worship',
+    slug: 'sunday-divine-worship',
+    title: 'Sunday Divine Worship Service',
+    date: 'Every Sunday',
+    time: '9:00 AM',
+    location: 'Main Sanctuary, Ingraham Methodist Church, Ghaziabad',
+    shortDescription: 'A time-honored rhythm of worship, prayer, and word. Join us each Sunday at 9:00 AM as we gather in faith and warm fellowship.',
+    longDescription: 'Our Sunday Service is the heart of our community life. It is a time when we gather together to lift our voices in worship, hear the reading and preaching of the Word, and find peace in our sanctuary. Whether you are a lifelong Methodist or exploring faith for the first time, you are welcome here.',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB1_pjniqL-arApjXUBGHweyH7WHsNExebhQoD7MOS_Nldvop6GkwrgAc_Pu7mubOzoJbCD4cO4WEiTy7GEDCj2MI0QnszfKIFob88S_zDE2qz6h7xj0PfNOoSQET75KGICTCSEBkOMuPI-GsNpnGeRS6WONqR1qD94kvvACbfLwD8hdAzeYJBeT_xa0EVO1JkBjbrtRgzu6s42ACZ25YvrJzTEqHZWVIS8jsnRFSetwM3u-pXssgt3',
+    status: 'upcoming',
+    isRecurring: true
+  },
+  {
+    id: 'aaghaz-saturday-myf-worship',
+    slug: 'aaghaz-saturday-myf-worship',
+    title: 'AAGHAZ - MYF Evening Worship & Testimonies',
+    date: 'Every Saturday',
+    time: '7:00 PM',
+    location: 'Fellowship Hall & Sanctuary, Ingraham Methodist Church, Ghaziabad',
+    shortDescription: 'Meaning "A New Beginning", AAGHAZ is organized every Saturday evening at 7:00 PM by the MYF team—a heartfelt worship night to praise God, celebrate new life in Christ (2 Cor 5:17), and share inspiring testimonies of His grace.',
+    longDescription: 'AAGHAZ (meaning "A New Beginning") is a vibrant weekly worship movement organized every Saturday evening at 7:00 PM by the Methodist Youth Fellowship (MYF) team at Ingraham Methodist Church. Scripture proclaims in 2 Corinthians 5:17, "If anyone is in Christ, the new creation has come: The old has gone, the new is here!" AAGHAZ is a sacred space where young adults, families, and believers gather to embrace a fresh start in God\'s presence, worship the Lord with all their hearts, lift songs of praise, and share powerful personal testimonies of His unmerited grace, transformation, and faithfulness. Whether you seek spiritual renewal, a new beginning in your walk with God, or warm Christian fellowship, AAGHAZ warmly invites you to join us.',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCV-UE0krJrh54dNNb42Z22zFUo4D2GilN7qkEHwsM-Eba9EMtTtkkdiw5W59rBuT3yd_4mOnE5K5rQA8Q25KYtd9vfbaFtBbUoQvuZRhrhceVXQaXpgCV9vPLvaoPS61XjoeeDud1UyxrjOdK10zlfsDZXlYx-KLI42RBVwfN8HMaWmoDg1eoil3Q-r1_zcD-yXC4Xe0IpeJugrtJiZ0harRojlT8LEFkHf30nYXRkLPY0OXvp6hO8',
+    status: 'upcoming',
+    isRecurring: true
   },
   {
     id: '3',
@@ -78,7 +105,60 @@ export const eventsData: ChurchEvent[] = [
   }
 ];
 
+export function getNextSundayDateString(): string {
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+  const daysUntilSunday = (7 - dayOfWeek) % 7;
+  
+  const targetDate = new Date(now.getTime() + daysUntilSunday * 24 * 60 * 60 * 1000);
+  
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  };
+  
+  return targetDate.toLocaleDateString('en-US', options);
+}
+
+export function getNextSaturdayDateString(): string {
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+  const daysUntilSaturday = (6 - dayOfWeek + 7) % 7;
+  
+  const targetDate = new Date(now.getTime() + daysUntilSaturday * 24 * 60 * 60 * 1000);
+  
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  };
+  
+  return targetDate.toLocaleDateString('en-US', options);
+}
+
+export function getResolvedEvent(event: ChurchEvent): ChurchEvent {
+  if (event.isRecurring && event.slug === 'sunday-divine-worship') {
+    return {
+      ...event,
+      date: getNextSundayDateString(),
+    };
+  }
+  if (event.isRecurring && event.slug === 'aaghaz-saturday-myf-worship') {
+    return {
+      ...event,
+      date: getNextSaturdayDateString(),
+    };
+  }
+  return event;
+}
+
 export function getResolvedEventStatus(event: ChurchEvent): EventStatus {
+  if (event.isRecurring) {
+    return 'upcoming';
+  }
   if (event.eventDate) {
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
     if (today > event.eventDate) {
@@ -91,15 +171,28 @@ export function getResolvedEventStatus(event: ChurchEvent): EventStatus {
 }
 
 export function getEventBySlug(slug: string): ChurchEvent | undefined {
-  return eventsData.find(event => event.slug === slug);
+  const event = eventsData.find(e => e.slug === slug);
+  return event ? getResolvedEvent(event) : undefined;
 }
 
 export function getUpcomingEvents(): ChurchEvent[] {
-  return eventsData.filter(event => getResolvedEventStatus(event) === 'upcoming');
+  return eventsData
+    .filter(event => getResolvedEventStatus(event) === 'upcoming')
+    .map(getResolvedEvent);
 }
 
 export function getPastEvents(): ChurchEvent[] {
-  return eventsData.filter(event => getResolvedEventStatus(event) === 'past');
+  return eventsData
+    .filter(event => getResolvedEventStatus(event) === 'past')
+    .map(getResolvedEvent);
 }
+
+export function getHomepageEvents(): ChurchEvent[] {
+  const upcoming = getUpcomingEvents();
+  const past = getPastEvents();
+  return [...upcoming, ...past];
+}
+
+
 
 
