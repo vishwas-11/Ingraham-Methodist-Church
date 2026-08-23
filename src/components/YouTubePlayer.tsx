@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, Maximize2, Radio } from 'lucide-react';
+import { Play, X, Maximize2, Radio, ExternalLink } from 'lucide-react';
 
 export interface YouTubePlayerProps {
   videoId: string;
@@ -190,17 +190,16 @@ export default function YouTubePlayer({
                 </div>
 
                 <div className="flex items-center gap-3 shrink-0">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsInlinePlaying(true);
-                    }}
+                  <a
+                    href={`https://www.youtube.com/watch?v=${cleanVideoId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="cursor-pointer px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#3B0B14] to-[#4A0F1A] border border-[#CDAA63]/60 text-[#F4E7D3] font-mono text-xs font-bold uppercase tracking-wider hover:border-[#CDAA63] hover:shadow-[0_0_20px_rgba(205,170,99,0.4)] transition-all duration-300 flex items-center gap-2"
                   >
-                    <Play className="w-3.5 h-3.5 fill-[#CDAA63] text-[#CDAA63]" />
-                    <span>Watch Inline</span>
-                  </button>
+                    <ExternalLink className="w-3.5 h-3.5 text-[#CDAA63]" />
+                    <span>Watch on YouTube</span>
+                  </a>
                   <button
                     type="button"
                     onClick={(e) => handleOpenModal(e)}

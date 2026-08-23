@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import YouTubePlayer from '@/components/YouTubePlayer';
 import SermonCard from '@/components/SermonCard';
@@ -24,6 +24,19 @@ type PastSermon = {
   video_url: string;
 };
 
+/** Check if current time is within church hours (Sunday 9 AM–1 PM IST) */
+function isChurchHoursNow(): boolean {
+  const now = new Date();
+  const istString = now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+  const istTime = new Date(istString);
+  const isSunday = istTime.getDay() === 0;
+  const hour = istTime.getHours();
+  return isSunday && hour >= 9 && hour < 13;
+}
+
+/** Polling interval: 5 minutes */
+const POLL_INTERVAL_MS = 5 * 60 * 1000;
+
 export default function SermonsClient({
   initialLiveStatus,
   initialPastSermons,
@@ -35,8 +48,42 @@ export default function SermonsClient({
   const [pastSermons, setPastSermons] = useState<PastSermon[]>(initialPastSermons);
   const supabase = createClient();
 
+  // Refs for the polling engine
+  const pollingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isLiveRef = useRef<boolean>(Boolean(initialLiveStatus?.is_live));
+
+  // Keep the ref in sync with state so the interval callback always has the latest value
   useEffect(() => {
-    // Subscribe to live_status changes
+    isLiveRef.current = Boolean(liveStatus?.is_live);
+  }, [liveStatus?.is_live]);
+
+  // Poll the check-live API endpoint
+  const pollCheckLive = useCallback(async () => {
+    // Don't poll if we're currently live (smart pause — saves YouTube API quota)
+    if (isLiveRef.current) return;
+
+    // Double-check we're still in church hours
+    if (!isChurchHoursNow()) {
+      // Church hours ended — stop polling
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current);
+        pollingIntervalRef.current = null;
+      }
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/cron/check-live');
+      if (!res.ok) return;
+      // The API updates Supabase directly — the realtime subscription below
+      // will pick up the change and update our UI automatically
+    } catch (err) {
+      console.error('[Smart Poll] Failed to check live status:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Subscribe to live_status changes via Supabase Realtime
     const channel = supabase
       .channel('schema-db-changes')
       .on(
@@ -57,6 +104,48 @@ export default function SermonsClient({
       supabase.removeChannel(channel);
     };
   }, [supabase]);
+
+  // Smart polling engine: activates only during church hours (Sunday 9 AM–1 PM IST)
+  useEffect(() => {
+    if (!isChurchHoursNow()) return;
+
+    // Do an immediate poll on mount (in case we just opened the page mid-service)
+    pollCheckLive();
+
+    // Start the 5-minute polling interval
+    pollingIntervalRef.current = setInterval(pollCheckLive, POLL_INTERVAL_MS);
+
+    return () => {
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current);
+        pollingIntervalRef.current = null;
+      }
+    };
+  }, [pollCheckLive]);
+
+  // Smart resume: when is_live goes from true → false during church hours,
+  // restart polling to catch a potential second stream
+  useEffect(() => {
+    const isLive = Boolean(liveStatus?.is_live);
+
+    if (!isLive && isChurchHoursNow() && !pollingIntervalRef.current) {
+      // Stream just ended during church hours — restart polling
+      // Small delay to avoid hitting the API immediately after the stream-end webhook
+      const resumeTimeout = setTimeout(() => {
+        pollCheckLive();
+        pollingIntervalRef.current = setInterval(pollCheckLive, POLL_INTERVAL_MS);
+      }, 30_000); // 30 second grace period before resuming polls
+
+      return () => clearTimeout(resumeTimeout);
+    }
+
+    if (isLive && pollingIntervalRef.current) {
+      // Stream is live — pause polling to save API quota
+      clearInterval(pollingIntervalRef.current);
+      pollingIntervalRef.current = null;
+    }
+  }, [liveStatus?.is_live, pollCheckLive]);
+
 
   const formatDate = (isoString: string) => {
     if (!isoString) return '';

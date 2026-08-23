@@ -15,11 +15,34 @@ export default async function Sermons() {
     .eq('id', 1)
     .single();
 
-  // Verification check: If DB says live, verify with YouTube API to prevent stuck "live" state
-  if (liveStatus?.is_live) {
+  // Determine if we're in the church hours window (Sunday 9 AM–1 PM IST)
+  const now = new Date();
+  const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const isSunday = istTime.getDay() === 0;
+  const hour = istTime.getHours();
+  const isDuringChurchHours = isSunday && hour >= 9 && hour < 13;
+
+  // During church hours: ALWAYS check YouTube for live streams (catches new streams even if DB says false)
+  // Outside church hours: only verify if DB says live (prevents stuck "live" state)
+  const shouldCheckYouTube = isDuringChurchHours || liveStatus?.is_live;
+
+  if (shouldCheckYouTube) {
     try {
       const liveCheck = await checkLiveStatusFromYouTube();
-      if (!liveCheck.isLive && liveStatus) {
+      if (liveCheck.isLive && liveStatus) {
+        // YouTube says live — update local state for SSR
+        liveStatus.is_live = true;
+        liveStatus.video_id = liveCheck.videoId ?? liveStatus.video_id;
+        // Re-fetch full live_status from Supabase since checkLiveStatusFromYouTube updated it
+        const { data: freshLiveStatus } = await supabase
+          .from('live_status')
+          .select('*')
+          .eq('id', 1)
+          .single();
+        if (freshLiveStatus) {
+          liveStatus = freshLiveStatus;
+        }
+      } else if (!liveCheck.isLive && liveStatus) {
         liveStatus.is_live = false;
       }
     } catch (e) {
