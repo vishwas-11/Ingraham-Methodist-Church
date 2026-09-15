@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from 'react';
+import { usePageLoader } from '@/context/LoadingContext';
 
 export default function OnlineGiving() {
+  const { startLoading, stopLoading } = usePageLoader();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
@@ -58,14 +60,21 @@ export default function OnlineGiving() {
                 The most convenient way to support our ministries. Make a one-time gift or set up recurring donations securely through our online portal.
               </p>
             </div>
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4" onSubmit={(e) => {
+              e.preventDefault();
+              startLoading("Connecting to Giving Portal...");
+              setTimeout(() => {
+                stopLoading();
+                alert("Thank you! You are being redirected to the secure giving portal.");
+              }, 1200);
+            }}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                <button className="py-2 border border-primary-container/20 rounded-lg text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors font-label-md" type="button">$25</button>
-                <button className="py-2 border border-primary-container/20 rounded-lg text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors font-label-md" type="button">$50</button>
-                <button className="py-2 bg-primary-container text-on-primary rounded-lg font-label-md shadow-ambient" type="button">$100</button>
-                <button className="py-2 border border-primary-container/20 rounded-lg text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors font-label-md" type="button">Other</button>
+                <button className="py-2 border border-primary-container/20 rounded-lg text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors font-label-md active:scale-95" type="button">$25</button>
+                <button className="py-2 border border-primary-container/20 rounded-lg text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors font-label-md active:scale-95" type="button">$50</button>
+                <button className="py-2 bg-primary-container text-on-primary rounded-lg font-label-md shadow-ambient active:scale-95" type="button">$100</button>
+                <button className="py-2 border border-primary-container/20 rounded-lg text-primary-container hover:bg-primary-container hover:text-on-primary transition-colors font-label-md active:scale-95" type="button">Other</button>
               </div>
-              <button className="w-full bg-primary-container text-on-primary py-3 rounded-lg font-label-md hover:opacity-90 transition-opacity" type="submit">
+              <button className="w-full bg-primary-container text-on-primary py-3 rounded-lg font-label-md hover:opacity-90 transition-opacity active:scale-[0.98] cursor-pointer" type="submit">
                 Continue to Secure Payment
               </button>
             </form>

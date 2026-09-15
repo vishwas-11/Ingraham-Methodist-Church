@@ -67,8 +67,12 @@ export default function VideoScrollBackground() {
       context.drawImage(img, x, y, iw * scale, ih * scale);
     };
 
-    // Render the very first frame once it loads
-    images[0].onload = render;
+    // Render the very first frame once it loads or if already cached
+    if (images[0].complete) {
+      render();
+    } else {
+      images[0].onload = render;
+    }
 
     // Handle canvas resizing
     const handleResize = () => {
@@ -106,7 +110,7 @@ export default function VideoScrollBackground() {
   return (
     <>
       {isMobile ? (
-        <div className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none bg-black">
+        <div className="fixed top-0 left-0 w-screen h-[100dvh] -z-10 pointer-events-none bg-black">
           <img
             src="/ingraham_logo_5.png"
             alt="Ingraham Logo Background"
@@ -116,7 +120,7 @@ export default function VideoScrollBackground() {
       ) : (
         <canvas
           ref={canvasRef}
-          className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
+          className="fixed top-0 left-0 w-screen h-[100dvh] -z-10 pointer-events-none"
         />
       )}
     </>

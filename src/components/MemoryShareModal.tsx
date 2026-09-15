@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { usePageLoader } from "@/context/LoadingContext";
 
 interface MemoryShareModalProps {
   isOpen: boolean;
@@ -8,6 +9,7 @@ interface MemoryShareModalProps {
 }
 
 export default function MemoryShareModal({ isOpen, onClose }: MemoryShareModalProps) {
+  const { startLoading, stopLoading } = usePageLoader();
   const [submitted, setSubmitted] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,7 +19,11 @@ export default function MemoryShareModal({ isOpen, onClose }: MemoryShareModalPr
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    startLoading("Preserving Memory...");
+    setTimeout(() => {
+      stopLoading();
+      setSubmitted(true);
+    }, 800);
   };
 
   const handleReset = () => {

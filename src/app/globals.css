@@ -93,11 +93,48 @@
   .hide-scrollbar::-webkit-scrollbar { display: none; }
   .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-  /* Prevent Flash of Unstyled Content (FOUC) before GSAP kicks in */
-  .animate-fade-in-up { opacity: 0; will-change: transform, opacity; }
-  .reveal-on-scroll { opacity: 0; will-change: transform, opacity; }
-  .reveal-stagger-child { opacity: 0; will-change: transform, opacity; }
-  .animate-smooth-render { opacity: 0; will-change: transform, opacity, filter; }
+  /* Entrance Animations for Smooth Rendering without permanent FOUC opacity traps */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes smoothRender {
+    from {
+      opacity: 0;
+      filter: blur(6px);
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0px);
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
+  }
+
+  .animate-smooth-render {
+    animation: smoothRender 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity, filter;
+  }
+
+  .reveal-on-scroll {
+    will-change: transform, opacity;
+  }
+
+  .reveal-stagger-child {
+    will-change: transform, opacity;
+  }
 
   /* Embossed Paper / Letterpress Text Effect */
   .text-embossed-letterpress {
@@ -112,6 +149,33 @@
     background-clip: text;
     color: transparent;
     filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.95)) drop-shadow(0px 1px 0px rgba(255, 255, 255, 0.4));
+  }
+
+  /* Shimmer animation for church loader hairline */
+  @keyframes church-shimmer {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(20%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .animate-church-shimmer {
+    animation: church-shimmer 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  /* Instant tactile button feedback on navigation click */
+  .btn-navigating-active {
+    transform: scale(0.96) !important;
+    opacity: 0.88 !important;
+    box-shadow: 0 0 14px rgba(205, 170, 99, 0.5) !important;
+    transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease !important;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-church-shimmer {
+    animation: none;
+    opacity: 0.8;
   }
 }
 

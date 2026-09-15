@@ -42,7 +42,10 @@ export default async function Home() {
         <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none z-0"></div>
 
         {/* Left-Aligned Text Content */}
-        <div className="relative z-10 max-w-[540px] w-full mx-auto md:mx-0 md:ml-[110px] flex flex-col items-start text-left animate-fade-in-up mt-16 md:mt-20 px-4 md:px-0">
+        <div 
+          className="relative z-10 max-w-[540px] w-full mx-auto md:mx-0 md:ml-[110px] flex flex-col items-start text-left animate-fade-in-up mt-16 md:mt-20 px-4 md:px-0"
+          suppressHydrationWarning
+        >
           
           <LiveBadge />
 
@@ -102,13 +105,20 @@ export default async function Home() {
       {/* Demo Component 1: Upcoming Events */}
       <section className="relative w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop z-10">
         <div className="absolute inset-0 bg-[rgba(25,8,8,0.35)] pointer-events-none z-0"></div>
-        <div className="max-w-[1200px] mx-auto reveal-on-scroll relative z-10">
+        <div 
+          className="max-w-[1200px] mx-auto reveal-on-scroll relative z-10"
+          suppressHydrationWarning
+        >
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
               <h2 className="font-display-lg text-[32px] md:text-[48px] font-bold text-[#F4E7D3] leading-tight" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.8)' }}>
                 Church <span className="font-playfair italic font-semibold text-[#F4E7D3]">Events</span>
               </h2>
-              <p className="font-body-md text-[#F4E7D3] font-medium text-[16px] mt-4 max-w-xl animate-smooth-render" style={{ textShadow: '0 2px 16px rgba(0,0,0,0.85)' }}>
+              <p 
+                className="font-body-md text-[#F4E7D3] font-medium text-[16px] mt-4 max-w-xl animate-smooth-render" 
+                style={{ textShadow: '0 2px 16px rgba(0,0,0,0.85)' }}
+                suppressHydrationWarning
+              >
                 Join us in our current and upcoming gatherings. Experience deep fellowship, spiritual growth, and vibrant community.
               </p>
             </div>
@@ -137,7 +147,10 @@ export default async function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-start">
             
             {/* Left Column: Sticky Typography */}
-            <div className="lg:col-span-5 lg:sticky top-40 lg:pr-12 reveal-on-scroll">
+            <div 
+              className="lg:col-span-5 lg:sticky top-40 lg:pr-12 reveal-on-scroll"
+              suppressHydrationWarning
+            >
               <div className="inline-flex items-center gap-3 mb-8">
                 <span className="w-12 h-px bg-gradient-to-r from-[#CDAA63] to-transparent"></span>
                 <span className="font-label-md tracking-[0.2em] uppercase text-[11px] text-[#CDAA63]">Digital Campus</span>
@@ -162,6 +175,7 @@ export default async function Home() {
                   key={i} 
                   href={item.href}
                   className="group block reveal-stagger-child"
+                  suppressHydrationWarning
                 >
                   {/* Outer Shell (Double-Bezel) */}
                   <div className="p-2 md:p-2.5 rounded-[2.5rem] bg-white/[0.02] border border-white/5 ring-1 ring-black/20 hover:bg-white/[0.04] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98]">

@@ -30,7 +30,11 @@ export default function DailyVerseClient({ initialVerse }: { initialVerse: Verse
   }, []);
 
   return (
-    <div className="mb-6 pl-5 md:pl-6 border-l-2 border-[#CDAA63]/30 bg-[#CDAA63]/[0.02] py-2 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+    <div 
+      className="mb-6 pl-5 md:pl-6 border-l-2 border-[#CDAA63]/30 bg-[#CDAA63]/[0.02] py-2 animate-fade-in-up" 
+      style={{ animationDelay: '0.15s' }}
+      suppressHydrationWarning
+    >
       <span className="block font-label-md tracking-[0.2em] uppercase text-[11px] text-[#CDAA63] mb-2">Daily Verse</span>
       <blockquote className="font-playfair italic text-[#F4E7D3]/95 text-[18px] md:text-[20px] leading-relaxed mb-2 drop-shadow-sm min-h-[88px]">
         <TextType 

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { usePageLoader } from "@/context/LoadingContext";
 
 interface TimeCapsuleModalProps {
   isOpen: boolean;
@@ -8,6 +9,7 @@ interface TimeCapsuleModalProps {
 }
 
 export default function TimeCapsuleModal({ isOpen, onClose }: TimeCapsuleModalProps) {
+  const { startLoading, stopLoading } = usePageLoader();
   const [isRevealed, setIsRevealed] = useState(false);
 
   if (!isOpen) return null;
@@ -58,8 +60,14 @@ export default function TimeCapsuleModal({ isOpen, onClose }: TimeCapsuleModalPr
                 <span className="material-symbols-outlined text-4xl mb-2 text-[#CDAA63]">lock</span>
                 <p className="font-serif text-sm font-semibold mb-3">Time Capsule Box Sealed</p>
                 <button
-                  onClick={() => setIsRevealed(true)}
-                  className="bg-[#4A0F1A] text-[#F4E7D3] px-4 py-2 rounded-lg font-label-md text-xs uppercase tracking-wider font-bold shadow-md hover:bg-[#3B0B14] transition-all"
+                  onClick={() => {
+                    startLoading("Unsealing Archive...");
+                    setTimeout(() => {
+                      stopLoading();
+                      setIsRevealed(true);
+                    }, 650);
+                  }}
+                  className="bg-[#4A0F1A] text-[#F4E7D3] px-4 py-2 rounded-lg font-label-md text-xs uppercase tracking-wider font-bold shadow-md hover:bg-[#3B0B14] active:scale-95 transition-all cursor-pointer"
                 >
                   Click to Unseal Box
                 </button>

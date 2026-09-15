@@ -1,4 +1,21 @@
+"use client";
+
+import React, { useState } from "react";
+import { usePageLoader } from "@/context/LoadingContext";
+
 export default function ContactUs() {
+  const { startLoading, stopLoading } = usePageLoader();
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    startLoading("Sending Message...");
+    setTimeout(() => {
+      stopLoading();
+      setSubmitted(true);
+    }, 900);
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -38,7 +55,24 @@ export default function ContactUs() {
           
           <h2 className="font-headline-md text-primary-container mb-6">Send a Message</h2>
           
-          <form className="space-y-6">
+          {submitted ? (
+            <div className="p-8 rounded-xl bg-secondary-container/60 border border-[#CDAA63]/40 text-center space-y-4">
+              <div className="w-12 h-12 mx-auto rounded-full bg-primary-container text-[#F4E7D3] flex items-center justify-center">
+                <span className="material-symbols-outlined">done</span>
+              </div>
+              <h3 className="font-headline-sm text-primary-container">Message Received</h3>
+              <p className="font-body-md text-on-surface-variant max-w-md mx-auto">
+                Thank you for reaching out. We have received your message and our pastoral team will connect with you soon. Grace and peace be with you.
+              </p>
+              <button 
+                onClick={() => setSubmitted(false)}
+                className="mt-4 px-6 py-2.5 rounded-full bg-primary-container text-[#F4E7D3] font-label-md text-sm hover:opacity-90 transition-opacity"
+              >
+                Send Another Message
+              </button>
+            </div>
+          ) : (
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block font-label-md text-on-surface-variant mb-2" htmlFor="firstName">First Name</label>
@@ -101,6 +135,7 @@ export default function ContactUs() {
               <span className="material-symbols-outlined text-sm">send</span>
             </button>
           </form>
+          )}
         </div>
 
         {/* Info & Map (Right Span 5) */}
