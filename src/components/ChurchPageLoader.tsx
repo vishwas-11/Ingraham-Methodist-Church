@@ -72,18 +72,21 @@ export default function ChurchPageLoader() {
           />
         </div>
 
-        {/* Royal Classical Church Name */}
+        {/* Royal Classical Church Name in exact Hero Playfair Typography */}
         <h2 
-          className="font-playfair text-[26px] md:text-[30px] font-normal tracking-[0.03em] leading-none text-center bg-gradient-to-r from-[#E5BF74] via-[#FFF8E6] to-[#CDAA63] bg-clip-text text-transparent"
-          style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.7))" }}
+          className="font-playfair text-[28px] md:text-[32px] font-normal tracking-tight leading-none text-center text-[#F4E7D3]"
+          style={{ 
+            fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
+            textShadow: '0 2px 14px rgba(0,0,0,0.85)' 
+          }}
         >
-          Ingraham Shalom
+          Ingraham <span className="italic font-normal text-[#F4E7D3]/90">Shalom</span>
         </h2>
 
         {/* Classical Roman Sub-Insignia Rule */}
-        <div className="flex items-center justify-center w-full max-w-[240px] mt-2 mb-3">
+        <div className="flex items-center justify-center w-full max-w-[240px] mt-2.5 mb-3.5">
           <div className="flex-grow border-t h-px min-w-[12px] border-[#CDAA63]/40"></div>
-          <span className="px-3 text-[7.5px] md:text-[8.5px] uppercase tracking-[0.26em] font-label-md text-[#CDAA63]/90 font-medium whitespace-nowrap">
+          <span className="px-3 text-[8px] md:text-[9px] uppercase tracking-[0.28em] font-label-md text-[#CDAA63] font-semibold whitespace-nowrap">
             METHODIST CHURCH
           </span>
           <div className="flex-grow border-t h-px min-w-[12px] border-[#CDAA63]/40"></div>
@@ -92,7 +95,13 @@ export default function ChurchPageLoader() {
         {/* Meaningful Sacred Phrase in Classical Playfair Italic */}
         <div className="mt-1 flex items-center justify-center gap-2.5">
           <span className="text-[#CDAA63]/60 text-[9px]">✦</span>
-          <p className="font-playfair italic text-[16px] md:text-[18px] font-normal tracking-[0.03em] text-[#F4E7D3]/95 text-center drop-shadow-sm">
+          <p 
+            className="font-playfair italic text-[16px] md:text-[18px] font-normal tracking-[0.02em] text-[#F4E7D3]/95 text-center drop-shadow-sm"
+            style={{ 
+              fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
+              textShadow: '0 1px 6px rgba(0,0,0,0.7)'
+            }}
+          >
             {loadingMessage}
           </p>
           <span className="text-[#CDAA63]/60 text-[9px]">✦</span>
