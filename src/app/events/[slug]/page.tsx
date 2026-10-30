@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getEventBySlug, eventsData } from '@/data/events';
 import EventLivePlayer from '@/components/EventLivePlayer';
+import EventGalleryViewer from '@/components/EventGalleryViewer';
 
 export async function generateStaticParams() {
   return eventsData.map((event) => ({
@@ -147,14 +148,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
                       <span className="material-symbols-outlined text-[#CDAA63] text-2xl">photo_library</span>
                       <h3 className="font-serif font-bold text-[24px] text-[#3B0B14]">Event Gallery & Banner</h3>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      {event.gallery.map((imgUrl, idx) => (
-                        <div key={idx} className="aspect-[4/3] rounded-2xl overflow-hidden shadow-md border border-[#EAE3D2] group relative">
-                          <img src={imgUrl} alt={`${event.title} banner image ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </div>
-                      ))}
-                    </div>
+                    <EventGalleryViewer images={event.gallery} eventTitle={event.title} />
                   </div>
                 )}
               </div>
