@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import SermonsClient from './SermonsClient';
 import { syncPastSermonsFromYouTube, checkLiveStatusFromYouTube } from '@/utils/youtube-sync';
+import { isLiveMonitoringWindow } from '@/utils/live-schedule';
 
 // Disable static rendering for this page to always fetch fresh initial data
 export const dynamic = 'force-dynamic';
@@ -15,16 +16,12 @@ export default async function Sermons() {
     .eq('id', 1)
     .single();
 
-  // Determine if we're in the church hours window (Sunday 9 AM–1 PM IST)
-  const now = new Date();
-  const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-  const isSunday = istTime.getDay() === 0;
-  const hour = istTime.getHours();
-  const isDuringChurchHours = isSunday && hour >= 9 && hour < 13;
+  // Determine if we're in an active live monitoring window (Sunday 9 AM–1 PM IST or special event)
+  const isDuringLiveHours = isLiveMonitoringWindow();
 
-  // During church hours: ALWAYS check YouTube for live streams (catches new streams even if DB says false)
-  // Outside church hours: only verify if DB says live (prevents stuck "live" state)
-  const shouldCheckYouTube = isDuringChurchHours || liveStatus?.is_live;
+  // During monitoring hours: ALWAYS check YouTube for live streams (catches new streams even if DB says false)
+  // Outside monitoring hours: only verify if DB says live (prevents stuck "live" state)
+  const shouldCheckYouTube = isDuringLiveHours || liveStatus?.is_live;
 
   if (shouldCheckYouTube) {
     try {

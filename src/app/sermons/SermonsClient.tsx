@@ -24,15 +24,7 @@ type PastSermon = {
   video_url: string;
 };
 
-/** Check if current time is within church hours (Sunday 9 AM–1 PM IST) */
-function isChurchHoursNow(): boolean {
-  const now = new Date();
-  const istString = now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
-  const istTime = new Date(istString);
-  const isSunday = istTime.getDay() === 0;
-  const hour = istTime.getHours();
-  return isSunday && hour >= 9 && hour < 13;
-}
+import { isLiveMonitoringWindow, getActiveSpecialEvent } from '@/utils/live-schedule';
 
 /** Polling interval: 5 minutes */
 const POLL_INTERVAL_MS = 5 * 60 * 1000;
@@ -62,8 +54,8 @@ export default function SermonsClient({
     // Don't poll if we're currently live (smart pause — saves YouTube API quota)
     if (isLiveRef.current) return;
 
-    // Double-check we're still in church hours
-    if (!isChurchHoursNow()) {
+    // Double-check we're still in live monitoring hours
+    if (!isLiveMonitoringWindow()) {
       // Church hours ended — stop polling
       if (pollingIntervalRef.current) {
         clearInterval(pollingIntervalRef.current);
@@ -105,9 +97,9 @@ export default function SermonsClient({
     };
   }, [supabase]);
 
-  // Smart polling engine: activates only during church hours (Sunday 9 AM–1 PM IST)
+  // Smart polling engine: activates during active live monitoring windows (Sunday 9 AM–1 PM IST & special events)
   useEffect(() => {
-    if (!isChurchHoursNow()) return;
+    if (!isLiveMonitoringWindow()) return;
 
     // Do an immediate poll on mount (in case we just opened the page mid-service)
     pollCheckLive();
@@ -123,13 +115,13 @@ export default function SermonsClient({
     };
   }, [pollCheckLive]);
 
-  // Smart resume: when is_live goes from true → false during church hours,
+  // Smart resume: when is_live goes from true → false during active monitoring hours,
   // restart polling to catch a potential second stream
   useEffect(() => {
     const isLive = Boolean(liveStatus?.is_live);
 
-    if (!isLive && isChurchHoursNow() && !pollingIntervalRef.current) {
-      // Stream just ended during church hours — restart polling
+    if (!isLive && isLiveMonitoringWindow() && !pollingIntervalRef.current) {
+      // Stream just ended during monitoring hours — restart polling
       // Small delay to avoid hitting the API immediately after the stream-end webhook
       const resumeTimeout = setTimeout(() => {
         pollCheckLive();
@@ -274,7 +266,7 @@ export default function SermonsClient({
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"></span>
               </span>
-              We're Live — {liveStatus.title || 'Sunday Service'}
+              We're Live — {liveStatus.title || (getActiveSpecialEvent()?.title ?? 'Divine Worship Service')}
             </div>
             <div className="w-full aspect-video bg-black relative">
               <iframe

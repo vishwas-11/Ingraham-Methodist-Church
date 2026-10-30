@@ -1,4 +1,4 @@
-export type EventStatus = 'upcoming' | 'past';
+export type EventStatus = 'upcoming' | 'live' | 'past';
 
 export interface ChurchEvent {
   id: string;
@@ -12,6 +12,8 @@ export interface ChurchEvent {
   image: string;
   status: EventStatus;
   eventDate?: string;
+  eventStartTime?: string; // Optional start time in 24h format (HH:mm) in Asia/Kolkata
+  eventEndTime?: string; // Optional end time in 24h format (HH:mm) in Asia/Kolkata
   isRecurring?: boolean;
   gallery?: string[];
   youtubeUrl?: string;
@@ -19,6 +21,24 @@ export interface ChurchEvent {
 }
 
 export const eventsData: ChurchEvent[] = [
+  {
+    id: 'shubh-sandesh-worship-his-majesty-dr-vijay-benedict-2026',
+    slug: 'shubh-sandesh-worship-his-majesty',
+    title: 'Shubh Sandesh & Worship His Majesty: Convention & Music Concert feat. Dr. Vijay Benedict',
+    date: 'Tuesday, November 3, 2026',
+    eventDate: '2026-11-03',
+    eventStartTime: '17:30', // 5:30 PM IST (event start)
+    eventEndTime: '22:30', // 10:30 PM IST (concert conclusion)
+    time: '5:30 PM',
+    location: 'Ingraham Shalom Methodist Church, Hapur Road, Sector 11, Raj Kunj, Raj Nagar, Ghaziabad, Uttar Pradesh 201002',
+    shortDescription: 'Join us at Ingraham Shalom Methodist Church for the "Shubh Sandesh & Worship His Majesty" Convention & Music Concert, featuring renowned gospel singer and former Bollywood playback artist Dr. Vijay Benedict in an evening of uplifting praise and worship.',
+    longDescription: '“O come, let us worship and bow down: let us kneel before the LORD our maker.” — Psalm 95:6 (KJV)\n\nIngraham Shalom Methodist Church and New Covenant warmly invite our congregation and community to "Shubh Sandesh & Worship His Majesty"—an extraordinary spiritual convention and gospel music concert dedicated to lifting up the Name of God and renewing our hearts in faith.\n\nWe are blessed to welcome special guest Dr. Vijay Benedict, a celebrated Gospel music singer from Mumbai. Formerly a prominent Bollywood playback singer who rose to fame with iconic hits such as "I Am a Disco Dancer" and contributed to dozens of classic Indian film soundtracks, Dr. Benedict experienced a profound spiritual calling and rededicated his life and vocal talents entirely to the service of Jesus Christ. Today, as one of India’s most revered Christian devotional artists with timeless worship albums like "Yeshu Tu Hai Mahan", Dr. Benedict travels the world inspiring congregations through music, faith, and testimony.\n\nDr. Benedict visits Ingraham Shalom Methodist Church to motivate believers of all ages, lead our church family into a vibrant and soul-stirring worship experience, and usher us into a sacred space of heartfelt thanksgiving, adoration, and divine presence.\n\nOrganized under the spiritual leadership and guidance of Rev. Masih Lal (Priest In-Charge & District Superintendent, Ingraham Shalom Methodist Church) and Wg. Cdr. P. Jethro (Director, Ingraham Institute, Ghaziabad). We look forward to gathering together for this unforgettable evening of worship and fellowship.',
+    image: '/events/images/VB.jpeg',
+    status: 'upcoming',
+    gallery: [
+      '/events/images/VB.jpeg'
+    ]
+  },
   {
     id: 'celebrating-80th-independence-day-2026',
     slug: 'celebrating-80th-independence-day',
@@ -140,33 +160,74 @@ export function getNextSaturdayDateString(): string {
 }
 
 export function getResolvedEvent(event: ChurchEvent): ChurchEvent {
+  const resolvedStatus = getResolvedEventStatus(event);
+  const updatedEvent: ChurchEvent = {
+    ...event,
+    status: resolvedStatus,
+  };
+
   if (event.isRecurring && event.slug === 'sunday-divine-worship') {
-    return {
-      ...event,
-      date: getNextSundayDateString(),
-    };
+    updatedEvent.date = getNextSundayDateString();
+  } else if (event.isRecurring && event.slug === 'aaghaz-saturday-myf-worship') {
+    updatedEvent.date = getNextSaturdayDateString();
   }
-  if (event.isRecurring && event.slug === 'aaghaz-saturday-myf-worship') {
-    return {
-      ...event,
-      date: getNextSaturdayDateString(),
-    };
-  }
-  return event;
+
+  return updatedEvent;
+}
+
+function parseTimeToMinutes(timeStr: string): number {
+  const [h, m] = timeStr.split(':').map(Number);
+  return (h || 0) * 60 + (m || 0);
 }
 
 export function getResolvedEventStatus(event: ChurchEvent): EventStatus {
+  const now = new Date();
+  const istTimeStr = now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+  const istDate = new Date(istTimeStr);
+  const currentMinutes = istDate.getHours() * 60 + istDate.getMinutes();
+  const dayOfWeek = istDate.getDay();
+
   if (event.isRecurring) {
+    if (event.slug === 'sunday-divine-worship') {
+      if (dayOfWeek === 0 && currentMinutes >= 9 * 60 && currentMinutes <= 13 * 60) {
+        return 'live';
+      }
+    } else if (event.slug === 'aaghaz-saturday-myf-worship') {
+      if (dayOfWeek === 6 && currentMinutes >= 19 * 60 && currentMinutes <= 21 * 60 + 30) {
+        return 'live';
+      }
+    }
     return 'upcoming';
   }
+
   if (event.eventDate) {
-    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+    const yyyy = istDate.getFullYear();
+    const mm = String(istDate.getMonth() + 1).padStart(2, '0');
+    const dd = String(istDate.getDate()).padStart(2, '0');
+    const today = `${yyyy}-${mm}-${dd}`;
+
     if (today > event.eventDate) {
       return 'past';
+    } else if (today === event.eventDate) {
+      const endTotalMin = event.eventEndTime
+        ? parseTimeToMinutes(event.eventEndTime)
+        : 23 * 60 + 59;
+      const startTotalMin = event.eventStartTime
+        ? parseTimeToMinutes(event.eventStartTime)
+        : 0;
+
+      if (currentMinutes >= endTotalMin) {
+        return 'past';
+      } else if (currentMinutes >= startTotalMin) {
+        return 'live';
+      } else {
+        return 'upcoming';
+      }
     } else {
       return 'upcoming';
     }
   }
+
   return event.status;
 }
 
@@ -176,9 +237,19 @@ export function getEventBySlug(slug: string): ChurchEvent | undefined {
 }
 
 export function getUpcomingEvents(): ChurchEvent[] {
-  return eventsData
-    .filter(event => getResolvedEventStatus(event) === 'upcoming')
+  const events = eventsData
+    .filter(event => {
+      const s = getResolvedEventStatus(event);
+      return s === 'upcoming' || s === 'live';
+    })
     .map(getResolvedEvent);
+
+  // Live events take highest priority at the front
+  return events.sort((a, b) => {
+    if (a.status === 'live' && b.status !== 'live') return -1;
+    if (b.status === 'live' && a.status !== 'live') return 1;
+    return 0;
+  });
 }
 
 export function getPastEvents(): ChurchEvent[] {

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getEventBySlug, eventsData } from '@/data/events';
+import EventLivePlayer from '@/components/EventLivePlayer';
 
 export async function generateStaticParams() {
   return eventsData.map((event) => ({
@@ -67,8 +68,22 @@ export default async function EventDetailPage({ params }: EventPageProps) {
             <h1 className="font-display-lg text-[32px] md:text-[50px] leading-[1.15] text-[#F4E7D3] mb-4 drop-shadow-lg max-w-4xl">
               {event.title}
             </h1>
-            <div className="font-mono text-xs text-[#CDAA63] tracking-wider uppercase font-semibold">
-              {event.date}
+            <div className="flex items-center gap-3 font-mono text-xs text-[#CDAA63] tracking-wider uppercase font-semibold">
+              <span>{event.date}</span>
+              {event.status === 'live' && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-red-600 text-white text-[10px] font-mono font-bold tracking-wider uppercase border border-red-400 shadow-[0_0_12px_rgba(239,68,68,0.85)] animate-pulse">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-85"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                  </span>
+                  LIVE NOW
+                </span>
+              )}
+              {event.status === 'past' && (
+                <span className="px-2.5 py-0.5 rounded-full bg-[#1A0307]/80 text-[#F4E7D3] border border-[#CDAA63]/40 text-[10px]">
+                  Past Event
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -80,6 +95,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
           
           {/* Left Column: Details & Information Notice */}
           <div className="lg:col-span-8">
+            <EventLivePlayer initialLiveStatus={null} eventSlug={slug} />
             {event.isInfoPending ? (
               <div className="bg-white rounded-[24px] p-8 md:p-12 border border-[#EAE3D2] shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FBF3DB] text-[#956400] font-mono text-xs font-semibold tracking-wider uppercase mb-6 border border-[#E5BF74]/40">
@@ -119,7 +135,9 @@ export default async function EventDetailPage({ params }: EventPageProps) {
                 </div>
                 <h2 className="font-display-md text-[32px] md:text-[40px] text-[#3B0B14] mb-8 font-bold leading-tight">About this Event</h2>
                 <div className="font-body-lg text-[#3C2D20] leading-relaxed space-y-6 text-[17px] md:text-[18px]">
-                  <p>{event.longDescription}</p>
+                  {event.longDescription.split('\n\n').map((paragraph, idx) => (
+                    <p key={idx}>{paragraph}</p>
+                  ))}
                 </div>
 
                 {/* Gallery (If any) */}
@@ -204,14 +222,20 @@ export default async function EventDetailPage({ params }: EventPageProps) {
                 </li>
               </ul>
 
-              {/* Warm Invitation Callout Box */}
+              {/* Event Status Callout Box */}
               <div className="mt-8 p-5 rounded-2xl bg-gradient-to-br from-[#3B0B14]/[0.05] via-[#CDAA63]/[0.08] to-[#3B0B14]/[0.03] border border-[#CDAA63]/35 shadow-inner">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-[20px] text-[#3B0B14]">favorite</span>
-                  <span className="font-serif font-bold text-[16px] text-[#3B0B14]">Warm Invitation</span>
+                  <span className="material-symbols-outlined text-[20px] text-[#3B0B14]">
+                    {event.status === 'past' ? 'history' : 'favorite'}
+                  </span>
+                  <span className="font-serif font-bold text-[16px] text-[#3B0B14]">
+                    {event.status === 'past' ? 'Event Concluded' : 'Warm Invitation'}
+                  </span>
                 </div>
                 <p className="font-body-sm text-[14px] text-[#4A0F1A] font-medium leading-relaxed">
-                  We warmly invite you, your family, and friends to celebrate with us in person at our sanctuary, or tune in online!
+                  {event.status === 'past'
+                    ? 'This event has concluded. You can revisit past messages, recordings, and highlights in our Sermon Archive!'
+                    : 'We warmly invite you, your family, and friends to celebrate with us in person at our sanctuary, or tune in online!'}
                 </p>
               </div>
 
@@ -222,9 +246,11 @@ export default async function EventDetailPage({ params }: EventPageProps) {
                   className="w-full bg-[#3B0B14] hover:bg-[#5A1220] text-[#F4E7D3] py-4 px-6 rounded-full font-label-md hover:shadow-xl transition-all duration-300 border border-[#CDAA63]/40 inline-flex items-center justify-center gap-2.5 group text-center shadow-md active:scale-[0.98]"
                 >
                   <span className="material-symbols-outlined text-[20px] text-[#CDAA63] group-hover:scale-110 transition-transform">
-                    play_circle
+                    {event.status === 'past' ? 'video_library' : 'play_circle'}
                   </span>
-                  <span className="font-bold tracking-wide text-[15px]">Watch Online / View Sermons</span>
+                  <span className="font-bold tracking-wide text-[15px]">
+                    {event.status === 'past' ? 'Browse Sermon Archive' : 'Watch Online / View Sermons'}
+                  </span>
                 </Link>
               </div>
             </div>

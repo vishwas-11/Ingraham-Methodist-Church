@@ -26,7 +26,15 @@ export default function EventCard({ event, buttonText = 'Discover More' }: Event
 
         {/* Status Badge */}
         <div className="absolute top-3 right-3 z-20 pointer-events-none">
-          {status === 'upcoming' ? (
+          {status === 'live' ? (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider bg-red-600 text-white shadow-[0_0_15px_rgba(239,68,68,0.85)] border border-red-400">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-80"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+              </span>
+              LIVE NOW
+            </span>
+          ) : status === 'upcoming' ? (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider bg-[#CDAA63] text-[#1A0307] shadow-lg border border-[#FBF5B7]">
               <span className="w-2 h-2 rounded-full bg-[#1A0307] animate-pulse"></span>
               Upcoming
@@ -60,12 +68,19 @@ export default function EventCard({ event, buttonText = 'Discover More' }: Event
           {event.shortDescription}
         </p>
 
-        {/* Smooth Antique Gold Pill Button */}
+        {/* Action Button */}
         <Link
           href={`/events/${event.slug}`}
-          className="bg-[#CDAA63] hover:bg-[#E5BF74] text-[#1A0307] px-6 py-2.5 rounded-full font-label-md text-[14px] font-bold shadow-[0_4px_14px_rgba(0,0,0,0.3)] hover:shadow-[0_6px_20px_rgba(205,170,99,0.3)] transition-all duration-300 self-start inline-flex items-center gap-2 border border-[#F4E7D3]/20 group/btn"
+          className={`${
+            status === 'live'
+              ? 'bg-red-600 hover:bg-red-500 text-white border-red-400 shadow-[0_4px_16px_rgba(220,38,38,0.5)]'
+              : 'bg-[#CDAA63] hover:bg-[#E5BF74] text-[#1A0307] border-[#F4E7D3]/20 shadow-[0_4px_14px_rgba(0,0,0,0.3)]'
+          } px-6 py-2.5 rounded-full font-label-md text-[14px] font-bold transition-all duration-300 self-start inline-flex items-center gap-2 border group/btn`}
         >
-          {buttonText} <span className="material-symbols-outlined text-[18px] group-hover/btn:translate-x-1 transition-transform duration-300">arrow_forward</span>
+          {status === 'live' ? 'Watch Live' : buttonText}{' '}
+          <span className="material-symbols-outlined text-[18px] group-hover/btn:translate-x-1 transition-transform duration-300">
+            {status === 'live' ? 'sensors' : 'arrow_forward'}
+          </span>
         </Link>
       </div>
     </div>

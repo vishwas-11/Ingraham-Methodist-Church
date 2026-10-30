@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { checkLiveStatusFromYouTube, autoRenewYouTubeSubscription } from '@/utils/youtube-sync';
 
+import { isLiveMonitoringWindow } from '@/utils/live-schedule';
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
@@ -13,14 +15,8 @@ export async function GET(request: Request) {
     const cronSecret = process.env.CRON_SECRET;
     
     if (cronSecret && secret !== cronSecret && process.env.NODE_ENV === 'production') {
-      // Allow unauthenticated calls only during church hours (Sunday 9 AM–1 PM IST)
-      const now = new Date();
-      const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-      const isSunday = istTime.getDay() === 0;
-      const hour = istTime.getHours();
-      const isDuringChurchHours = isSunday && hour >= 9 && hour < 13;
-
-      if (!isDuringChurchHours) {
+      // Allow unauthenticated calls during active monitoring windows (Sunday 9 AM–1 PM IST and special events)
+      if (!isLiveMonitoringWindow()) {
         return new NextResponse('Unauthorized', { status: 401 });
       }
     }
